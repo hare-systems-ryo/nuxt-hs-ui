@@ -1,0 +1,405 @@
+/* -----------------------------------
+  xxx-memo.scss
+  これはmemoです。反映はされません
+-----------------------------------
+
+色反転等
+mix-blend-normal
+mix-blend-lighten
+mix-blend-overlay
+mix-blend-multiply
+
+
+mix-blend-exclusion
+mix-blend-difference
+
+
+
+cursor-default
+cursor-pointer
+
+
+
+block	         display: block;
+inline-block	 display: inline-block;
+inline	       display: inline;
+flex	         display: flex;
+grid	         display: grid;
+inline-grid	   display: inline-grid;
+contents       display: contents;
+list-item	     display: list-item;
+hidden	       display: none;
+
+
+
+
+flex-row	
+flex-row-reverse	
+flex-col	
+flex-col-reverse
+
+
+justify-normal	justify-content: normal;
+justify-start	  justify-content: flex-start;
+justify-end    	justify-content: flex-end;
+justify-center	justify-content: center;
+justify-between	justify-content: space-between;
+justify-around	justify-content: space-around;
+justify-evenly	justify-content: space-evenly;
+justify-stretch	justify-content: stretch;
+
+items-start    	align-items: flex-start;
+items-end      	align-items: flex-end;
+items-center	  align-items: center;
+items-baseline	align-items: baseline;
+items-stretch	  align-items: stretch;
+
+
+
+flex-wrap
+flex-wrap-reverse	
+flex-nowrap	
+
+basis-X	
+
+flex-1	       flex: 1 1 0%;
+flex-auto	     flex: 1 1 auto;
+flex-initial 	 flex: 0 1 auto;
+flex-none	     flex: none;
+
+
+
+
+px    1px
+0.5   2px
+1     4px
+1.5   6px
+2     8px
+2.5  10px
+3    12px
+4    16px
+5    20px
+6    24px
+7    28px
+8    32px
+9    36px
+10   40px
+11 12 14 16 20 24 28 32 36 40 44 48 52 56 60 64 72 80 96
+auto
+1/2
+1/3
+1/2	 50%;
+1/3	 33.333333%;
+2/3	 66.666667%;
+1/4	 25%;
+2/4	 50%;
+3/4	 75%;
+1/5	 20%;
+2/5	 40%;
+3/5	 60%;
+4/5	 80%;
+1/6	 16.666667%;
+2/6	 33.333333%;
+3/6	 50%;
+4/6	 66.666667%;
+5/6	 83.333333%;
+1/12	 8.333333%;
+2/12	 16.666667%;
+3/12	 25%;
+4/12	 33.333333%;
+5/12	 41.666667%;
+6/12	 50%;
+7/12	 58.333333%;
+8/12	 66.666667%;
+9/12	 75%;
+10/12	 83.333333%;
+11/12	 91.666667%;
+full	 100%;
+
+
+
+
+
+
+
+----------------------------------- */
+
+$fore1   : #0d2b13;
+$main0   : #192a61;
+$main1   : #1c03a2;
+$main2   : #4443ff;
+$main3   : #628cff;
+$accent1 : #ff8000;
+$accent2 : #ffac7c;
+$info    : #2badd5;
+$link    : #6200EE;
+$download: #11691f;
+$success : #2bb60c;
+$warning : #efb819;
+$error   : #d80329;
+$white   : #FFF;
+$black   : #000;
+$dark    : #224466;
+$gray    : #babac9;
+$back    : #EDF2F7;
+
+
+
+$fore1: #0d2b13;
+$back : #fff;
+$main1: #293729;
+$main2: #404C01;
+$main3: #514C4C;
+
+
+.flextemplate {
+  display        : flex;
+  justify-content: center;
+  align-items    : center;
+  // --------
+  display        : flex;
+  flex-direction : row;
+  flex-wrap      : nowrap;
+  justify-content: flex-start;
+  align-items    : center;
+  // --------
+  //子要素の並ぶ向き
+  flex-direction : row;
+  flex-direction : row-reverse;
+  flex-direction : column;
+  flex-direction : column-reverse;
+  // 子要素の折り返し
+  flex-wrap      : nowrap;
+  flex-wrap      : wrap;
+  flex-wrap      : wrap-reverse;
+  // 水平方向の揃え
+  justify-content: flex-start;
+  justify-content: flex-end;
+  justify-content: center;
+  justify-content: space-between;
+  justify-content: space-around;
+  // 垂直方向の揃え
+  align-items    : stretch;
+  align-items    : flex-start;
+  align-items    : flex-end;
+  align-items    : center;
+  align-items    : baseline;
+  // 複数行にした時の揃え
+  align-content  : space-between;
+
+  // --------
+  .item1 {
+    flex       : 0 1 auto;
+    // --------
+    order      : 0;
+    order      : 1;
+    // --------
+    flex-grow  : 0;
+    flex-grow  : 1;
+    // --------
+    flex-shrink: 0;
+    flex-shrink: 1;
+    // --------
+    flex-basis : auto;
+    flex-basis : 200px;
+    flex-basis : 30%;
+    // --------
+    align-self : flex-end;
+  }
+}
+
+
+
+
+.aspect-container {
+  --aspect-rate   : 66.66%; //default
+  padding-top     : var(--aspect-rate);
+  // --aspect-rate:   100%  /* 1:1 */
+  // --aspect-rate:    75%; /* 4:3 */
+  // --aspect-rate: 66.66%; /* 3:2 */
+  // --aspect-rate: 56.25%; /* 16:9 */
+  // --aspect-rate:   150%; /* 2:3 */
+  // --aspect-rate:   200%; /* 1:2 */
+}
+
+
+
+.text-ellipsis {
+  white-space  : nowrap !important;
+  overflow-x   : hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+
+
+.media {
+
+
+  // sm 640
+  @media screen and (min-width: #{ 0 }px) and (max-width: #{ 640 - 0.1}px) {
+    // width: 10px;
+  }
+
+
+  // md 768
+  @media screen and (min-width: #{ 0 }px) and (max-width: #{ 768 - 0.1}px) {
+    // width: 10px;
+  }
+
+  // lg 1024
+  @media screen and (min-width: #{ 0 }px) and (max-width: #{ 1024 - 0.1}px) {
+    // width: 10px;
+  }
+
+  // xl 1280
+  @media screen and (min-width: #{ 0 }px) and (max-width: #{ 1280 - 0.1}px) {
+    // width: 10px;
+  }
+
+  // 2xl 1536
+  @media screen and (min-width: #{ 0 }px) and (max-width: #{ 1536 - 0.1}px) {
+    // width: 10px;
+  }
+
+
+
+  @media screen and (min-width: #{ 0 }px) and (max-width: #{ 800 - 0.1}px) {
+    // width: 10px;
+  }
+
+  @media screen and (min-width: #{ 800 }px) {
+    // width: 10px;
+  }
+
+  // -----------------------------------------------------------------
+
+  @media screen and (min-width: #{ 0 }px) and (max-width: #{ $app-breake-sp-tablet - 0.1}px) {
+    display: none !important;
+  }
+
+  @media screen and (min-width: #{ $app-breake-sp-tablet }px) {
+    display: flex !important;
+  }
+
+  // -----------------------------------------------------------------
+  @media screen and (min-width: #{ 0 }px) and (max-width: #{ $app-breake-sp-tablet - 0.1}px) {
+    display: none !important;
+  }
+
+  @media screen and (min-width: #{ $app-breake-sp-tablet }px) and (max-width: #{ $app-breake-tablet-pc - 0.1}px) {
+    display: none !important;
+  }
+
+  @media screen and (min-width: #{ $app-breake-tablet-pc }px) {
+    display: flex !important;
+  }
+}
+
+
+/* ----------------------------
+ellipsis
+<div class="text-ellipsis"> </div>
+
+
+modal
+<i class="fa-solid fa-window-restore me-1"></i>詳細
+<i class="fa-solid fa-window-restore me-1"></i>編集
+
+Link
+<i class="fa-solid fa-up-right-from-square me-1"></i>
+
+close
+<i class="fa-solid fa-xmark me-1"></i>
+
+
+search
+<i class="fa-solid fa-magnifying-glass me-1"></i>検索
+
+pen edit
+<i class="fa-solid fa-pen-to-square"></i>詳細
+
+stock image template 
+<div class="aspect-container" style="--aspect-rate: 66.66%;">
+<div class="d-flex-cc bg-dark border border-main1 radius-2">
+  <v-img  :src=""  class="h-100 w-100"  contain  ></v-img>
+</div>
+</div>
+
+---------------------------- */
+
+
+.aspect-container {
+  --aspect-rate   : 66.66%; //default
+  padding-top     : var(--aspect-rate);
+  // --aspect-rate:   100%  /* 1:1 */
+  // --aspect-rate:    75%; /* 4:3 */
+  // --aspect-rate: 66.66%; /* 3:2 */
+  // --aspect-rate: 56.25%; /* 16:9 */
+  // --aspect-rate:   150%; /* 2:3 */
+  // --aspect-rate:   200%; /* 1:2 */
+}
+
+
+.grid {
+  display              : grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows   : 42px 20px 30px;
+  gap                  : 10px;
+
+  :nth-child(1) {
+    grid-column: 1 / 3;
+    grid-row   : 1 / 2;
+  }
+
+  :nth-child(2) {
+    grid-column: 1 / 2;
+    grid-row   : 2 / 3;
+  }
+}
+
+
+
+/* ----------------------------
+<v-overlay
+:model-value="state.data.customerBank === null"
+contained
+:close-on-back="false"
+:persistent="true"
+scrim="#eb6600"
+class="align-center justify-center"
+>
+<v-btn
+  variant="flat"
+  color="link"
+  :disabled="state.data.purchase.pk.id !== null && state.data.customer.pk.id !== null"
+>
+  <i class="fa-solid fa-magnifying-glass me-1"></i>銀行選択
+</v-btn>
+</v-overlay>
+
+
+
+<v-btn
+  variant="flat"
+  color="link">
+<template #prepend>
+  <i class="fa-solid fa-up-right-from-square"></i>
+</template>
+銀行選択
+</v-btn>
+
+---------------------------- */
+
+
+
+
+
+
+
+/* ----------------------------
+- alert エラー系
+<div class="bg-error-light text-error border-error p-3 radius-2">
+dsdad
+</div>
+
+---------------------------- */

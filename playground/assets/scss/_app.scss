@@ -1,0 +1,163 @@
+// -------------------------------------------------------------------------------------------
+// prettier-ignore
+// Google Fonts
+// https://fonts.google.com/specimen/Archivo+Black?preview.text=SUV%204WD%20Field%20Jeep&classification=Display
+$font :'https://fonts.googleapis.com/css2?family=Archivo+Black&family=Noto+Sans+JP&display=swap';
+@import url($font);
+// -------------------------------------------------------------------------------------------
+
+// @layer base {
+//     body {
+//         // @apply bg-back;
+//         @apply font-body;
+//         @apply text-fore1;
+//     }
+
+
+//     body.lang-ja {
+//         @apply font-body;
+//     }
+
+//     body.lang-en {
+//         // @apply font-en;
+//         @apply font-body;
+//     }
+// }
+
+// -------------------------------------------------------------------------------------------
+
+
+
+// font-family: 'Archivo Black', sans-serif;
+// font-family: 'Noto Sans JP', sans-serif;
+
+
+// html {
+//     width       : 100%;
+//     height      : 100%;
+//     // ダブルタップ拡大無効
+//     touch-action: manipulation;
+// }
+
+// body {
+//     min-height    : 100%;
+//     min-height    : 100vh;
+//     min-height    : 100dvh;
+//     min-width     : 100%;
+//     font-family   : 'Noto Sans JP', sans-serif;
+//     // // safari modal scroll 対策
+//     // position   : fixed;
+//     touch-action  : none;
+// }
+
+// body.modal-open {
+//     height       : 100vh;
+//     overflow-y   : hidden;
+//     padding-right: 15px;
+// }
+
+// #__nuxt {
+//     min-height: 100%;
+//     min-width : 100%;
+// }
+
+// * {
+//     position  : relative;
+//     margin    : 0;
+//     padding   : 0;
+//     box-sizing: border-box;
+// }
+
+
+
+
+// // ------------------------------------------------------------------------------------------
+// /*スクロールバー*/
+// ::-webkit-scrollbar {
+//     width           : 12px;
+//     height          : 12px;
+//     border-radius   : 12px;
+//     background-color: rgb(202, 204, 216);
+//     cursor          : pointer;
+// }
+
+// /*スクロールバーの軌道*/
+// ::-webkit-scrollbar-track {
+//     border-radius            : 12px;
+//     // box-shadow      : inset 0 0 6px rgba(0, 0, 0, .1);
+//     // box-shadow      : inset 0 0 6px 2px rgba(31, 31, 58, 0.3);
+//     // box-shadow         : inset 0 0 4px 2px rgba(40, 40, 255, 0.428);
+//     box-shadow               : inset 0 0 1px 1px rgba(40, 40, 255, 0.428);
+//     // background-color      : rgb(200, 200, 200);
+//     background-color         : rgb(255, 255, 255);
+//     margin                   : 0px;
+//     margin-top               : 0px;
+// }
+
+
+// /*スクロールバーの動く部分*/
+// ::-webkit-scrollbar-thumb {
+//     background-color      : rgba(4, 40, 65, 0.5);
+//     // border-radius   : 6px;
+//     // border-radius      : 2px;
+//     border-radius         : 12px;
+//     box-shadow            : inset 0 0 1px 1px rgb(189, 192, 255);
+//     background-color      : rgb(105, 145, 255);
+// }
+
+
+
+// .aspect-container {
+//     --aspect-rate: 66.66%;
+
+//     &::before {
+//         content    : '';
+//         display    : block;
+//         padding-top: var(--aspect-rate);
+//     }
+
+//     /* 3:2 */
+//     >div {
+//         position: absolute;
+//         inset   : 0 0 0 0;
+//     }
+// }
+
+// // ------------------------------------------------------------------------------------------
+
+
+// // -------------------------------------------------------------------------------------------
+
+// .text-stroke-white {
+//     text-shadow:
+//         1px 1px 0px #fff, -1px -1px 0px #fff,
+//         -1px 1px 0px #fff, 1px -1px 0px #fff,
+//         1px 0px 0px #fff, -1px 0px 0px #fff,
+//         0px 1px 0px #fff, 0px -1px 0px #fff;
+// }
+
+// .text-stroke-dark {
+//     text-shadow:
+//         1px 1px 0px #000,
+//         -1px -1px 0px #000,
+//         -1px 1px 0px #000,
+//         1px -1px 0px #000,
+//         1px 0px 0px #000,
+//         -1px 0px 0px #000,
+//         0px 1px 0px #000,
+//         0px -1px 0px #000;
+// }
+
+
+// .flex-cc {
+//     display        : flex;
+//     justify-content: center;
+//     align-items    : center;
+
+// }
+
+// .flex-c {
+//     display    : flex;
+//     align-items: center;
+
+// }
