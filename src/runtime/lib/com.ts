@@ -5,7 +5,10 @@ src\runtime\lib\com.ts
 import {} from '~/src/runtime/lib/com';
 ----------------------------------------------------------------------------- */
 
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
+import dayjs from 'dayjs/esm/index';
+
+
 
 export { type ClassType, ClassTypeToString } from './class-style';
 export { RemovePrefix } from './prefix';

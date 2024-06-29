@@ -6,7 +6,8 @@ import {} from '~/composables/use-ui-window-loader';
 ----------------------------------------------------------------------------- */
 
 // [ node_modules ]
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
+import dayjs from 'dayjs/esm/index';
 import { defineStore } from 'pinia';
 // ----------------------------------------------------------------------------
 import { GenerateUniqeKey } from '../lib/com';

@@ -8,6 +8,8 @@ HsUiAspectBoxHsUiAspectBox
 
 // [ vue ]
 import { computed } from 'vue';
+// [ NUXT ]
+import { useRuntimeConfig } from '#imports';
 // [ tailwind ]
 import { extendTailwindMerge } from 'tailwind-merge';
 import { type ClassType, ClassTypeToString } from '../../lib/class-style';
@@ -15,8 +17,11 @@ import { GetPrefix, RemovePrefix } from '../../lib/prefix';
 // [ src > runtime > lib > * ]
 import { Int } from '../../lib/number';
 // ----------------------------------------------------------------------------
+const runtimeConfig: any = useRuntimeConfig();
+const prefix = GetPrefix(runtimeConfig);
+// ----------------------------------------------------------------------------
 const twMerge = extendTailwindMerge({
-  prefix: GetPrefix(),
+  prefix: prefix,
 });
 // ----------------------------------------------------------------------------
 type Props = {
@@ -28,7 +33,7 @@ type Props = {
    *   - 3:2 <- Default
    *   - 4:3
    *   - 16:9
-       */
+   */
   rate?: string;
 };
 
@@ -43,7 +48,7 @@ const aspectRate = computed(() => {
   return ((right / left) * 100).toFixed(3);
 });
 
-const baseClass = RemovePrefix([
+const baseClass = RemovePrefix(prefix, [
   //
   'relative',
   'tw-relative',

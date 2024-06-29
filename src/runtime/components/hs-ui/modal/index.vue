@@ -8,7 +8,8 @@ HsUiModalHsUiModal
 
 // [ vue ]
 import { computed, ref, watch, nextTick, onUnmounted } from 'vue';
-import { useId } from '#imports';
+// [ NUXT ]
+import { useId, useRuntimeConfig } from '#imports';
 // [ tailwind ]
 import { extendTailwindMerge } from 'tailwind-merge';
 import { type ClassType, ClassTypeToString } from '../../../lib/class-style';
@@ -18,10 +19,12 @@ import { GetPrefix, RemovePrefix } from '../../../lib/prefix';
 import { useFocusTrap } from '@vueuse/integrations/useFocusTrap';
 // [ components > v-ui > modal > * ]
 import { useStoreModal } from './use-ui-modal';
-
+// ----------------------------------------------------------------------------
+const runtimeConfig: any = useRuntimeConfig();
+const prefix = GetPrefix(runtimeConfig);
 // ----------------------------------------------------------------------------
 const twMerge = extendTailwindMerge({
-  prefix: GetPrefix(),
+  prefix: prefix,
 });
 // ----------------------------------------------------------------------------
 
@@ -97,7 +100,7 @@ const mounted = computed(() => {
   return false;
 });
 // 背景色は[VUiModalBg]が担当します
-const baseClass = RemovePrefix([
+const baseClass = RemovePrefix(prefix, [
   //
   'p-2',
   'tw-p-2',
@@ -119,7 +122,7 @@ const classStyle = computed(() => {
   return twMerge(baseClass, ClassTypeToString(props.class));
 });
 
-const innerClass = RemovePrefix([
+const innerClass = RemovePrefix(prefix, [
   //
   'w-full',
   'tw-w-full',
@@ -144,13 +147,13 @@ const innerClass = RemovePrefix([
 ]);
 const variableStyle = computed(() => {
   if (props.show) {
-    return RemovePrefix([
+    return RemovePrefix(prefix, [
       //
       'pointer-events-auto',
       'tw-pointer-events-auto',
     ]);
   }
-  return RemovePrefix([
+  return RemovePrefix(prefix, [
     //
     'pointer-events-none',
     'tw-pointer-events-none',

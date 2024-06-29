@@ -8,15 +8,20 @@ HsUiCardItemHsUiCardItem
 
 // [ vue ]
 import { computed } from 'vue';
+// [ NUXT ]
+import { useRuntimeConfig } from '#imports';
 // [ tailwind ]
 import { extendTailwindMerge } from 'tailwind-merge';
 import { type ClassType, ClassTypeToArray } from '../../lib/class-style';
 import { GetPrefix, RemovePrefix } from '../../lib/prefix';
-
+// ----------------------------------------------------------------------------
+const runtimeConfig: any = useRuntimeConfig();
+const prefix = GetPrefix(runtimeConfig);
 // ----------------------------------------------------------------------------
 const twMerge = extendTailwindMerge({
-  prefix: GetPrefix(),
+  prefix: prefix,
 });
+
 // ----------------------------------------------------------------------------
 
 interface Props {
@@ -42,7 +47,7 @@ const emit = defineEmits<Emits>();
 
 // ----------------------------------------------------------------------------
 
-const baseClass = RemovePrefix([
+const baseClass = RemovePrefix(prefix, [
   //
   'relative',
   'tw-relative',
@@ -52,7 +57,7 @@ const baseClass = RemovePrefix([
   'tw-py-1',
 ]);
 
-const baseClassHeaderFooter = RemovePrefix([
+const baseClassHeaderFooter = RemovePrefix(prefix, [
   //,,
   'relative',
   'tw-relative',
@@ -70,7 +75,7 @@ const baseClassHeaderFooter = RemovePrefix([
   'tw-flex-none',
 ]);
 
-const baseClassBody = RemovePrefix([
+const baseClassBody = RemovePrefix(prefix, [
   //
   'relative',
   'tw-relative',
@@ -84,13 +89,13 @@ const baseClassBody = RemovePrefix([
   'tw-overflow-auto',
 ]);
 
-const pe1 = RemovePrefix([
+const pe1 = RemovePrefix(prefix, [
   //
   'pe-1',
   'tw-pe-1',
 ]);
 
-const showBtnStyle = RemovePrefix([
+const showBtnStyle = RemovePrefix(prefix, [
   //
   'border-[1px]',
   'tw-border-[1px]',

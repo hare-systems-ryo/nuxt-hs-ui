@@ -8,13 +8,18 @@ HsUiBlockLoadingHsUiBlockLoading
 
 // [ vue ]
 import { computed } from 'vue';
+// [ NUXT ]
+import { useRuntimeConfig } from '#imports';
 // [ tailwind ]
 import { extendTailwindMerge } from 'tailwind-merge';
 import { type ClassType, ClassTypeToString } from '../../lib/class-style';
 import { GetPrefix, RemovePrefix } from '../../lib/prefix';
 // ----------------------------------------------------------------------------
+const runtimeConfig: any = useRuntimeConfig();
+const prefix = GetPrefix(runtimeConfig);
+// ----------------------------------------------------------------------------
 const twMerge = extendTailwindMerge({
-  prefix: GetPrefix(),
+  prefix: prefix,
 });
 // ----------------------------------------------------------------------------
 type Props = {
@@ -27,7 +32,7 @@ const props = withDefaults(defineProps<Props>(), {
   show: false,
   message: 'Loading',
 });
-const baseClass = RemovePrefix([
+const baseClass = RemovePrefix(prefix, [
   //
   'px-2',
   'tw-px-2',
@@ -59,7 +64,7 @@ const baseClass = RemovePrefix([
 
 const variableStyle = computed(() => {
   if (props.show) {
-    return RemovePrefix([
+    return RemovePrefix(prefix,[
       //
       'pointer-events-auto',
       'tw-pointer-events-auto',
@@ -67,7 +72,7 @@ const variableStyle = computed(() => {
       'tw-opacity-100',
     ]);
   }
-  return RemovePrefix([
+  return RemovePrefix(prefix,[
     //
     'pointer-events-none',
     'tw-pointer-events-none',
@@ -84,9 +89,9 @@ const classStyle = computed(() => {
   <div class="HsUiBlockLoading" :class="[classStyle]">
     <div class="loading-container">
       <div class="loading-item">
-        <div class="loading-ball"/>
-        <div class="loading-ball"/>
-        <div class="loading-ball"/>
+        <div class="loading-ball" />
+        <div class="loading-ball" />
+        <div class="loading-ball" />
       </div>
       <div class="loading-text">{{ props.message }}</div>
     </div>

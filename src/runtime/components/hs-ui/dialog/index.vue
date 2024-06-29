@@ -8,14 +8,26 @@ HsUiDialogHsUiDialog
 
 // [ vue ]
 import { computed, watch, ref, nextTick } from 'vue';
+// [ NUXT ]
+import { useRuntimeConfig } from '#imports';
+// ----------------------------------------------------------------------------
 // [ tailwind ]
-import { RemovePrefix } from '../../../lib/prefix';
+// import { extendTailwindMerge } from 'tailwind-merge';
+// import { type ClassType, ClassTypeToString } from '../../../lib/class-style';
+import { GetPrefix, RemovePrefix } from '../../../lib/prefix';
+
 // ----------------------------------------------------------------------------
 import { DialogDefaultZIndex } from './index.type';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 // ----------------------------------------------------------------------------
 import { useHsUiDialog } from '../../../composables/use-hs-ui-dialog';
 import { useHsMultiLang } from '../../../composables/use-hs-multi-lang';
+// ----------------------------------------------------------------------------
+const runtimeConfig: any = useRuntimeConfig();
+const prefix = GetPrefix(runtimeConfig);
+// const twMerge = extendTailwindMerge({
+//   prefix: prefix,
+// });
 // ----------------------------------------------------------------------------
 // [ nac-Stroe ]
 const toast = useHsUiDialog();
@@ -132,7 +144,7 @@ watch(isShow, (v) => {
   }
 });
 
-const cancelBtnStyle = RemovePrefix([
+const cancelBtnStyle = RemovePrefix(prefix, [
   //
   'px-2',
   'tw-px-2',
@@ -148,14 +160,14 @@ const cancelBtnStyle = RemovePrefix([
   'tw-h-full',
 ]);
 
-const cancelBtnStyleInner = RemovePrefix([
+const cancelBtnStyleInner = RemovePrefix(prefix, [
   //
   'flex',
   'tw-flex',
   'items-center',
   'tw-items-center',
 ]);
-const btnBaseStyle = RemovePrefix([
+const btnBaseStyle = RemovePrefix(prefix, [
   //
   'grid',
   'tw-grid',
@@ -164,14 +176,14 @@ const btnBaseStyle = RemovePrefix([
   'gap-2',
   'tw-gap-2',
 ]);
-const btnStyle = RemovePrefix([
+const btnStyle = RemovePrefix(prefix, [
   //
   'py-1',
   'tw-py-1',
   'w-full',
   'tw-w-full',
 ]);
-const titleStyle = RemovePrefix([
+const titleStyle = RemovePrefix(prefix, [
   //
   'text-[14px]',
   'tw-text-[14px]',
@@ -182,7 +194,7 @@ const titleStyle = RemovePrefix([
   'text-wrap',
   'tw-text-wrap',
 ]);
-const messageStyle = RemovePrefix([
+const messageStyle = RemovePrefix(prefix, [
   //
   'text-[14px]',
   'tw-text-[14px]',
@@ -196,7 +208,7 @@ const messageStyle = RemovePrefix([
   'pb-2',
   'tw-pb-2',
 ]);
-const cardStyle = RemovePrefix([
+const cardStyle = RemovePrefix(prefix, [
   //
   'min-w-[300px]',
   'tw-min-w-[300px]',
@@ -211,7 +223,10 @@ const cardStyle = RemovePrefix([
     <HsUiModal ref="targetElm" :show="isShow" :z-index="zindex" focus-lock @close="clickCancel()">
       <HsUiCard v-if="activeItem !== null" class="HsUiDialog" :class="cardStyle" @click.stop>
         <HsUiCardItem
-          :class="[`theme-${activeItem.data.option.theme}`, RemovePrefix(['py-1', 'tw-py-1', 'pe-1', 'tw-pe-1'])]"
+          :class="[
+            `theme-${activeItem.data.option.theme}`,
+            RemovePrefix(prefix, ['py-1', 'tw-py-1', 'pe-1', 'tw-pe-1']),
+          ]"
           variant="header"
         >
           <div :class="titleStyle">

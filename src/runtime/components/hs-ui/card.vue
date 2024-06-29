@@ -8,14 +8,20 @@ HsUiCardHsUiCard
 
 // [ vue ]
 import { computed } from 'vue';
+// [ NUXT ]
+import { useRuntimeConfig } from '#imports';
 // [ tailwind ]
 import { extendTailwindMerge } from 'tailwind-merge';
 import { type ClassType, ClassTypeToString } from '../../lib/class-style';
 import { GetPrefix, RemovePrefix } from '../../lib/prefix';
 // ----------------------------------------------------------------------------
+const runtimeConfig: any = useRuntimeConfig();
+const prefix = GetPrefix(runtimeConfig);
+// ----------------------------------------------------------------------------
 const twMerge = extendTailwindMerge({
-  prefix: GetPrefix(),
+  prefix: prefix,
 });
+
 // ----------------------------------------------------------------------------
 interface Props {
   class?: ClassType | undefined;
@@ -24,7 +30,7 @@ const props = withDefaults(defineProps<Props>(), {
   class: '',
 });
 
-const baseClass = RemovePrefix([
+const baseClass = RemovePrefix(prefix, [
   //
   'relative',
   'tw-relative',

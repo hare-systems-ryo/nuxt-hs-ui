@@ -9,7 +9,7 @@ HsFcBtnHsFcBtn
 // [ vue ]
 import { computed, ref } from 'vue';
 // [ NUXT ]
-import { useId } from '#imports';
+import { useId, useRuntimeConfig } from '#imports';
 // [ vueuse ]
 import { useHsFormFocus } from '../../../composables/use-hs-form-focus';
 // ----------------------------------------------------------------------------
@@ -20,9 +20,11 @@ import { GetPrefix, RemovePrefix } from '../../../lib/prefix';
 // ----------------------------------------------------------------------------
 import type { Theme } from '../../../lib/theme';
 // ----------------------------------------------------------------------------
+const runtimeConfig: any = useRuntimeConfig();
+const prefix = GetPrefix(runtimeConfig);
 
 const twMerge = extendTailwindMerge({
-  prefix: GetPrefix(),
+  prefix: prefix,
 });
 
 // ----------------------------------------------------------------------------
@@ -69,7 +71,7 @@ emit('id', id);
 // ----------------------------------------------------------------------------
 // Base Design
 // -----
-const baseClass = RemovePrefix([
+const baseClass = RemovePrefix(prefix, [
   //
   'relative',
   'tw-relative',
@@ -96,7 +98,7 @@ const baseClass = RemovePrefix([
   'disabled:pointer-events-none',
   'tw-disabled:pointer-events-none',
 ]);
-const baseClassForm = RemovePrefix([
+const baseClassForm = RemovePrefix(prefix, [
   //
   'border',
   'tw-border',
@@ -113,7 +115,7 @@ const baseClassForm = RemovePrefix([
 ]);
 const variableStyle = computed(() => {
   if (props.variant === 'outlined') {
-    return RemovePrefix([
+    return RemovePrefix(prefix, [
       //
       'border-[2px]',
       'tw-border-[2px]',
@@ -125,20 +127,20 @@ const variableStyle = computed(() => {
 });
 const align = computed(() => {
   if (props.textAlign === 'left') {
-    return RemovePrefix([
+    return RemovePrefix(prefix, [
       //
       'justify-start',
       'tw-justify-start',
     ]);
   }
   if (props.textAlign === 'right') {
-    return RemovePrefix([
+    return RemovePrefix(prefix, [
       //
       'justify-end',
       'tw-justify-end',
     ]);
   }
-  return RemovePrefix([
+  return RemovePrefix(prefix, [
     //
     'justify-center',
     'tw-justify-center',

@@ -1,15 +1,18 @@
 <script setup lang="ts">
 // [ vue ]
-
 import { computed, ref } from 'vue';
+// [ NUXT ]
+import { useRuntimeConfig } from '#imports';
 // [ tailwind ]
 import { extendTailwindMerge } from 'tailwind-merge';
 import { type ClassType, ClassTypeToString } from '../lib/com';
 import { GetPrefix, RemovePrefix } from '../lib/prefix';
-
+// ----------------------------------------------------------------------------
+const runtimeConfig: any = useRuntimeConfig();
+const prefix = GetPrefix(runtimeConfig);
 // ----------------------------------------------------------------------------
 const twMerge = extendTailwindMerge({
-  prefix: GetPrefix(),
+  prefix: prefix,
 });
 // ----------------------------------------------------------------------------
 
@@ -22,7 +25,7 @@ const props = withDefaults(defineProps<Props>(), {
   class: '',
 });
 
-const baseClass = RemovePrefix([
+const baseClass = RemovePrefix(prefix, [
   //
   'bg-blue-400',
   'tw-bg-blue-400',

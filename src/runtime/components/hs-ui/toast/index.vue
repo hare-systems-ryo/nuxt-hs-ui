@@ -8,12 +8,13 @@ HsUiToastHsUiToast
 
 // [ vue ]
 import { computed, watch } from 'vue';
-
+// [ NUXT ]
+import { useRuntimeConfig } from '#imports';
 // [ vueuse ]
 import { watchArray } from '@vueuse/core';
+// ----------------------------------------------------------------------------
 // [ tailwind ]
-import { RemovePrefix } from '../../../lib/prefix';
-
+import { GetPrefix, RemovePrefix } from '../../../lib/prefix';
 // ----------------------------------------------------------------------------
 // [ components > v-ui > toast > * ]
 import { type Message } from './index.type';
@@ -24,6 +25,14 @@ import { Int } from '../../../lib/number';
 import { useHsUiToast } from '../../../composables/use-hs-ui-toast';
 import { useHsMultiLang } from '../../../composables/use-hs-multi-lang';
 // ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+const runtimeConfig: any = useRuntimeConfig();
+const prefix = GetPrefix(runtimeConfig);
+
+// const twMerge = extendTailwindMerge({
+//   prefix: prefix,
+// });
+
 // [ nac-Stroe ]
 const toast = useHsUiToast();
 const state = toast.state;
@@ -73,7 +82,7 @@ const style = (message: Message) => {
   };
 };
 
-const closeBtnStyle = RemovePrefix([
+const closeBtnStyle = RemovePrefix(prefix, [
   //
   'bg-transparent',
   'tw-bg-transparent',
@@ -104,14 +113,19 @@ const closeBtnStyle = RemovePrefix([
     <div
       v-show="state.pendingList.length != 0"
       class="HsUiToast-container"
-      :class="RemovePrefix(['grid', 'tw-grid', 'gap-1', 'tw-gap-1'])"
+      :class="RemovePrefix(prefix, ['grid', 'tw-grid', 'gap-1', 'tw-gap-1'])"
     >
       <template v-for="(message, index) in state.pendingList" :key="index">
         <HsUiAccordion :span="hideSpan" :open="message.isShow">
           <HsUiCard
             class="HsUiToast"
             :class="
-              RemovePrefix(['drop-shadow-md', 'tw-drop-shadow-md', 'pointer-events-all', 'tw-pointer-events-all'])
+              RemovePrefix(prefix, [
+                'drop-shadow-md',
+                'tw-drop-shadow-md',
+                'pointer-events-all',
+                'tw-pointer-events-all',
+              ])
             "
             @click.stop=""
             @mousedown.stop=""
@@ -121,18 +135,21 @@ const closeBtnStyle = RemovePrefix([
               <HsUiCardItem
                 variant="header"
                 class="items-center"
-                :class="[`theme-${message.theme}`, RemovePrefix(['items-center', 'tw-items-center'])]"
+                :class="[`theme-${message.theme}`, RemovePrefix(prefix, ['items-center', 'tw-items-center'])]"
               >
                 <div class="HsUiToast-title">
                   {{ MultiLangText(message.title) }}
                 </div>
                 <HsFcBtn :class="closeBtnStyle" theme="white" type="outlined" @click="deleteMessage(message)">
-                  <i class="fas fa-times"/>
+                  <i class="fas fa-times" />
                 </HsFcBtn>
               </HsUiCardItem>
               <HsUiCardItem
                 v-if="MultiLangText(message.message).length > 0"
-                :class="[`theme-${message.theme}`, RemovePrefix(['items-overflow-visible', 'tw-overflow-visible'])]"
+                :class="[
+                  `theme-${message.theme}`,
+                  RemovePrefix(prefix, ['items-overflow-visible', 'tw-overflow-visible']),
+                ]"
               >
                 <div class="HsUiToast-message">
                   {{ MultiLangText(message.message) }}
@@ -143,7 +160,7 @@ const closeBtnStyle = RemovePrefix([
                 v-if="message.hideAfter != 0"
                 :class="[
                   `theme-${message.theme}`,
-                  RemovePrefix([
+                  RemovePrefix(prefix, [
                     'overflow-visible',
                     'tw-overflow-visible',
                     'p-0',
@@ -154,27 +171,27 @@ const closeBtnStyle = RemovePrefix([
                 ]"
               >
                 <div class="HsUiToast-bar-body" :class="[`${message.theme}`]">
-                  <div class="HsUiToast-bar" :style="style(message)"/>
+                  <div class="HsUiToast-bar" :style="style(message)" />
                 </div>
               </HsUiCardItem>
             </template>
             <template v-else>
               <HsUiCardItem
                 variant="header"
-                :class="[`theme-${message.theme}`, RemovePrefix(['items-center', 'tw-items-center'])]"
+                :class="[`theme-${message.theme}`, RemovePrefix(prefix, ['items-center', 'tw-items-center'])]"
               >
                 <div class="HsUiToast-message">
                   {{ MultiLangText(message.message) }}
                 </div>
                 <HsFcBtn :class="closeBtnStyle" theme="white" variant="outlined" @click="deleteMessage(message)">
-                  <i class="fas fa-times"/>
+                  <i class="fas fa-times" />
                 </HsFcBtn>
               </HsUiCardItem>
               <HsUiCardItem
                 v-if="message.hideAfter != 0"
                 :class="[
                   `theme-${message.theme}`,
-                  RemovePrefix([
+                  RemovePrefix(prefix, [
                     'overflow-visible',
                     'tw-overflow-visible',
                     'p-0',
@@ -185,7 +202,7 @@ const closeBtnStyle = RemovePrefix([
                 ]"
               >
                 <div class="HsUiToast-bar-body" :class="[`${message.theme}`]">
-                  <div class="HsUiToast-bar" :style="style(message)"/>
+                  <div class="HsUiToast-bar" :style="style(message)" />
                 </div>
               </HsUiCardItem>
             </template>
