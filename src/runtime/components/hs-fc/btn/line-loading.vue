@@ -7,7 +7,7 @@ HsFcBtnLineLoadingHsFcBtnLineLoading
 ----------------------------------------------------------------------------- */
 
 // [ vue ]
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 // // [ tailwind ]
 import { extendTailwindMerge } from 'tailwind-merge';
 import { type ClassType, ClassTypeToString } from '../../../lib/com';
@@ -28,6 +28,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   height: 5,
   speed: 1000,
+  class: '',
 });
 // ----------------------------------------------------------------------------
 const baseClass = RemovePrefix([
@@ -58,7 +59,7 @@ const classStyle = computed(() => {
     <span
       class="loader"
       :style="`--HsFcBtnLineLoading-height:${props.height}px;--HsFcBtnLineLoading-speed:${props.speed}ms`"
-    ></span>
+    />
   </div>
 </template>
 <style lang="scss" scoped>

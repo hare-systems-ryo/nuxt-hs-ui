@@ -19,6 +19,6 @@
     <div class="pt-3">
       <slot />
     </div>
-    <div class="py-10"></div>
+    <div class="py-10"/>
   </div>
 </template>

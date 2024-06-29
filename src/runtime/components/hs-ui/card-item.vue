@@ -23,7 +23,7 @@ interface Props {
   class?: ClassType | undefined;
   variant?: 'header' | 'body' | 'footer';
   accordion?: boolean | undefined;
-  hasCloseBtn?: boolean | undefined;
+  // hasCloseBtn?: boolean | undefined;
   isOpen?: boolean | undefined;
 }
 const props = withDefaults(defineProps<Props>(), {
@@ -31,6 +31,7 @@ const props = withDefaults(defineProps<Props>(), {
   variant: 'body',
   accordion: undefined,
   isOpen: undefined,
+  // hasCloseBtn: undefined,
 });
 type Emits = {
   ref: [e: HTMLElement];
@@ -114,8 +115,8 @@ const classStyle = computed(() => {
       <div class=""><slot /></div>
       <div class="">
         <HsFcBtn theme="white" :class="showBtnStyle" @click.stop="emit('update:isOpen', !props.isOpen)">
-          <i v-if="props.isOpen" class="fa-solid fa-chevron-up"></i>
-          <i v-else class="fa-solid fa-chevron-down"></i>
+          <i v-if="props.isOpen" class="fa-solid fa-chevron-up" />
+          <i v-else class="fa-solid fa-chevron-down" />
         </HsFcBtn>
       </div>
     </div>

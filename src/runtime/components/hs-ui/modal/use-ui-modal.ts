@@ -6,7 +6,7 @@ import {} from '~/components/v-ui/modal/use-ui-modal';
 ----------------------------------------------------------------------------- */
 
 // [ Nuxt ]
-import { computed, ref, watch, nextTick } from 'vue';
+import { computed, watch } from 'vue';
 import { useRoute } from '#imports';
 import { defineStore } from 'pinia';
 import { clearAllBodyScrollLocks } from 'body-scroll-lock';

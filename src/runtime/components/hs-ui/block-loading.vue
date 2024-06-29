@@ -84,9 +84,9 @@ const classStyle = computed(() => {
   <div class="HsUiBlockLoading" :class="[classStyle]">
     <div class="loading-container">
       <div class="loading-item">
-        <div class="loading-ball"></div>
-        <div class="loading-ball"></div>
-        <div class="loading-ball"></div>
+        <div class="loading-ball"/>
+        <div class="loading-ball"/>
+        <div class="loading-ball"/>
       </div>
       <div class="loading-text">{{ props.message }}</div>
     </div>

@@ -28,7 +28,7 @@ type Props = {
    *   - 3:2 <- Default
    *   - 4:3
    *   - 16:9
-   *    */
+       */
   rate?: string;
 };
 

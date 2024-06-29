@@ -18,16 +18,14 @@ import { extendTailwindMerge } from 'tailwind-merge';
 import { type ClassType, ClassTypeToString } from '../../../lib/class-style';
 import { GetPrefix, RemovePrefix } from '../../../lib/prefix';
 // ----------------------------------------------------------------------------
-import { Theme } from '../../../lib/theme';
+import type { Theme } from '../../../lib/theme';
 // ----------------------------------------------------------------------------
-
 
 const twMerge = extendTailwindMerge({
   prefix: GetPrefix(),
 });
 
 // ----------------------------------------------------------------------------
-
 
 interface Props {
   class?: ClassType;
@@ -50,6 +48,7 @@ const props = withDefaults(defineProps<Props>(), {
   textWrap: false,
   align: 'center',
   loading: false,
+  textAlign: 'center',
 });
 
 type InputFocusEventArg = {
@@ -209,9 +208,9 @@ const disabled = computed(() => {
     @focus="onFocus()"
     @blur="onBlur()"
   >
-    <div class="HsFcBtn--hover HsFcBtn--overlay"></div>
-    <div class="HsFcBtn--active HsFcBtn--overlay"></div>
-    <div class="HsFcBtn--border" :class="[{ show: vFormFocus.state.id === id }]"></div>
+    <div class="HsFcBtn--hover HsFcBtn--overlay" />
+    <div class="HsFcBtn--active HsFcBtn--overlay" />
+    <div class="HsFcBtn--border" :class="[{ show: vFormFocus.state.id === id }]" />
     <div :class="classThisInner"><slot /></div>
     <HsFcBtnLineLoading class="HsFcBtn--loading" :show="props.loading" />
   </button>
@@ -226,9 +225,9 @@ const disabled = computed(() => {
     @focus="onFocus()"
     @blur="onBlur()"
   >
-    <div class="HsFcBtn--hover HsFcBtn--overlay"></div>
-    <div class="HsFcBtn--active HsFcBtn--overlay"></div>
-    <div class="HsFcBtn--border" :class="[{ show: vFormFocus.state.id === id }]"></div>
+    <div class="HsFcBtn--hover HsFcBtn--overlay" />
+    <div class="HsFcBtn--active HsFcBtn--overlay" />
+    <div class="HsFcBtn--border" :class="[{ show: vFormFocus.state.id === id }]" />
     <div :class="classThisInner"><slot /></div>
     <HsFcBtnLineLoading class="HsFcBtn--loading" :show="props.loading" />
   </NuxtLink>

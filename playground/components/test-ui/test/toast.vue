@@ -12,7 +12,7 @@ const test = () => {
   Toast.Success('Success', 'SuccessSuccess', 3000);
   Toast.Info('Info', 'InfoInfo', 3200);
   Toast.Warning('Warning', 'WarningWarning', 3400);
-  Toast.Error('Error', 'ErrorError', 3600);
+  new Toast.Error('Error', 'ErrorError', 3600);
 };
 </script>
 <template>

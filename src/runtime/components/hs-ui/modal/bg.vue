@@ -85,6 +85,6 @@ const closeAll = () => {
 <template>
   <Teleport to="body">
     <!--  -->
-    <div class="VUiModalBg" :class="classStyle" :style="{ zIndex: zIndex }" @click.stop="closeAll()"></div>
+    <div class="VUiModalBg" :class="classStyle" :style="{ zIndex: zIndex }" @click.stop="closeAll()"/>
   </Teleport>
 </template>

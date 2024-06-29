@@ -51,7 +51,7 @@ watch(
 
 watchArray(state.pendingList, (newList, oldList, added, removed) => {
   if (added.length === 0 && removed.length > 0) return;
-  const keyMap = newList.map((row) => row.key);
+  // const keyMap = newList.map((row) => row.key);
   newList.forEach((message) => {
     if (message.hideAfter !== 0) {
       setTimeout(() => {
@@ -127,7 +127,7 @@ const closeBtnStyle = RemovePrefix([
                   {{ MultiLangText(message.title) }}
                 </div>
                 <HsFcBtn :class="closeBtnStyle" theme="white" type="outlined" @click="deleteMessage(message)">
-                  <i class="fas fa-times"></i>
+                  <i class="fas fa-times"/>
                 </HsFcBtn>
               </HsUiCardItem>
               <HsUiCardItem
@@ -154,7 +154,7 @@ const closeBtnStyle = RemovePrefix([
                 ]"
               >
                 <div class="HsUiToast-bar-body" :class="[`${message.theme}`]">
-                  <div class="HsUiToast-bar" :style="style(message)"></div>
+                  <div class="HsUiToast-bar" :style="style(message)"/>
                 </div>
               </HsUiCardItem>
             </template>
@@ -167,7 +167,7 @@ const closeBtnStyle = RemovePrefix([
                   {{ MultiLangText(message.message) }}
                 </div>
                 <HsFcBtn :class="closeBtnStyle" theme="white" variant="outlined" @click="deleteMessage(message)">
-                  <i class="fas fa-times"></i>
+                  <i class="fas fa-times"/>
                 </HsFcBtn>
               </HsUiCardItem>
               <HsUiCardItem
@@ -185,7 +185,7 @@ const closeBtnStyle = RemovePrefix([
                 ]"
               >
                 <div class="HsUiToast-bar-body" :class="[`${message.theme}`]">
-                  <div class="HsUiToast-bar" :style="style(message)"></div>
+                  <div class="HsUiToast-bar" :style="style(message)"/>
                 </div>
               </HsUiCardItem>
             </template>

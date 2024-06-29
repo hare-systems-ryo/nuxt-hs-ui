@@ -86,12 +86,12 @@ watch(activateTs, async (ts) => {
   }
 });
 
-let keyMoveFlag = false;
+const keyMoveFlag = ref(false);
 const onKeyDownNoBtn = (e: KeyboardEvent) => {
   if (activeItem.value === null) return '';
   if (e.key === 'Tab') return;
   if (activeItem.value.data.option.btnRight.isShow === true && rightBtnElm.value !== null) {
-    keyMoveFlag = true;
+    keyMoveFlag.value = true;
     rightBtnElm.value.focus();
   }
 };
@@ -100,7 +100,7 @@ const onKeyDownYesBtn = (e: KeyboardEvent) => {
   if (activeItem.value === null) return '';
   if (e.key === 'Tab') return;
   if (activeItem.value.data.option.btnLeft.isShow === true && leftBtnElm.value !== null) {
-    keyMoveFlag = true;
+    keyMoveFlag.value = true;
     leftBtnElm.value.focus();
   }
 };
@@ -110,10 +110,10 @@ const zindex = computed(() => {
   return activeItem.value.data.option.zindex;
 });
 
-const headerColor = computed(() => {
-  if (!activeItem.value) return '';
-  // return BgColorStyle(activeItem.value.data.option.color);
-});
+// const headerColor = computed(() => {
+//   if (!activeItem.value) return '';
+//   // return BgColorStyle(activeItem.value.data.option.color);
+// });
 
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
@@ -226,7 +226,7 @@ const cardStyle = RemovePrefix([
             @click="clickCancel()"
             @ref="(e:any) => (cancelBtnElm = e)"
           >
-            <i class="fas fa-times mx-1"></i>
+            <i class="fas fa-times mx-1" />
             {{ MultiLangText(activeItem.data.option.btnCancel.title) }}
           </HsFcBtn>
         </HsUiCardItem>

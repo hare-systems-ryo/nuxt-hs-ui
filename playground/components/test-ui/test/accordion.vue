@@ -17,7 +17,7 @@ const open3 = ref(true);
       <HsUiCardItem class="bg-back" variant="body"> open1 = {{ open1 }} </HsUiCardItem>
 
       <HsUiCardItem class="bg-back" variant="body" :accordion="open1">
-        <div class="h-[1px] bg-main1 -mx-2"></div>
+        <div class="h-[1px] bg-main1 -mx-2"/>
         <div class="py-1">aa</div>
         <div class="py-1">aa</div>
         <div class="py-1">aa</div>
@@ -36,7 +36,7 @@ const open3 = ref(true);
         </div>
         <HsUiAccordion :open="open2">
           <div class="">
-            <div v-if="open2" class="mt-2 h-[1px] bg-main1"></div>
+            <div v-if="open2" class="mt-2 h-[1px] bg-main1"/>
             <div class="py-1">aa</div>
             <div class="py-1">aa</div>
             <div class="py-1">aa</div>

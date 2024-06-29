@@ -1,13 +1,14 @@
 import { useRuntimeConfig } from '#imports';
 
-type Prefix = `tw-` | ``;
+// type Prefix = `tw-` | ``;
 export const GetPrefix = () => {
   const config: any = useRuntimeConfig().public.hsui;
   const prefix = config?.prefix || '';
   if (prefix === 'tw-') return 'tw-';
   return '';
 };
-const checkReg = /(^tw-| tw-|^!tw-| !tw-|:tw-)/;
+/* */
+const checkReg = /(?:[ :!]|^|\n)tw-/;
 
 export const RemovePrefix = (arg: string[]) => {
   const prefix = GetPrefix();

@@ -7,7 +7,7 @@ import {} from '~/components/v-ui/dialog/index.type';
 
 import { type MultiLang } from '../../../lib/multi-lang';
 // import { Themes as _Theme } from '~/com/lib/theme';
-import { Theme } from '../../../lib/theme';
+import type { Theme } from '../../../lib/theme';
 // ----------------------------------------------------------------------------
 
 export const DialogDefaultZIndex = 3000;
@@ -88,7 +88,7 @@ export class DialogItem {
   public rightBtnClick = () => console.log();
   public cancelBtnClick = () => console.log();
   public show = () => {
-    return new Promise<DialogResult>((resolve, reject) => {
+    return new Promise<DialogResult>((resolve) => {
       this.leftBtnClick = () => {
         // console.log('leftBtnClick');
         resolve(DialogResult.left);

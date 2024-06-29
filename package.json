@@ -1,9 +1,13 @@
 {
   "name": "nuxt-hs-ui",
-  "version": "1.0.0",
-  "description": "My new Nuxt module",
-  "repository": "your-org/my-module",
+  "version": "1.0.1",
+  "description": "Nuxt UI Pack",
+  "repository": "https://github.com/hare-systems-ryo/nuxt-hs-ui",
   "license": "MIT",
+  "author": {
+    "name": "Ryo@Hare-Systems",
+    "email": "admin@hare-systems.net"
+  },
   "type": "module",
   "exports": {
     ".": {
@@ -38,6 +42,7 @@
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
     "release": "npm run lint && npm run test && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "test": "vitest run",
     "test:watch": "vitest watch",
     "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"

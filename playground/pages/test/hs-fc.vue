@@ -12,6 +12,6 @@ useHead({
 </script>
 <template>
   <HsUiContainer class="">
-    <TestFc class=""></TestFc>
+    <TestFc class=""/>
   </HsUiContainer>
 </template>

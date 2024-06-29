@@ -35,13 +35,13 @@ export const useHsUiDialog = defineStore({
     };
   },
   getters: {
-    // Color: (state) => {
-    //   return Color;
+    // hoge: (state) => {
+    //   return '';
     // },
-    InitOption: (state) => {
+    InitOption: () => {
       return InitDialogOption;
     },
-    Result: (state) => {
+    Result: () => {
       return DialogResult;
     },
   },

@@ -28,12 +28,12 @@ export const GetTextByMultiLang = (text: MultiLang, lang: string | undefined, fa
   }
   if (lang in (text as any)) {
     return (text as { [key: string]: string })[lang];
-  } else if ('ja' in (text as any)) {
+  } else if (fallback in (text as any)) {
     // フォールバック
-    console.error(`GetTextByMultiLang :: Language fallback [${lang} -> ja]`, text);
+    console.error(`GetTextByMultiLang :: Language fallback [${lang} -> ${fallback}]`, text);
     return (text as { [key: string]: string }).ja;
   } else {
-    console.error(`GetTextByMultiLang :: Language Error    [${lang} -> ja]`, text);
+    console.error(`GetTextByMultiLang :: Language Error    [${lang}]`, text);
     return JSON.stringify(text);
   }
 };

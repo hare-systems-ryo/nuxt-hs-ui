@@ -21,7 +21,7 @@ const GetTextByMultiLang = useStoreMultiLang().GetTextByMultiLang;
 
 ---------------------------------------------------------------------------- */
 
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { defineStore } from 'pinia';
 import { type MultiLang, GetTextByMultiLang } from '../lib/multi-lang';
 // ----------------------------------------------------------------------------

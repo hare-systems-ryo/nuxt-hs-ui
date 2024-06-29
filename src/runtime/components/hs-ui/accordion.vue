@@ -77,7 +77,7 @@ const overflowClass = computed(() => {
     :style="`--hsui-accordion-span:${props.span}ms`"
     :aria-hidden="!props.open"
   >
-    <div :class="overflowClass"><slot></slot></div>
+    <div :class="overflowClass"><slot/></div>
   </div>
 </template>
 

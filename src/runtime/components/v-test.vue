@@ -19,6 +19,7 @@ interface Props {
 }
 const props = withDefaults(defineProps<Props>(), {
   text: 'hello',
+  class: '',
 });
 
 const baseClass = RemovePrefix([

@@ -1,4 +1,4 @@
-// @ts-check
+// // @ts-check
 import { createConfigForNuxt } from '@nuxt/eslint-config/flat';
 
 // Run `npx @eslint/config-inspector` to inspect the resolved config interactively
@@ -7,21 +7,28 @@ export default createConfigForNuxt({
     // Rules for module authors
     tooling: true,
     // Rules for formatting
-    stylistic: true,
+    // stylistic: true,
+    semi: true,
+    quotes: 'single',
   },
   dirs: {
     src: ['./playground'],
   },
 })
-  .append
-  // your custom flat config here...
-  ()
-  .override('nuxt/typescript', {
+  .prepend()
+  .override('nuxt/javascript', {
     rules: {
-      // ...Override rules, for example:
-      // '@typescript-eslint/ban-types': 'off',
-      semi: ['error', 'always'],
-      'semi-style': ['error', 'last'],
-      'semi-spacing': ['error', { after: true, before: false }],
+      //
     },
+  })
+  .override('nuxt/vue/rules', {
+    rules: {
+      //
+      'vue/html-self-closing': ['off'],
+      'vue/multi-word-component-names': 0,
+    },
+  })
+  .overrideRules({
+    //
+    '@typescript-eslint/no-explicit-any': ['off'],
   });

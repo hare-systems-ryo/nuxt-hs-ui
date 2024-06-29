@@ -35,7 +35,7 @@ export const InsertComma = (num: number | string | null, digits = 0, nullText = 
   if (digits === 0) return ret;
   const d = Int(numString) < 0 ? digits + 1 : digits;
   if (numString.includes('.')) {
-    const m = ret.replace(/[0-9]+\./g, '');
+    const m = ret.replace(/\d+\./g, '');
     if (m.length < d) {
       ret = `${ret}${Array(d + 1 - m.length).join('0')}`;
     }
@@ -58,8 +58,8 @@ export const InsertCommaK = (num: number | string | null) => {
 export const Int = (i: any): number => {
   try {
     const str = String(i).replace(/(\\|,|-$)/g, '');
-    const num = parseInt(str, 10);
-    if (isNaN(num)) {
+    const num = Number.parseInt(str, 10);
+    if (Number.isNaN(num)) {
       return 0;
     } else {
       return num;
@@ -75,8 +75,8 @@ export const IntNullable = (i: any): number | null => {
     if (i === null) return null;
     if (i === '') return null;
     const str = String(i).replace(/(\\|,|-$)/g, '');
-    const num = parseInt(str, 10);
-    if (isNaN(num)) {
+    const num = Number.parseInt(str, 10);
+    if (Number.isNaN(num)) {
       return null;
     } else {
       return num;
@@ -91,7 +91,7 @@ export const Float = (i: any, digits = 0): number => {
   try {
     const str = `${String(i).replace(/(\\|,|-$)/g, '')}`;
     const num = new BigNumber(str);
-    if (isNaN(num.toNumber())) {
+    if (Number.isNaN(num.toNumber())) {
       return 0;
     } else {
       return num.dp(digits).toNumber();
@@ -111,7 +111,7 @@ export const FloatNullable = (i: any, digits = 0): number | null => {
     });
     const str = `${String(i).replace(/(\\|,|-$)/g, '')}`;
     const num = new BigNumber(str);
-    if (isNaN(num.toNumber())) {
+    if (Number.isNaN(num.toNumber())) {
       return null;
     } else {
       return num.dp(digits).toNumber();
