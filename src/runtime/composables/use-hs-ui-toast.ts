@@ -47,14 +47,26 @@ export const useHsUiToast = defineStore({
     };
   },
   actions: {
+    s(message: MultiLang, title: MultiLang, hideAfter = 0) {
+      toastShow(message, title, hideAfter, Theme.Success);
+    },
     Success(message: MultiLang, title: MultiLang, hideAfter = 0) {
       toastShow(message, title, hideAfter, Theme.Success);
     },
     Info(message: MultiLang, title: MultiLang, hideAfter = 0) {
       toastShow(message, title, hideAfter, Theme.Info);
     },
+    i(message: MultiLang, title: MultiLang, hideAfter = 0) {
+      toastShow(message, title, hideAfter, Theme.Info);
+    },
+    w(message: MultiLang, title: MultiLang, hideAfter = 0) {
+      toastShow(message, title, hideAfter, Theme.Warning);
+    },
     Warning(message: MultiLang, title: MultiLang, hideAfter = 0) {
       toastShow(message, title, hideAfter, Theme.Warning);
+    },
+    e(message: MultiLang, title: MultiLang, hideAfter = 0) {
+      toastShow(message, title, hideAfter, Theme.Error);
     },
     Error(message: MultiLang, title: MultiLang, hideAfter = 0) {
       toastShow(message, title, hideAfter, Theme.Error);

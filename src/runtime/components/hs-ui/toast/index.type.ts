@@ -31,5 +31,5 @@ export interface Controler {
   Success: (message: MultiLang, title: MultiLang, hideAfter?: number) => void;
   Info: (message: MultiLang, title: MultiLang, hideAfter?: number) => void;
   Warning: (message: MultiLang, title: MultiLang, hideAfter?: number) => void;
-  Error: (message: MultiLang, title: MultiLang, hideAfter?: number) => void;
+  E: (message: MultiLang, title: MultiLang, hideAfter?: number) => void;
 }
