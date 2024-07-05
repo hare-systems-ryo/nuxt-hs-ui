@@ -83,7 +83,8 @@ const classStyle = computed(() => {
   position: relative;
   background: rgba(255, 255, 255, 0.15);
   overflow: hidden;
-  border-radius: calc(infinity * 1px);
+  // border-radius: calc(infinity * 1px);
+  border-radius: calc(1px / 0);
 }
 .loader::after {
   content: '';
@@ -91,7 +92,8 @@ const classStyle = computed(() => {
   height: var(--HsFcBtnLineLoading-height);
   background: #fff;
   position: absolute;
-  border-radius: calc(infinity * 1px);
+  // border-radius: calc(infinity * 1px);
+  border-radius: calc(1px / 0);
   top: 0;
   left: 0;
   box-sizing: border-box;

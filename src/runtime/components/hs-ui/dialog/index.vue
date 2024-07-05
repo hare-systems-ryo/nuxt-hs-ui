@@ -153,7 +153,7 @@ const cancelBtnStyle = RemovePrefix(prefix, [
   'border-[1px]',
   'tw-border-[1px]',
   '!bg-transparent',
-  'tw-bg-transparent',
+  '!tw-bg-transparent',
   'rounded-none',
   'tw-rounded-none',
   'h-full',
@@ -217,18 +217,24 @@ const cardStyle = RemovePrefix(prefix, [
   'mb-auto',
   'tw-mb-auto',
 ]);
+const closeBtnIcon = RemovePrefix(prefix, [
+  //
+  'tw-mx-1',
+  'mx-1',
+]);
+const baseCardHeader = RemovePrefix(prefix, [
+  //
+  'py-1',
+  'tw-py-1',
+  'pe-1',
+  'tw-pe-1',
+]);
 </script>
 <template>
   <ClientOnly>
     <HsUiModal ref="targetElm" :show="isShow" :z-index="zindex" focus-lock @close="clickCancel()">
       <HsUiCard v-if="activeItem !== null" class="HsUiDialog" :class="cardStyle" @click.stop>
-        <HsUiCardItem
-          :class="[
-            `theme-${activeItem.data.option.theme}`,
-            RemovePrefix(prefix, ['py-1', 'tw-py-1', 'pe-1', 'tw-pe-1']),
-          ]"
-          variant="header"
-        >
+        <HsUiCardItem :class="[`theme-${activeItem.data.option.theme}`, baseCardHeader]" variant="header">
           <div :class="titleStyle">
             {{ MultiLangText(activeItem.data.title) }}
           </div>
@@ -241,7 +247,7 @@ const cardStyle = RemovePrefix(prefix, [
             @click="clickCancel()"
             @ref="(e:any) => (cancelBtnElm = e)"
           >
-            <i class="fas fa-times mx-1" />
+            <i class="fas fa-times" :class="closeBtnIcon" />
             {{ MultiLangText(activeItem.data.option.btnCancel.title) }}
           </HsFcBtn>
         </HsUiCardItem>
