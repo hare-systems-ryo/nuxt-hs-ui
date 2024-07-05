@@ -59,7 +59,6 @@ const classStyle = computed(() => {
 </script>
 <template>
   <div class="HsFcBtnLineLoading" :class="[classStyle, { show: props.show }]">
-    <!-- <div class="circleloader"></div> -->
     <span
       class="loader"
       :style="`--HsFcBtnLineLoading-height:${props.height}px;--HsFcBtnLineLoading-speed:${props.speed}ms`"
@@ -83,8 +82,9 @@ const classStyle = computed(() => {
   position: relative;
   background: rgba(255, 255, 255, 0.15);
   overflow: hidden;
+  // border-radius: calc(1px / 0);
   // border-radius: calc(infinity * 1px);
-  border-radius: calc(1px / 0);
+  border-radius: 9999px;
 }
 .loader::after {
   content: '';
@@ -92,8 +92,10 @@ const classStyle = computed(() => {
   height: var(--HsFcBtnLineLoading-height);
   background: #fff;
   position: absolute;
+  // border-radius: calc(1px / 0);
   // border-radius: calc(infinity * 1px);
-  border-radius: calc(1px / 0);
+  border-radius: 9999px;
+
   top: 0;
   left: 0;
   box-sizing: border-box;
