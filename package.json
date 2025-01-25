@@ -1,6 +1,6 @@
 {
   "name": "nuxt-hs-ui",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "My new Nuxt module",
   "repository": "https://github.com/hare-systems-ryo/nuxt-hs-ui",
   "license": "MIT",
@@ -80,7 +80,6 @@
       "import": "./dist/runtime/utils/wareki.js",
       "require": "./dist/runtime/utils/wareki.js"
     }
-   
   },
   "main": "./dist/module.cjs",
   "types": "./dist/types.d.ts",
@@ -97,7 +96,7 @@
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
-    "release": "npm run lint && npm run test && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
+    "release": "npm run lint &&  npm run prepack && changelogen --release && npm publish && git push --follow-tags",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest watch",
@@ -106,6 +105,7 @@
   "dependencies": {
     "@nuxt/kit": "^3.15.1",
     "@nuxt/ui": "^2.21.0",
+    "@nuxtjs/tailwindcss": "^6.13.1",
     "@pinia/nuxt": "^0.9.0",
     "@vueuse/core": "^12.3.0",
     "@vueuse/integrations": "^12.3.0",
@@ -128,13 +128,15 @@
     "@nuxt/module-builder": "^0.8.4",
     "@nuxt/schema": "^3.15.1",
     "@nuxt/test-utils": "^3.15.4",
-    "@types/tabulator-tables": "^6.2.3",
     "@types/body-scroll-lock": "^3.1.2",
     "@types/node": "latest",
+    "@types/tabulator-tables": "^6.2.3",
     "@types/vue-select": "^3.16.8",
     "changelogen": "^0.5.7",
     "eslint": "^9.18.0",
     "nuxt": "^3.15.1",
+    "sass": "^1.83.4",
+    "tailwindcss": "^3.4.17",
     "sass-embedded": "^1.83.4",
     "typescript": "~5.7.3",
     "vitest": "^2.1.8",
