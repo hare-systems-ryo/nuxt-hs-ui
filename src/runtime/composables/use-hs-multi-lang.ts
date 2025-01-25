@@ -6,12 +6,12 @@ copnst hsMultiLang = useHsMultiLang()
 ----------------------------------------------------------------------------- */
 
 // [dayjs]
-import dayjs from "dayjs";
-import ja from "dayjs/locale/ja.js";
-import en from "dayjs/locale/en.js";
+import dayjs from "dayjs/esm/index";
+import ja from "dayjs/esm/locale/ja.js";
+import en from "dayjs/esm/locale/en.js";
 import { defineStore } from "pinia";
 // [ NUXT ]
-import { computed, watch } from "#imports";
+import { computed, watch } from "vue";
 // [ utils ]
 import type { MultiLang } from "../utils/multi-lang";
 import { GetTextByMultiLang } from "../utils/multi-lang";

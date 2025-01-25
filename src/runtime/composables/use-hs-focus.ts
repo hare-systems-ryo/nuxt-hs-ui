@@ -8,7 +8,7 @@ copnst hsFocus = useHsFocus()
 // [ node_modules ]
 import { watch } from "vue";
 import { defineStore } from "pinia";
-import { useRoute } from "#imports";
+import { useRoute } from "#app";
 // ----------------------------------------------------------------------------
 interface State {
   state: {

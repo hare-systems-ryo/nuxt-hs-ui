@@ -9,7 +9,8 @@ copnst hsModal = useHsModal()
 import { defineStore } from "pinia";
 import { clearAllBodyScrollLocks } from "body-scroll-lock";
 // [ NUXT ]
-import { computed, watch, useRoute } from "#imports";
+import { computed, watch } from "vue";
+import { useRoute } from "#app";
 // [ composables ]
 import { useHsToast } from "../composables/use-hs-toast";
 

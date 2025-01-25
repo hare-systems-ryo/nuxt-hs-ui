@@ -53,11 +53,13 @@ const alertTv = tv({
 
 // ----------------------------------------------------------------------------
 // [ NUXT ]
-import { computed } from "#imports";
+import { computed, useRuntimeConfig } from "#imports";
 // [ utils ]
 import { type ClassType, ClassTypeToString } from "../../utils/class-style";
 import { GetGolorCode } from "../../utils/theme";
 
+// ----------------------------------------------------------------------------
+const { public: config } = useRuntimeConfig();
 // ----------------------------------------------------------------------------
 
 interface Props {
@@ -77,7 +79,7 @@ const props = withDefaults(defineProps<Props>(), {
 const styleMain = computed(() => {
   return [
     //
-    `--main-color:${GetGolorCode(props.theme)};`,
+    `--main-color:${GetGolorCode(props.theme, config)};`,
   ];
 });
 const classTv = computed(() => {

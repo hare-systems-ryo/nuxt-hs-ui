@@ -8,7 +8,8 @@ copnst hsMisc = useHsMisc()
 // [ pinia ]
 import { defineStore } from "pinia";
 // [ NUXT ]
-import { useEventListener, nextTick } from "#imports";
+import { nextTick } from "vue";
+import { useEventListener } from "@vueuse/core";
 // [ utils ]
 import { Sleep, IsMobile } from "../utils/com";
 // ----------------------------------------------------------------------------

@@ -7,7 +7,7 @@
 ----------------------------------------------------------------------------- */
 
 // [ node-modules ]
-import dayjs from "dayjs";
+import dayjs from "dayjs/esm/index";
 import flatpickr from "flatpickr";
 import monthSelectPlugin from "flatpickr/dist/plugins/monthSelect";
 import { Japanese as ja } from "flatpickr/dist/l10n/ja";

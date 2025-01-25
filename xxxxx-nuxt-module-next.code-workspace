@@ -10,7 +10,7 @@
     "files.exclude": {
       // "**/.nuxt": true,
       // "**/.output": true,
-      "**/node_modules": true
+      // "**/node_modules": true
       // "**/node_modules": false //モジュールの中身を見るときはこれを有効に
     }
   }

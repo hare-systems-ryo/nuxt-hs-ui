@@ -4,8 +4,6 @@
 // [ src > runtime > utils > * ]
 ----------------------------------------------------------------------------- */
 
-import { useRuntimeConfig } from "#imports";
-
 // type OmitTheme<T extends string> = Omit<typeof Theme, T>[keyof Omit<
 //   typeof Theme,
 //   T
@@ -36,8 +34,7 @@ export type Theme = (typeof Theme)[keyof typeof Theme];
 
 export const ThemeKyes = Object.keys(Theme) as [keyof typeof Theme];
 
-export const GetGolorCode = (code: string) => {
-  const { public: config } = useRuntimeConfig();
+export const GetGolorCode = (code: string, config: any) => {
   const colors = config.hsui.colors || {};
   if (code in colors) {
     return (colors as any)[code] || "#000000";

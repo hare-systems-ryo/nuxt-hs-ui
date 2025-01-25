@@ -3,16 +3,13 @@
 // ----------------------------------------------------------------------------
 // [ src > runtime > utils > * ]
 ----------------------------------------------------------------------------- */
+import dayjs from "dayjs/esm/index";
+import utc from "dayjs/esm/plugin/utc";
+import timezone from "dayjs/esm/plugin/timezone";
+import advancedFormat from "dayjs/esm/plugin/advancedFormat";
 
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc.js";
-import timezone from "dayjs/plugin/timezone";
-// import isBetween from 'dayjs/plugin/isBetween';
-import advancedFormat from "dayjs/plugin/advancedFormat";
-// import customParseFormat from 'dayjs/plugin/customParseFormat';
-
-import ja from "dayjs/locale/ja.js";
-import en from "dayjs/locale/en.js";
+import ja from "dayjs/esm/locale/ja.js";
+import en from "dayjs/esm/locale/en.js";
 
 export type Dayjs = dayjs.Dayjs;
 export type QUnitType = dayjs.QUnitType;
