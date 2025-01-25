@@ -1,8 +1,5 @@
-import type { Config } from "tailwindcss";
-// import plugin from 'tailwindcss/plugin';
-
+type Config = any;
 export default <Partial<Config>>{
-  // prefix: "tw-",
   future: {
     hoverOnlyWhenSupported: true,
   },

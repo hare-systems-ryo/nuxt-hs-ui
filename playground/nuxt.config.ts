@@ -1,8 +1,5 @@
 import twConfig from "../tailwind.config";
 export default defineNuxtConfig({
-  colorMode: {
-    preference: "light",
-  },
   experimental: {
     appManifest: false,
   },

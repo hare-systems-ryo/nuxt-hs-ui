@@ -1,3 +1,5 @@
+<script lang="ts" setup></script>
+
 <template>
   <NuxtLayout>
     <Teleport to="body">

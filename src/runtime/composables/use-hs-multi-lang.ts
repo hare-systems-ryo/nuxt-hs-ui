@@ -42,29 +42,35 @@ export const useHsMultiLang = defineStore("HsMultiLang", {
       },
     };
   },
-  // ----------------------------------------------------------------------------
+  getters: {
+    lang(state) {
+      return state.state.lang;
+    },
+    dateFormat(state) {
+      return state.state.dateFormat;
+    },
+  }, // ----------------------------------------------------------------------------
   actions: {
-    init(arg: { lang?: string; setDayjsLang?: (lang: string) => void }) {
+    init(arg: {
+      lang?: string;
+      changeLangFunc?: (lang: string) => Promise<void> | void;
+    }) {
       const state = this.state;
       if (state.isInit) return;
-      const setDayjsLang =
-        arg.setDayjsLang !== undefined
-          ? arg.setDayjsLang
-          : (lang: string) => {
+      const changeLangFunc =
+        arg.changeLangFunc === undefined
+          ? (lang: string) => {
               if (lang === "ja") {
                 dayjs.locale(ja);
               } else {
                 dayjs.locale(en);
               }
-            };
+            }
+          : arg.changeLangFunc;
       watch(
         () => this.state.lang,
         (lang) => {
-          if (arg.setDayjsLang) {
-            arg.setDayjsLang(lang);
-          } else {
-            setDayjsLang(lang);
-          }
+          changeLangFunc(lang);
         },
         { immediate: true }
       );

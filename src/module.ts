@@ -7,11 +7,8 @@ import {
   addPlugin,
 } from "@nuxt/kit";
 import { defu } from "defu";
-import type { Config } from "tailwindcss";
-
-// Module options TypeScript interface definition
+type Config = any;
 const defaultTwConfig = {
-  prefix: "",
   future: {
     hoverOnlyWhenSupported: true,
   },
@@ -87,6 +84,10 @@ export default defineNuxtModule<ModuleOptions>({
   async setup(_options, _nuxt) {
     const resolver = createResolver(import.meta.url);
     const resolve = resolver.resolve;
+    const runtimeDir = resolve("./runtime");
+    const isDevelopment =
+      runtimeDir.endsWith("src/runtime") || runtimeDir.endsWith("src\\runtime");
+    const extension = isDevelopment ? "scss" : "css";
     // ----------------------------------------------------------------------------
     const twReqConfig = {
       content: {
@@ -139,8 +140,8 @@ export default defineNuxtModule<ModuleOptions>({
     //   // pathPrefix: false,
     // });
     // ----------------------------------------------------------------------------
-    _nuxt.options.css.push(resolve("runtime/style.scss"));
-    _nuxt.options.css.push(resolve("runtime/tailwind.scss"));
+    _nuxt.options.css.push(resolve("runtime/style." + extension));
+    _nuxt.options.css.push(resolve("runtime/tailwind." + extension));
     _nuxt.options.css.push(resolve("runtime/assets/flatpickr-dark.css"));
     _nuxt.options.css.push(
       resolve("runtime/assets/flatpickr-month-select-style.css")
@@ -157,7 +158,9 @@ export default defineNuxtModule<ModuleOptions>({
     });
     await installModule("@pinia/nuxt", { disableVuex: true });
     await installModule("@vueuse/nuxt");
-    await installModule("@nuxt/ui");
+    // await installModule("@nuxt/ui");
+    // await installModule("@nuxt/ui");
+
     addPlugin(resolve("runtime/plugin/v-select"));
   },
 });
