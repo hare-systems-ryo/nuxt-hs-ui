@@ -1,0 +1,143 @@
+{
+  "name": "nuxt-hs-ui",
+  "version": "2.0.0",
+  "description": "My new Nuxt module",
+  "repository": "https://github.com/hare-systems-ryo/nuxt-hs-ui",
+  "license": "MIT",
+  "author": {
+    "name": "Ryo@Hare-Systems",
+    "email": "admin@hare-systems.net"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/module.mjs",
+      "require": "./dist/module.cjs"
+    },
+    "./utils/class-style": {
+      "types": "./dist/runtime/utils/class-style.d.ts",
+      "import": "./dist/runtime/utils/class-style.js",
+      "require": "./dist/runtime/utils/class-style.js"
+    },
+    "./utils/com": {
+      "types": "./dist/runtime/utils/com.d.ts",
+      "import": "./dist/runtime/utils/com.js",
+      "require": "./dist/runtime/utils/com.js"
+    },
+    "./utils/dayjs": {
+      "types": "./dist/runtime/utils/dayjs.d.ts",
+      "import": "./dist/runtime/utils/dayjs.js",
+      "require": "./dist/runtime/utils/dayjs.js"
+    },
+    "./utils/float": {
+      "types": "./dist/runtime/utils/float.d.ts",
+      "import": "./dist/runtime/utils/float.js",
+      "require": "./dist/runtime/utils/float.js"
+    },
+    "./utils/multi-lang-object": {
+      "types": "./dist/runtime/utils/multi-lang-object.d.ts",
+      "import": "./dist/runtime/utils/multi-lang-object.js",
+      "require": "./dist/runtime/utils/multi-lang-object.js"
+    },
+    "./utils/multi-lang": {
+      "types": "./dist/runtime/utils/multi-lang.d.ts",
+      "import": "./dist/runtime/utils/multi-lang.js",
+      "require": "./dist/runtime/utils/multi-lang.js"
+    },
+    "./utils/number": {
+      "types": "./dist/runtime/utils/number.d.ts",
+      "import": "./dist/runtime/utils/number.js",
+      "require": "./dist/runtime/utils/number.js"
+    },
+    "./utils/object": {
+      "types": "./dist/runtime/utils/object.d.ts",
+      "import": "./dist/runtime/utils/object.js",
+      "require": "./dist/runtime/utils/object.js"
+    },
+    "./utils/select-item": {
+      "types": "./dist/runtime/utils/select-item.d.ts",
+      "import": "./dist/runtime/utils/select-item.js",
+      "require": "./dist/runtime/utils/select-item.js"
+    },
+    "./utils/string": {
+      "types": "./dist/runtime/utils/string.d.ts",
+      "import": "./dist/runtime/utils/string.js",
+      "require": "./dist/runtime/utils/string.js"
+    },
+    "./utils/tabulator": {
+      "types": "./dist/runtime/utils/tabulator.d.ts",
+      "import": "./dist/runtime/utils/tabulator.js",
+      "require": "./dist/runtime/utils/tabulator.js"
+    },
+    "./utils/theme": {
+      "types": "./dist/runtime/utils/theme.d.ts",
+      "import": "./dist/runtime/utils/theme.js",
+      "require": "./dist/runtime/utils/theme.js"
+    },
+    "./utils/wareki": {
+      "types": "./dist/runtime/utils/wareki.d.ts",
+      "import": "./dist/runtime/utils/wareki.js",
+      "require": "./dist/runtime/utils/wareki.js"
+    }
+   
+  },
+  "main": "./dist/module.cjs",
+  "types": "./dist/types.d.ts",
+  "files": [
+    "dist"
+  ],
+  "volta": {
+    "node": "20.13.0",
+    "npm": "10.5.2"
+  },
+  "scripts": {
+    "link": "npm run dev:prepare && npm link",
+    "prepack": "nuxt-module-build build",
+    "dev": "nuxi dev playground",
+    "dev:build": "nuxi build playground",
+    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
+    "release": "npm run lint && npm run test && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "@nuxt/kit": "^3.15.1",
+    "@nuxt/ui": "^2.21.0",
+    "@pinia/nuxt": "^0.9.0",
+    "@vueuse/core": "^12.3.0",
+    "@vueuse/integrations": "^12.3.0",
+    "@vueuse/nuxt": "^12.3.0",
+    "bignumber.js": "^9.1.2",
+    "body-scroll-lock": "^4.0.0-beta.0",
+    "dayjs": "^1.11.13",
+    "defu": "^6.1.4",
+    "flatpickr": "^4.6.13",
+    "focus-trap": "^7.6.2",
+    "pinia": "^2.3.0",
+    "tabulator-tables": "^6.3.0",
+    "tailwind-merge": "^2.6.0",
+    "tailwind-variants": "^0.3.0",
+    "vue-select": "^4.0.0-beta.6"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "^1.7.0",
+    "@nuxt/eslint-config": "^0.7.5",
+    "@nuxt/module-builder": "^0.8.4",
+    "@nuxt/schema": "^3.15.1",
+    "@nuxt/test-utils": "^3.15.4",
+    "@types/tabulator-tables": "^6.2.3",
+    "@types/body-scroll-lock": "^3.1.2",
+    "@types/node": "latest",
+    "@types/vue-select": "^3.16.8",
+    "changelogen": "^0.5.7",
+    "eslint": "^9.18.0",
+    "nuxt": "^3.15.1",
+    "sass-embedded": "^1.83.4",
+    "typescript": "~5.7.3",
+    "vitest": "^2.1.8",
+    "vue-tsc": "^2.2.0"
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "editor.fontSize": 14,
+  "eslint.useFlatConfig": true,
+  "scss.lint.unknownAtRules": "ignore"
+}
