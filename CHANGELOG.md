@@ -1,6 +1,10 @@
 # Changelog
 
 
+## v2.0.12
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.0.11...v2.0.12)
+
 ## v2.0.11
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.0.10...v2.0.11)
