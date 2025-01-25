@@ -80,14 +80,13 @@ const cardItemTv = tv({
 ----------------------------------------------------------------------------- */
 
 // [ NUXT ]
-import { computed, useRuntimeConfig } from "#imports";
+import { computed } from "#imports";
 // [ utils ]
 import { type ClassType, ClassTypeToString } from "../../utils/class-style";
 import { GetGolorCode } from "../../utils/theme";
 // [ Components ]
 import Btn from "../form/btn.vue";
 import Accordion from "./accordion.vue";
-const { public: config } = useRuntimeConfig();
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 interface Props {
@@ -130,7 +129,7 @@ const bgTheme = computed(() => {
 const styleMain = computed(() => {
   return [
     //
-    `--main-color:${GetGolorCode(bgTheme.value, config)};`,
+    `--main-color:${GetGolorCode(bgTheme.value)};`,
   ];
 });
 const classTv = computed(() => {

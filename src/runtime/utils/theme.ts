@@ -8,6 +8,9 @@
 //   typeof Theme,
 //   T
 // >];
+import { useRuntimeConfig } from "#imports";
+
+import _appConfig from "#build/app.config";
 
 export const Theme = {
   main0: "main0",
@@ -34,7 +37,8 @@ export type Theme = (typeof Theme)[keyof typeof Theme];
 
 export const ThemeKyes = Object.keys(Theme) as [keyof typeof Theme];
 
-export const GetGolorCode = (code: string, config: any) => {
+export const GetGolorCode = (code: string) => {
+  const { public: config } = useRuntimeConfig();
   const colors = config.hsui.colors || {};
   if (code in colors) {
     return (colors as any)[code] || "#000000";

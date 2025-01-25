@@ -4,7 +4,7 @@
 // [ src > runtime > utils > * ]
 ----------------------------------------------------------------------------- */
 
-import { useRuntimeConfig } from "#app";
+// import { useRuntimeConfig } from "#imports";
 // import { Sleep } from '~/com/lib/com';
 import { Int } from "./number";
 import { ObjectCopy } from "./object";
@@ -260,7 +260,6 @@ export const GetListTableBtnSetting = (arg: {
     title: ``,
     formatter: (cell: any) => {
       const row: any = cell.getRow().getData();
-      const { public: config } = useRuntimeConfig();
       // ----------------------------------------------------------------------------
       const baseUrl = detailUrl;
       const herf =
@@ -269,8 +268,8 @@ export const GetListTableBtnSetting = (arg: {
           : "";
       // ----------------------------------------------------------------------------
       const style = [
-        `border:solid 2px ${GetGolorCode(actionBtnTheme, config)}`,
-        `color:${GetGolorCode(actionBtnTheme, config)}`,
+        `border:solid 2px ${GetGolorCode(actionBtnTheme)}`,
+        `color:${GetGolorCode(actionBtnTheme)}`,
         `width:100%`,
       ].join(";");
       const overlayBg = `bg-${actionBtnTheme}`;

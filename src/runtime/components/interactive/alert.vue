@@ -79,7 +79,7 @@ const props = withDefaults(defineProps<Props>(), {
 const styleMain = computed(() => {
   return [
     //
-    `--main-color:${GetGolorCode(props.theme, config)};`,
+    `--main-color:${GetGolorCode(props.theme)};`,
   ];
 });
 const classTv = computed(() => {
