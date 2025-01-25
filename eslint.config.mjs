@@ -37,10 +37,4 @@ export default createConfigForNuxt({
   })
   .prepend({
     ignores: ["node_modules/"],
-    // rules: {
-    //   //
-    //   // "@typescript-eslint/no-empty-object": ["off"],
-    //   // "@typescript-eslint/no-explicit-any": ["off"],
-    //   // "@typescript-eslint/no-unused-vars": ["off"],
-    // },
   });
