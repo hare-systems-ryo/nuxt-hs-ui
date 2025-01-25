@@ -244,7 +244,7 @@ const buttonTv = tv({
 // [ vueuse ]
 import { useElementHover } from "@vueuse/core";
 // [ NUXT ]
-import { ref, computed, useId, useRuntimeConfig } from "#imports";
+import { ref, computed, useId } from "#imports";
 // [ utils ]
 import { Dayjs } from "../../utils/dayjs";
 import { type ClassType, ClassTypeToString } from "../../utils/class-style";
@@ -254,7 +254,6 @@ import { Sleep } from "../../utils/com";
 import { useHsFocus } from "../../composables/use-hs-focus";
 
 import BtnLineLoading from "./btn-line-loading.vue";
-const { public: config } = useRuntimeConfig();
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 interface Props {
@@ -313,9 +312,9 @@ emit("id", uid);
 const styleMain = computed(() => {
   return [
     //
-    `--main-color:${GetGolorCode(props.theme, config)};`,
-    `--main-color-opacity-50:${GetGolorCode(props.theme, config)}88;`,
-    `--sub-color:${GetGolorCode(props.theme, config)};`,
+    `--main-color:${GetGolorCode(props.theme)};`,
+    `--main-color-opacity-50:${GetGolorCode(props.theme)}88;`,
+    `--sub-color:${GetGolorCode(props.theme)};`,
   ];
 });
 

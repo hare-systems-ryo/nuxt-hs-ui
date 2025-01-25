@@ -53,13 +53,11 @@ const alertTv = tv({
 
 // ----------------------------------------------------------------------------
 // [ NUXT ]
-import { computed, useRuntimeConfig } from "#imports";
+import { computed } from "#imports";
 // [ utils ]
 import { type ClassType, ClassTypeToString } from "../../utils/class-style";
 import { GetGolorCode } from "../../utils/theme";
 
-// ----------------------------------------------------------------------------
-const { public: config } = useRuntimeConfig();
 // ----------------------------------------------------------------------------
 
 interface Props {

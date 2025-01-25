@@ -104,7 +104,7 @@ export default defineNuxtModule<ModuleOptions>({
     );
     // ----------------------------------------------------------------------------
     // runtime config
-    console.log(_nuxt.options.appConfig.ui);
+    // console.log(_nuxt.options.appConfig.ui);
     // _nuxt.options.appConfig.ui = {
     //   colors: twConfig.theme.extend.colors,
     // };
