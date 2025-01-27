@@ -4,8 +4,7 @@
 // [ src > runtime > utils > * ]
 ----------------------------------------------------------------------------- */
 
-import type { SelectItem as _SelectItem } from "./select-item";
-export type SelectItem = _SelectItem;
+import type { SelectItem } from "./select-item";
 
 export type DisplaySelectItem = { id: number | null } & Omit<SelectItem, "id">;
 export const useDisplayList = (arg: {
