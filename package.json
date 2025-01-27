@@ -65,6 +65,11 @@
       "import": "./dist/runtime/utils/select-item.js",
       "require": "./dist/runtime/utils/select-item.js"
     },
+    "./utils/stop-watch": {
+      "types": "./dist/runtime/utils/stop-watch.d.ts",
+      "import": "./dist/runtime/utils/stop-watch.js",
+      "require": "./dist/runtime/utils/stop-watch.js"
+    },
     "./utils/string": {
       "types": "./dist/runtime/utils/string.d.ts",
       "import": "./dist/runtime/utils/string.js",
