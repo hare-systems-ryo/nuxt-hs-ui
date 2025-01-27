@@ -4,6 +4,7 @@
 // [ src > runtime > utils > * ]
 ----------------------------------------------------------------------------- */
 
+export type { TabulatorFull as Tabulator } from "tabulator-tables";
 // import { useRuntimeConfig } from "#imports";
 // import { Sleep } from '~/com/lib/com';
 import { Int } from "./number";

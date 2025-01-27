@@ -1,14 +1,7 @@
 /* ----------------------------------------------------------------------------
-com\lib\modal.ts
+// src\runtime\utils\modal.ts
 // ----------------------------------------------------------------------------
-// [ com > lib > * ]
-import {} from '~/com/lib/modal';
------------------------------------------------------------------------------ */
-
-/* ----------------------------------------------------------------------------
-// [ com > lib > * ]
-import type { ModalControl } from '~/com/lib/modal';
-import { InitModalControl, InitModals } from '~/com/lib/modal';
+// [ src > runtime > utils > * ]
 ----------------------------------------------------------------------------- */
 
 /** --------------------------------------------
@@ -52,7 +45,10 @@ onMounted(() => {
 
 -------------------------------------------- */
 
-type OptionalFunction<T> = ((state: T) => undefined | boolean) | ((state: T) => Promise<undefined | boolean>) | null;
+type OptionalFunction<T> =
+  | ((state: T) => undefined | boolean)
+  | ((state: T) => Promise<undefined | boolean>)
+  | null;
 export interface ModalControl<T = any> {
   /**
    * showBefre,showAfter がasync付きならasync付き関数になります。
@@ -97,12 +93,12 @@ export const InitModalControl = <T = any>(arg?: {
   closeAfter?: OptionalFunction<T>;
 }): ModalControl<T> => {
   // if (arg === undefined) arg = {};
-  const noneInitMessage = 'が初期化されていません';
+  const noneInitMessage = "が初期化されていません";
   return {
-    show: () => console.log('[show]' + noneInitMessage),
+    show: () => console.log("[show]" + noneInitMessage),
     showBefore: null,
     showAfter: null,
-    close: () => console.log('[close]' + noneInitMessage),
+    close: () => console.log("[close]" + noneInitMessage),
     closeBefore: null,
     closeAfter: null,
     isShow: false,
@@ -115,8 +111,8 @@ const isAsync = (func: any) => {
   try {
     if (func === null) return false;
     if (func === undefined) return false;
-    if (!('constructor' in func)) return false;
-    return func.constructor.name === 'AsyncFunction';
+    if (!("constructor" in func)) return false;
+    return func.constructor.name === "AsyncFunction";
   } catch {
     return false;
   }
@@ -134,11 +130,11 @@ export const InitModals = (modal: any, nextTick: any) => {
       if (m.showBefore) {
         if (isAsync(m.showBefore)) {
           if ((await m.showBefore(m.state)) === true) {
-            console.info('モーダルのShow動作はキャンセルされました');
+            console.info("モーダルのShow動作はキャンセルされました");
             return;
           }
         } else if (m.showBefore(m.state) === true) {
-          console.info('モーダルのShow動作はキャンセルされました');
+          console.info("モーダルのShow動作はキャンセルされました");
           return;
         }
       }
@@ -155,11 +151,11 @@ export const InitModals = (modal: any, nextTick: any) => {
       if (m.closeBefore) {
         if (isAsync(m.closeBefore)) {
           if ((await m.closeBefore(m.state)) === true) {
-            console.info('モーダルのClose動作はキャンセルされました');
+            console.info("モーダルのClose動作はキャンセルされました");
             return;
           }
         } else if (m.closeBefore(m.state) === true) {
-          console.info('モーダルのClose動作はキャンセルされました');
+          console.info("モーダルのClose動作はキャンセルされました");
           return;
         }
       }
