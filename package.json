@@ -35,6 +35,11 @@
       "import": "./dist/runtime/utils/float.js",
       "require": "./dist/runtime/utils/float.js"
     },
+    "./utils/modal": {
+      "types": "./dist/runtime/utils/modal.d.ts",
+      "import": "./dist/runtime/utils/modal.js",
+      "require": "./dist/runtime/utils/modal.js"
+    },
     "./utils/multi-lang-object": {
       "types": "./dist/runtime/utils/multi-lang-object.d.ts",
       "import": "./dist/runtime/utils/multi-lang-object.js",

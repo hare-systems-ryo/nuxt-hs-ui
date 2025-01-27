@@ -1,11 +1,33 @@
-<!--
-Get your module up and running quickly.
+# nuxt-hs-ui
 
-Find and replace all on all files (CMD+SHIFT+F):
-- Name: My Module
-- Package name: my-module
-- Description: My new Nuxt module
--->
+.......
+ 
 
-# My Module
+## Installation
 
+```sh
+npm i nuxt-hs-ui
+```
+
+### Nuxt
+
+```ts
+import twConfig from "./tailwind.config";
+export default defineNuxtConfig({
+  modules: [
+    //
+    [
+      "nuxt-hs-ui",
+      {
+        tailwind: twConfig,
+        prefix: {
+          nuxtUi: "",
+          form: "",
+          interactive: "",
+          layout: "",
+        },
+      },
+    ],
+  ],
+});
+```
