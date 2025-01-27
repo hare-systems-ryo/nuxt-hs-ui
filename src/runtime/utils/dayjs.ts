@@ -21,10 +21,7 @@ export const DayjsInit = () => {
   init = true;
   dayjs.extend(utc);
   dayjs.extend(timezone);
-  // dayjs.extend(customParseFormat);
   dayjs.extend(advancedFormat);
-  dayjs.extend(utc);
-  dayjs.extend(timezone);
   dayjs.tz.setDefault(defaultTimezone);
   dayjs.locale(ja);
 };
@@ -34,7 +31,7 @@ export const DayjsInit = () => {
 export const defaultTimezone = "Asia/Tokyo";
 // ----------------------------------------------------------------------------
 
-/** Dayjsオブジェクトを生成 */
+/** dayjsオブジェクト生成 */
 export const Dayjs = (
   arg?: string | number | Dayjs | Date | null | undefined
 ): Dayjs => {
@@ -42,7 +39,8 @@ export const Dayjs = (
   return dayjs(arg);
 };
 
-/** 日付オブジェクト(Null許容) */
+/** dayjsオブジェクト生成
+ * - 日付返還できない場合 Nullを返す */
 export const DayjsNullable = (
   date?: string | null | Date | undefined
 ): Dayjs | null => {
@@ -88,19 +86,21 @@ export const DayjsDiff = (
  * 時差を取得する
  * - str:format()
  */
-export const GetTimeShiftValue = (date: Dayjs | null) => {
+export const GetTimeShiftValue = (
+  date: Dayjs | null,
+  timeZone = defaultTimezone
+) => {
   if (date === null) return 0;
   const format = `YYYY-MM-DD HH:mm`;
   const a = date.format(format);
-  const b = date.tz(defaultTimezone).format(format);
+  const b = date.tz(timeZone).format(format);
   // console.log([a, b]);
   const diff = DayjsDiff(Dayjs(a), Dayjs(b), "m");
   return diff === null ? 0 : diff;
 };
 
 /**
- * 日付の差分を計測
- * -  date - diff
+ * 日付の時間部分を[00:00:00.000]にする
  */
 export const DateOnly = (date: string | null) => {
   if (date === null) {
@@ -120,7 +120,7 @@ export const DateOnly = (date: string | null) => {
 };
 
 /**
- * 不確定な日付データをフォーマットされた日付に変換される
+ * 日付文字列をフォーマットされた日付に変換される
  * @param  date 文字列、日付オブジェクト
  * @returns 変換OKならDayjsフォーマット文字列、それ以外は空文字
  */
@@ -146,7 +146,7 @@ export const DayjsFormat = (
 };
 
 /**
- * 不確定な日付データをフォーマットされた日付に変換される
+ * 日付文字列をフォーマットされた日付に変換される(変換不可の場合、null)
  * @param  date 文字列、日付オブジェクト
  * @returns 変換OKならDayjsフォーマット文字列、それ以外はnull
  */
@@ -171,6 +171,7 @@ export const DayjsSetTimezone = (tz = defaultTimezone) => {
   dayjs.tz.setDefault(tz);
 };
 
+/** Prismaの日付型の条件式を生成する関数 */
 export const DayjsBetweenWhereQuery = (arg: {
   from: string | null;
   to: string | null;

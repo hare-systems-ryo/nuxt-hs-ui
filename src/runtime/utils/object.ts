@@ -14,26 +14,28 @@ export const GetMapValue = <T>(
 
 /**
  * オブジェクトをJSON経由でコピーします
+ * - JSON.parse(JSON.stringify(obj));
  */
 export const ObjectCopy = <T>(obj: T): T => {
   return JSON.parse(JSON.stringify(obj));
 };
 
 /**
- * オブジェクトのキー配列を返します
+ * Object.keys
  */
 export const ObjectKeys = <T>(obj: T): (keyof T)[] => {
   return Object.keys(obj as any) as (keyof T)[];
 };
 /**
- * オブジェクトのキー配列を返します
+ * Object.values
  */
 export const ObjectValues = <T>(obj: T): T[keyof T][] => {
   return Object.values(obj as any) as T[keyof T][];
 };
 
 /**
- * オブジェクトのキー配列を返します
+ * オブジェクトのキーを再利用して
+ * Value値をinitDataにした新しいオブジェクトを生成します
  */
 export const ObjectKeyToMap = <T, T2>(
   obj: T,

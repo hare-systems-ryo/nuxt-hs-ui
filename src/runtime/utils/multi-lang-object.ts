@@ -5,10 +5,8 @@
 ----------------------------------------------------------------------------- */
 
 import type { SelectItem } from "./select-item";
-import { GetTextByMultiLang } from "./multi-lang";
+import { GetTextByMultiLang, type MultiLang } from "./multi-lang";
 import { ObjectValues } from "./object";
-
-export type MultiLang = string | { [key: string]: string };
 
 // ----------------------------------------------------------------------------
 export type KeyNumber = { [key: string]: number };

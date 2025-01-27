@@ -6,7 +6,7 @@
 
 import BigNumber from "bignumber.js";
 // [ 変換 ]
-
+/** 小数点含む数値文字列の数値変換 変換失敗=0 */
 export const Float = (i: any, digits = 0): number => {
   try {
     const str = `${String(i).replace(/(\\|,|-$)/g, "")}`;
@@ -22,6 +22,7 @@ export const Float = (i: any, digits = 0): number => {
   }
 };
 
+/** 小数点含む数値文字列の数値変換 変換失敗=null */
 export const FloatNullable = (i: any, digits = 0): number | null => {
   try {
     // console.log('hoge')

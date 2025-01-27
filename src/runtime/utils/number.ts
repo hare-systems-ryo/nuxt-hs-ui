@@ -77,6 +77,7 @@ export const InsertComma = (
  * 数値をカンマを挿入した文字列に変換する
  * @param  num 数値
  * @returns カンマが挿入された文字列
+ * - 例 12,000,000  => 12,000
  */
 export const InsertCommaK = (num: number | string | null) => {
   num = Int(num) * 100;
