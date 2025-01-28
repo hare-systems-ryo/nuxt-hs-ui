@@ -27,7 +27,7 @@ const classStyle = computed(() => {
     "mx-auto px-2",
     props.fluid
       ? "w-full"
-      : "max-w-full xs:max-w-[600px] md:max-w-[700px]  lg:max-w-[950px] xl:max-w-[1200px] 2xl:max-w-[1450px]",
+      : "w-full xs:max-w-[600px] md:max-w-[700px]  lg:max-w-[950px] xl:max-w-[1200px] 2xl:max-w-[1450px]",
     ClassTypeToString(props.class)
   );
 });
