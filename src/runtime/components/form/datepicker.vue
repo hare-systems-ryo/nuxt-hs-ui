@@ -171,6 +171,13 @@ type Emits = {
 };
 const emit = defineEmits<Emits>();
 // ----------------------------------------------------------------------------
+const slots = defineSlots<{
+  default(props: { msg: string }): any;
+  overlay?(): any;
+  "right-icons"?(): any;
+  "left-icons"?(): any;
+}>();
+// ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 // [ getCurrentInstance ]
 const uid = useId();
@@ -733,15 +740,19 @@ const computedIsFocusOpenBtn = computed(() => {
     :warn-time-out="props.warnTimeOut"
     :size="props.size"
   >
-    <template v-if="!props.readonly" #left-icons="{ disabled: iconDisabled }">
+    <template v-if="slots.overlay" #overlay>
+      <slot name="overlay"></slot>
+    </template>
+    <template v-if="!props.readonly" #left-icons>
+      <slot name="left-icons" :disabled="disabled" />
       <button
         ref="openBtn"
         data-sep="right"
         data-icon="calendar"
         :tabindex="tabindex"
-        :disabled="iconDisabled"
+        :disabled="disabled"
         :class="
-          !iconDisabled
+          !disabled
             ? 'cursor-pointer hover:bg-accent1/[0.1] active:bg-accent1/[0.2]'
             : ''
         "
@@ -821,20 +832,20 @@ const computedIsFocusOpenBtn = computed(() => {
         {{ props.mode === "month" ? "Now" : "Today" }}
       </span>
     </div>
-    <template
-      v-if="!props.hideDeleteBtn && !props.readonly"
-      #right-icons="{ disabled: iconDisabled }"
-    >
-      <div
-        :class="
-          !iconDisabled
-            ? 'text-error cursor-pointer hover:bg-error/[0.1] active:bg-error/[0.2]'
-            : ''
-        "
-        @click="iconEventDelete()"
-      >
-        <i class="fa-solid fa-delete-left"></i>
-      </div>
+    <template v-if="slots['right-icons']" #right-icons>
+      <template v-if="!props.hideDeleteBtn && !props.readonly">
+        <div
+          :class="
+            !disabled
+              ? 'text-error cursor-pointer hover:bg-error/[0.1] active:bg-error/[0.2]'
+              : ''
+          "
+          @click="iconEventDelete()"
+        >
+          <i class="fa-solid fa-delete-left"></i>
+        </div>
+      </template>
+      <slot name="right-icons" :disabled="disabled" />
     </template>
   </InputFrame>
 </template>

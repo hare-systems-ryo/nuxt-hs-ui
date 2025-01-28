@@ -123,7 +123,13 @@ type Emits = {
   "value-change": [after: number[], before: number[], id: number];
 };
 const emit = defineEmits<Emits>();
-
+// ----------------------------------------------------------------------------
+const slots = defineSlots<{
+  default(props: { msg: string }): any;
+  overlay?(): any;
+  "right-icons"?(): any;
+  "left-icons"?(): any;
+}>();
 // ----------------------------------------------------------------------------
 
 // [ 選択肢配列 ]
@@ -313,7 +319,13 @@ const itemClass = computed(() => {
     :warn-time-out="props.warnTimeOut"
     :size="props.size"
   >
-    <template v-if="$slots.overlay" #overlay>
+    <template v-if="slots['left-icons']" #left-icons>
+      <slot name="left-icons" :disabled="disabled" />
+    </template>
+    <template v-if="slots['right-icons']" #right-icons>
+      <slot name="right-icons" :disabled="disabled" />
+    </template>
+    <template v-if="slots.overlay" #overlay>
       <slot name="overlay"></slot>
     </template>
     <div class="nac-input-box" @mousedown.stop="" @mouseup.stop="">

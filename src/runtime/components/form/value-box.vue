@@ -160,6 +160,13 @@ type Emits = {
 };
 const emit = defineEmits<Emits>();
 // ----------------------------------------------------------------------------
+const slots = defineSlots<{
+  default(props: { msg: string }): any;
+  overlay?(): any;
+  "right-icons"?(): any;
+  "left-icons"?(): any;
+}>();
+// ----------------------------------------------------------------------------
 // [ getCurrentInstance ]
 const uid = useId();
 
@@ -544,6 +551,12 @@ watch(
     :size="props.size"
     @click="elmFocus"
   >
+    <template v-if="slots['left-icons']" #left-icons>
+      <slot name="left-icons" :disabled="disabled" />
+    </template>
+    <template v-if="slots.overlay" #overlay>
+      <slot name="overlay"></slot>
+    </template>
     <div class="flex items-end justify-end">
       <div class="flex-1">
         <input
@@ -601,6 +614,7 @@ watch(
           <i class="fas fa-caret-down"></i>
         </div>
       </div>
+      <slot name="right-icons" :disabled="disabled" />
     </template>
   </InputFrame>
 </template>

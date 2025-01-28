@@ -130,6 +130,13 @@ type Emits = {
 };
 const emit = defineEmits<Emits>();
 // ----------------------------------------------------------------------------
+const slots = defineSlots<{
+  default(props: { msg: string }): any;
+  overlay?(): any;
+  "right-icons"?(): any;
+  "left-icons"?(): any;
+}>();
+// ----------------------------------------------------------------------------
 // [ getCurrentInstance ]
 const uid = useId();
 // ----------------------------------------------------------------------------
@@ -380,6 +387,15 @@ const inputClass = computed(() => {
     :warn-time-out="props.warnTimeOut"
     :size="props.size"
   >
+    <template v-if="slots['left-icons']" #left-icons>
+      <slot name="left-icons" :disabled="disabled" />
+    </template>
+    <template v-if="slots['right-icons']" #right-icons>
+      <slot name="right-icons" :disabled="disabled" />
+    </template>
+    <template v-if="slots.overlay" #overlay>
+      <slot name="overlay"></slot>
+    </template>
     <div class="nac-input">
       <div
         class="radio-row"
@@ -479,10 +495,14 @@ const inputClass = computed(() => {
                 />
                 <div class="radio-text truncate">
                   {{ tx(row.text) }}
-                  <span v-if="row.deleted" class="text-error text-[0.7em] leading-[1em]"
+                  <span
+                    v-if="row.deleted"
+                    class="text-error text-[0.7em] leading-[1em]"
                     >※削除済み</span
                   >
-                  <span v-if="row.hidden" class="text-error text-[0.7em] leading-[1em]"
+                  <span
+                    v-if="row.hidden"
+                    class="text-error text-[0.7em] leading-[1em]"
                     >※非表示</span
                   >
                 </div>

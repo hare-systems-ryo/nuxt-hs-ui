@@ -129,6 +129,13 @@ type Emits = {
 };
 const emit = defineEmits<Emits>();
 // ----------------------------------------------------------------------------
+const slots = defineSlots<{
+  default(props: { msg: string }): any;
+  overlay?(): any;
+  "right-icons"?(): any;
+  "left-icons"?(): any;
+}>();
+// ----------------------------------------------------------------------------
 // [ getCurrentInstance ]
 const uid = useId();
 // ----------------------------------------------------------------------------
@@ -280,6 +287,15 @@ const selectClose = () => {
     :warn-time-out="props.warnTimeOut"
     :size="props.size"
   >
+    <template v-if="slots['left-icons']" #left-icons>
+      <slot name="left-icons" :disabled="disabled" />
+    </template>
+    <template v-if="slots['right-icons']" #right-icons>
+      <slot name="right-icons" :disabled="disabled" />
+    </template>
+    <template v-if="slots.overlay" #overlay>
+      <slot name="overlay"></slot>
+    </template>
     <div
       v-if="displayData === null"
       class="absolute inset-0 flex items-center px-1 pointer-events-none text-[0.9em]"

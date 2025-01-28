@@ -130,8 +130,9 @@ const emit = defineEmits<Emits>();
 // ----------------------------------------------------------------------------
 const slots = defineSlots<{
   default(props: { msg: string }): any;
-  "right-icons"(): any;
-  "left-icons"(): any;
+  overlay?(): any;
+  "right-icons"?(): any;
+  "left-icons"?(): any;
 }>();
 // ----------------------------------------------------------------------------
 // [ getCurrentInstance ]
@@ -307,10 +308,13 @@ const dataListId = ref(`textbox-list-${uid}`);
     @click="elmFocus"
   >
     <template v-if="slots['left-icons']" #left-icons>
-      <slot name="left-icons" />
+      <slot name="left-icons" :disabled="disabled" />
     </template>
     <template v-if="slots['right-icons']" #right-icons>
-      <slot name="left-icons" />
+      <slot name="right-icons" :disabled="disabled" />
+    </template>
+    <template v-if="slots.overlay" #overlay>
+      <slot name="overlay"></slot>
     </template>
     <template v-if="props.maxLen > 0" #header-right="{ defaultClass }">
       <div :class="[defaultClass, lenLabelClass]">
