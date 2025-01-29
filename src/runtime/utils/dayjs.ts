@@ -16,8 +16,8 @@ export type QUnitType = dayjs.QUnitType;
 export type OpUnitType = dayjs.OpUnitType;
 let init = false;
 
-export const DayjsInit = () => {
-  if (init) return;
+export const DayjsInit = (f = false) => {
+  if (init && !f) return;
   init = true;
   dayjs.extend(utc);
   dayjs.extend(timezone);
