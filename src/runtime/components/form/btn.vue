@@ -423,7 +423,9 @@ const btnTvIndicator = computed(() => {
 });
 
 const btnTvBody = computed(() => {
-  return ui.value.body({});
+  return ui.value.body({
+    class: ClassTypeToString(props.classInner),
+  });
 });
 
 const btnTvOverlay = computed(() => {
