@@ -46,7 +46,7 @@ const buttonTv = tv({
   variants: {
     size: {
       xs: { base: ["text-[14px] leading-[1.4em] min-h-[32px]"] },
-      s: { base: ["text-[14px] leading-[1.5em]  min-h-[38px]"] },
+      s: { base: ["text-[14px] leading-[1.5em]  min-h-[44px]"] },
       m: { base: ["text-[16px] leading-[1.5em]  min-h-[48px]"] },
       l: { base: ["text-[1.2rem] leading-[1.6em]  min-h-[60px]"] },
       xl: { base: ["text-[1.4rem]  leading-[1.6em]  min-h-[70px]"] },
