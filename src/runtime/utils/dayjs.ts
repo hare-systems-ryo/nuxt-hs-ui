@@ -33,10 +33,11 @@ export const defaultTimezone = "Asia/Tokyo";
 
 /** dayjsオブジェクト生成 */
 export const Dayjs = (
-  arg?: string | number | Dayjs | Date | null | undefined
+  arg?: string | number | Dayjs | Date | null | undefined,
+  format?: string | undefined
 ): Dayjs => {
-  if (arg === null || arg === undefined) return dayjs();
-  return dayjs(arg);
+  if (arg === null || arg === undefined) return dayjs(arg, format);
+  return dayjs(arg, format);
 };
 
 /** dayjsオブジェクト生成
