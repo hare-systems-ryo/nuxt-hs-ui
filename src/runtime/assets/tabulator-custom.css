@@ -169,3 +169,20 @@
 .table-sort-icon.down::before {
     content: ""
 }
+
+.tabulator-page-size {
+    color: rgb(27, 27, 28);
+}
+
+.tabulator-page.active {
+    color           : rgb(255, 255, 255) !important;
+    background-color: #3E7EDD !important;
+}
+
+.tabulator-page {
+    border: solid 1px white !important;
+}
+
+.tabulator .w-full {
+    width: 100%;
+}

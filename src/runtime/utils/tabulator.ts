@@ -120,13 +120,13 @@ export const Option = (option?: any) => {
           pagination: {
             page_size: "表示件数",
             page_title: "Show Page",
-            first: "", // text for the first page button
+            first: "<<", // text for the first page button
             first_title: "最初のページ", // tooltip text for the first page button
-            last: "",
+            last: ">>",
             last_title: "最後のページ",
-            prev: "",
+            prev: "<",
             prev_title: "Prev Page",
-            next: "",
+            next: ">",
             next_title: "Next Page",
             all: "All",
             counter: {
