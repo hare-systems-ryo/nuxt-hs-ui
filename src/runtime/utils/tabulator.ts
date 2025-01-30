@@ -237,7 +237,7 @@ export const GetHeaderHtml = (html: string) =>
 // ----------------------------------------------------------------------------
 /** Data-Row-Table ボタン列 */
 export const GetListTableBtnSetting = (arg: {
-  detailUrl: string;
+  detailUrl: string | null;
   mode: "select" | "detail";
   actionBtnTheme: Theme;
   componentName: string;
@@ -262,11 +262,11 @@ export const GetListTableBtnSetting = (arg: {
     formatter: (cell: any) => {
       const row: any = cell.getRow().getData();
       // ----------------------------------------------------------------------------
-      const baseUrl = detailUrl;
-      const herf =
-        mode === "detail"
-          ? `href="${baseUrl.replace(/new/, "")}${row.pId}"`
-          : "";
+      const herf = (() => {
+        if (mode !== "detail") return "";
+        if (!detailUrl) return "";
+        return `href="${detailUrl.replace(/new$/, "")}${row.pId}"`;
+      })();
       // ----------------------------------------------------------------------------
       const style = [
         `border:solid 2px ${GetGolorCode(actionBtnTheme)}`,
