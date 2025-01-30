@@ -4,6 +4,14 @@
 ---------------------------------------------------------------------------- */
 // const fixedHeader = "shadow-lg fixed left-0 top-0 right-0 z-50";
 // const fixedContent = "mt-[60px]";
+const multiLang = useHsMultiLang();
+const toggleLang = () => {
+  if (multiLang.lang === "ja") {
+    multiLang.state.lang = "en";
+  } else {
+    multiLang.state.lang = "ja";
+  }
+};
 </script>
 <template>
   <div class="">
@@ -22,8 +30,9 @@
         <Btn to="/hs-layout" theme="white" variant="text" class="">
           Layout
         </Btn>
-        <Btn to="/hs-misc" theme="white" variant="text" class="">
-          MISC
+        <Btn to="/hs-misc" theme="white" variant="text" class=""> MISC </Btn>
+        <Btn theme="white" variant="text" class="" @click="toggleLang()">
+          {{ multiLang.lang }}
         </Btn>
       </div>
       <div class="bg-white absolute top-full left-0 right-0 h-[1px]"></div>

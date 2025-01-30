@@ -10,8 +10,8 @@
 import dayjs from "dayjs/esm/index";
 import flatpickr from "flatpickr";
 import monthSelectPlugin from "flatpickr/dist/plugins/monthSelect";
-import { Japanese as ja } from "flatpickr/dist/l10n/ja";
-import { english as en } from "flatpickr/dist/l10n/default";
+import { Japanese as ja } from "flatpickr/dist/l10n/ja.js";
+import { english as en } from "flatpickr/dist/l10n/default.js";
 // [ vueuse ]
 import { useMounted } from "@vueuse/core";
 // [ NUXT ]
@@ -24,6 +24,7 @@ import {
   onMounted,
   nextTick,
   onUnmounted,
+  // useHead,
 } from "#imports";
 // [ utils ]
 import type { ClassType } from "../../utils/class-style";
@@ -35,6 +36,16 @@ import { useHsToast } from "../../composables/use-hs-toast";
 import { useHsMultiLang } from "../../composables/use-hs-multi-lang";
 // [ Components ]
 import InputFrame from "./input-frame.vue";
+
+// useHead({
+//   script: [
+//     //
+
+//     { src: `https://npmcdn.com/flatpickr/dist/flatpickr.min.js` },
+//     { src: `https://npmcdn.com/flatpickr/dist/l10n/ja.js` },
+//     { src: `https://npmcdn.com/flatpickr/dist/l10n/default.js` },
+//   ],
+// });
 
 // ----------------------------------------------------------------------------
 // [ nac-stroe ]
@@ -388,11 +399,9 @@ const generateFlatPickerOption = () => {
   if (inputElement.value != null) {
     dayjs.locale(multiLang.state.lang);
     switch (multiLang.state.lang) {
+      case "jp":
       case "ja":
         state.option.locale = ja;
-        break;
-      case "en":
-        state.option.locale = en;
         break;
       default:
         state.option.locale = en;
