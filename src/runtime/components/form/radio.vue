@@ -40,6 +40,7 @@ type Props = {
   classRow?: ClassType;
   classImg?: ClassType;
   classImgTag?: ClassType;
+  nullable?: boolean;
   // ----------------------------------------------------------------------------
   data: number | null;
   diff?: number | null | undefined;
@@ -202,7 +203,7 @@ const displayList = computed<SelectItemShow[]>(() => {
     unKnownData: unKnownData.value,
     unKnownSelected: unKnownSelected.value,
     isShowHidden: isShowHidden.value,
-    require: props.require,
+    require: props.require || !props.nullable,
     nullText: props.nullText,
   }).map((row) => {
     return {
