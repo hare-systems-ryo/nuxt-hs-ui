@@ -9,7 +9,8 @@
 // [ node-modules ]
 import dayjs from "dayjs/esm/index";
 // flatpickr cdn 経由で使用する
-// import flatpickr from "flatpickr";
+import flatpickr from "flatpickr";
+import monthSelectPlugin from "flatpickr/dist/plugins/monthSelect";
 // [ vueuse ]
 import { useMounted } from "@vueuse/core";
 // [ NUXT ]
@@ -22,12 +23,16 @@ import {
   onMounted,
   nextTick,
   onUnmounted,
-  useHead,
+  // useHead,
 } from "#imports";
 // [ utils ]
 import { Sleep } from "../../utils/com";
 import type { ClassType } from "../../utils/class-style";
 import { GetTimeShiftValue, Dayjs, DayjsInit } from "../../utils/dayjs";
+// [ utils ]
+
+import { ja } from "../../types/flatpickr/ja";
+import { en } from "../../types/flatpickr/default";
 // [ composables ]
 import { useHsMisc } from "../../composables/use-hs-misc";
 import { useHsFocus } from "../../composables/use-hs-focus";
@@ -36,16 +41,16 @@ import { useHsMultiLang } from "../../composables/use-hs-multi-lang";
 // [ Components ]
 import InputFrame from "./input-frame.vue";
 
-useHead({
-  script: [
-    //
-    // https://npmcdn.com/flatpickr@4.6.13/dist/plugins/monthSelect/index.js
-    { src: `https://npmcdn.com/flatpickr/dist/flatpickr.min.js` },
-    { src: `https://npmcdn.com/flatpickr/dist/plugins/monthSelect` },
-    { src: `https://npmcdn.com/flatpickr/dist/l10n/ja.js` },
-    { src: `https://npmcdn.com/flatpickr/dist/l10n/default.js` },
-  ],
-});
+// useHead({
+//   script: [
+//     //
+//     // https://npmcdn.com/flatpickr@4.6.13/dist/plugins/monthSelect/index.js
+//     //{ src: `https://npmcdn.com/flatpickr/dist/flatpickr.min.js` },
+//     { src: `https://npmcdn.com/flatpickr/dist/plugins/monthSelect` },
+//     { src: `https://npmcdn.com/flatpickr/dist/l10n/ja.js` },
+//     { src: `https://npmcdn.com/flatpickr/dist/l10n/default.js` },
+//   ],
+// });
 
 // ----------------------------------------------------------------------------
 // [ nac-stroe ]
@@ -59,7 +64,6 @@ const hsMisc = useHsMisc();
 const isMounted = useMounted();
 // ----------------------------------------------------------------------------
 // flatpickr
-// const MonthSelectPlugin: any = monthSelectPlugin;
 const timeDateFormat = "YYYY-MM-DD HH:mm:ss.SSS";
 const timeOutputDateFormat = "HH:mm:ss.SSS";
 const timeShowDateFormat = "HH:mm";
@@ -209,7 +213,7 @@ const state = reactive<State>({
   date: null,
   option: {
     dateFormat: "Z",
-    locale: "ja",
+    locale: ja,
     time_24hr: true,
     minDate: undefined,
     maxDate: undefined,
@@ -355,9 +359,8 @@ const initFlatPickerOption = () => {
     state.option.disableMobile = true;
   }
   if (props.mode === "month") {
-    const monthSelectPlugin = (window as any).monthSelectPlugin;
     state.option.plugins = [
-      new monthSelectPlugin({
+      new (monthSelectPlugin as any)({
         shorthand: true, // デフォルトはfalse
         dateFormat: "m.y", // デフォルトは"F Y"
         altFormat: "F Y", // デフォルトは"F Y"
@@ -401,15 +404,14 @@ const generateFlatPickerOption = () => {
     switch (multiLang.state.lang) {
       case "jp":
       case "ja":
-        state.option.locale = "ja";
+        state.option.locale = ja;
         break;
       default:
-        state.option.locale = "en";
+        state.option.locale = en;
         break;
     }
     // state.option.position = 'above';
     // state.option.static = true;
-    const flatpickr = (window as any).flatpickr;
     state.picker = flatpickr(inputElement.value, state.option);
     state.picker.config.onChange.push(onChange);
     state.picker.config.onOpen.push(onOpen);
@@ -846,7 +848,7 @@ const computedIsFocusOpenBtn = computed(() => {
         {{ props.mode === "month" ? "Now" : "Today" }}
       </span>
     </div>
-    <template v-if="slots['right-icons']" #right-icons>
+    <template #right-icons>
       <template v-if="!props.hideDeleteBtn && !props.readonly">
         <div
           :class="
