@@ -186,3 +186,22 @@
 .tabulator .w-full {
     width: 100%;
 }
+
+.tabulator .h-full {
+    height: 100%;
+}
+
+
+.tabulator .text-end {
+    text-align     : right;
+    justify-content: end;
+}
+
+.tabulator .text-center {
+    text-align     : center;
+    justify-content: center;
+}
+
+.tabulator .cursor-pointer {
+    cursor: pointer;
+}
