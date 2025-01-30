@@ -8,10 +8,8 @@
 
 // [ node-modules ]
 import dayjs from "dayjs/esm/index";
-import flatpickr from "flatpickr";
-import monthSelectPlugin from "flatpickr/dist/plugins/monthSelect";
-import { Japanese as ja } from "flatpickr/dist/l10n/ja.js";
-import { english as en } from "flatpickr/dist/l10n/default.js";
+// flatpickr cdn 経由で使用する
+// import flatpickr from "flatpickr";
 // [ vueuse ]
 import { useMounted } from "@vueuse/core";
 // [ NUXT ]
@@ -24,9 +22,10 @@ import {
   onMounted,
   nextTick,
   onUnmounted,
-  // useHead,
+  useHead,
 } from "#imports";
 // [ utils ]
+import { Sleep } from "../../utils/com";
 import type { ClassType } from "../../utils/class-style";
 import { GetTimeShiftValue, Dayjs, DayjsInit } from "../../utils/dayjs";
 // [ composables ]
@@ -37,15 +36,16 @@ import { useHsMultiLang } from "../../composables/use-hs-multi-lang";
 // [ Components ]
 import InputFrame from "./input-frame.vue";
 
-// useHead({
-//   script: [
-//     //
-
-//     { src: `https://npmcdn.com/flatpickr/dist/flatpickr.min.js` },
-//     { src: `https://npmcdn.com/flatpickr/dist/l10n/ja.js` },
-//     { src: `https://npmcdn.com/flatpickr/dist/l10n/default.js` },
-//   ],
-// });
+useHead({
+  script: [
+    //
+    // https://npmcdn.com/flatpickr@4.6.13/dist/plugins/monthSelect/index.js
+    { src: `https://npmcdn.com/flatpickr/dist/flatpickr.min.js` },
+    { src: `https://npmcdn.com/flatpickr/dist/plugins/monthSelect` },
+    { src: `https://npmcdn.com/flatpickr/dist/l10n/ja.js` },
+    { src: `https://npmcdn.com/flatpickr/dist/l10n/default.js` },
+  ],
+});
 
 // ----------------------------------------------------------------------------
 // [ nac-stroe ]
@@ -59,7 +59,7 @@ const hsMisc = useHsMisc();
 const isMounted = useMounted();
 // ----------------------------------------------------------------------------
 // flatpickr
-const MonthSelectPlugin: any = monthSelectPlugin;
+// const MonthSelectPlugin: any = monthSelectPlugin;
 const timeDateFormat = "YYYY-MM-DD HH:mm:ss.SSS";
 const timeOutputDateFormat = "HH:mm:ss.SSS";
 const timeShowDateFormat = "HH:mm";
@@ -209,7 +209,7 @@ const state = reactive<State>({
   date: null,
   option: {
     dateFormat: "Z",
-    locale: ja,
+    locale: "ja",
     time_24hr: true,
     minDate: undefined,
     maxDate: undefined,
@@ -265,12 +265,11 @@ watch(
     computed(() => {
       return [props.minDate, props.maxDate, multiLang.state.lang];
     }).value,
-  () => {
+  async () => {
     // console.log('computed', props.minDate, props.maxDate, isMounted.value);
     if (!isMounted.value) return;
-    setTimeout(() => {
-      resetPicekr();
-    }, 1);
+    await Sleep(1);
+    resetPicekr();
   }
 );
 
@@ -356,8 +355,9 @@ const initFlatPickerOption = () => {
     state.option.disableMobile = true;
   }
   if (props.mode === "month") {
+    const monthSelectPlugin = (window as any).monthSelectPlugin;
     state.option.plugins = [
-      new MonthSelectPlugin({
+      new monthSelectPlugin({
         shorthand: true, // デフォルトはfalse
         dateFormat: "m.y", // デフォルトは"F Y"
         altFormat: "F Y", // デフォルトは"F Y"
@@ -401,14 +401,15 @@ const generateFlatPickerOption = () => {
     switch (multiLang.state.lang) {
       case "jp":
       case "ja":
-        state.option.locale = ja;
+        state.option.locale = "ja";
         break;
       default:
-        state.option.locale = en;
+        state.option.locale = "en";
         break;
     }
     // state.option.position = 'above';
     // state.option.static = true;
+    const flatpickr = (window as any).flatpickr;
     state.picker = flatpickr(inputElement.value, state.option);
     state.picker.config.onChange.push(onChange);
     state.picker.config.onOpen.push(onOpen);
@@ -624,11 +625,15 @@ watch(computedActivate, (value) => {
   }
 });
 
-onMounted(() => {
+onMounted(async () => {
+  await Sleep(1);
+  // setTimeout(() => {
   initFlatPickerOption();
   generateFlatPickerOption();
+  // }, 1);
 });
-onUnmounted(() => {
+onUnmounted(async () => {
+  await Sleep(1);
   if (state.picker != null) {
     state.picker.destroy();
     state.picker = null;

@@ -115,7 +115,6 @@ export default defineNuxtModule<ModuleOptions>({
     _nuxt.options.appConfig.tv = {
       twMerge: true,
       twMergeConfig: {
-        prefix: twConfig.prefix,
         theme: twConfig.theme,
       },
     };
