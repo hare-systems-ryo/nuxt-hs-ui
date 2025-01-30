@@ -80,7 +80,7 @@ const props = withDefaults(defineProps<Props>(), {
   image: false,
   loading: false,
   nullText: "選択してください",
-  nullable: true,
+  nullable: false,
   classCol: "",
   classRow: "",
   classImg: "",
@@ -411,7 +411,11 @@ const inputClass = computed(() => {
         @keydown.right="onKeydown"
       >
         <!-- null -->
-        <div v-if="!props.require" class="radio-col" :class="colClass">
+        <div
+          v-if="!props.require && props.nullable"
+          class="radio-col"
+          :class="colClass"
+        >
           <div
             class="nac-radio"
             :class="[{ disabled: props.disabled, readonly: props.readonly }]"

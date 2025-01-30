@@ -73,21 +73,46 @@ const listB: SelectItem[] = [
         />
         <Radio
           v-model:data="valueA"
-          :diff="valueB"
           :list="listA"
           size="m"
           label="listA:valueA"
         />
         <Radio
           v-model:data="valueA"
-          :diff="valueB"
           :list="listB"
           size="l"
           label="listB:valueA"
         />
-      </div>
 
-      <!-- ------------------------------------------------ -->
+        <Radio
+          v-model:data="valueA"
+          :list="listA"
+          size="m"
+          label="listA:valueA"
+        />
+
+        <Radio
+          v-model:data="valueA"
+          :list="listA"
+          size="m"
+          require
+          label="require"
+        />
+
+        <Radio
+          v-model:data="valueA"
+          :list="listA"
+          size="m"
+          nullable
+          label="nullable"
+        />
+        <Radio
+          v-model:data="valueA"
+          :list="listA"
+          size="m"
+          label="!nullable"
+        />
+      </div>
     </CardItem>
   </Card>
 </template>
