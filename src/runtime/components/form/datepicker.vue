@@ -10,7 +10,7 @@
 import dayjs from "dayjs/esm/index";
 // flatpickr cdn 経由で使用する
 import flatpickr from "flatpickr";
-import monthSelectPlugin from "flatpickr/dist/plugins/monthSelect";
+// import monthSelectPlugin from "flatpickr/dist/plugins/monthSelect";
 // [ vueuse ]
 import { useMounted } from "@vueuse/core";
 // [ NUXT ]
@@ -64,6 +64,7 @@ const hsMisc = useHsMisc();
 const isMounted = useMounted();
 // ----------------------------------------------------------------------------
 // flatpickr
+// const MonthSelectPlugin: any = monthSelectPlugin;
 const timeDateFormat = "YYYY-MM-DD HH:mm:ss.SSS";
 const timeOutputDateFormat = "HH:mm:ss.SSS";
 const timeShowDateFormat = "HH:mm";
@@ -73,7 +74,8 @@ type Props = {
   // ----------------------------------------------------------------------------
   // Input 種類別
   textAlign?: "left" | "center" | "right";
-  mode?: "all" | "date" | "time" | "month";
+  mode?: "all" | "date" | "time";
+  // mode?: "all" | "date" | "time" | "month";
   /** mode=time の場合、[HH:mm:ss.SSS] に固定 */
   dataFormat?: string;
   /** mode=time の場合、[HH:mm] に固定 */
@@ -352,22 +354,20 @@ const initFlatPickerOption = () => {
       state.option.noCalendar = true;
     }
   }
-  if (props.mode === "month") {
-    state.option.disableMobile = true;
-  }
   if (props.disableMobile) {
     state.option.disableMobile = true;
   }
-  if (props.mode === "month") {
-    state.option.plugins = [
-      new (monthSelectPlugin as any)({
-        shorthand: true, // デフォルトはfalse
-        dateFormat: "m.y", // デフォルトは"F Y"
-        altFormat: "F Y", // デフォルトは"F Y"
-        theme: "dark", // デフォルトは"light"
-      }),
-    ];
-  }
+  // if (props.mode === "month") {
+  //   state.option.disableMobile = true;
+  //   state.option.plugins = [
+  //     new MonthSelectPlugin({
+  //       shorthand: true, // デフォルトはfalse
+  //       dateFormat: "m.y", // デフォルトは"F Y"
+  //       altFormat: "F Y", // デフォルトは"F Y"
+  //       theme: "dark", // デフォルトは"light"
+  //     }),
+  //   ];
+  // }
 };
 
 const onOpen = () => {
@@ -505,10 +505,10 @@ const datePickerToday = () => {
   if (props.readonly === true) return;
   if (props.disabled === true) return;
   if (state.date !== null) return;
-  let inputValue = dayjs();
-  if (props.mode === "month") {
-    inputValue = inputValue.startOf("month");
-  }
+  const inputValue = dayjs();
+  // if (props.mode === "month") {
+  //   inputValue = inputValue.startOf("month");
+  // }
   const d = getShiftDayjs(inputValue);
   if (checkDate(d.format("YYYY-MM-DD")) === false) {
     Toast.Warning(
@@ -845,7 +845,8 @@ const computedIsFocusOpenBtn = computed(() => {
         "
         @click.stop="datePickerToday()"
       >
-        {{ props.mode === "month" ? "Now" : "Today" }}
+        <!-- {{ props.mode === "month" ? "Now" : "Today" }} -->
+        Today
       </span>
     </div>
     <template #right-icons>

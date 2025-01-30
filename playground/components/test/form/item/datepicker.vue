@@ -8,7 +8,7 @@
 const valueA = ref<string | null>("2024-12-16");
 const valueB = ref<string | null>(null);
 const modeAll = ref<string | null>(null);
-const modeMonth = ref<string | null>(null);
+// const modeMonth = ref<string | null>(null);
 const modeTime = ref<string | null>(null);
 </script>
 <template>
@@ -77,14 +77,14 @@ const modeTime = ref<string | null>(null);
             label="mode:all"
           />
           <div class="">modeAll : {{ modeAll }}</div>
-          <Datepicker
+          <!-- <Datepicker
             v-model:data="modeMonth"
             mode="month"
             data-format="YYYY-MM-DD "
             show-format="YYYY-MM"
             label="mode:month"
-          />
-          <div class="">modeMonth : {{ modeMonth }}</div>
+          /> -->
+          <!-- <div class="">modeMonth : {{ modeMonth }}</div> -->
           <Datepicker v-model:data="modeTime" mode="time" label="mode:time" />
           <div class="">modeTime : {{ modeTime }}</div>
         </div>
