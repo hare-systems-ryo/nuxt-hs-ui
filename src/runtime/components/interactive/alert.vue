@@ -14,8 +14,8 @@ const alertTv = tv({
     base: [
       //
       `p-2`,
-      "bg-white border-2 border-[var(--main-color)] text-[color-mix(in_srgb,_var(--main-color)_,_#000_30%)]",
-      "rounded-xl overflow-hidden",
+      "bg-white border border-[var(--main-color)] text-[color-mix(in_srgb,_var(--main-color)_,_#000_30%)]",
+      "rounded overflow-hidden",
     ],
     bg: "absolute inset-0 bg-[var(--main-color)] opacity-10",
     inner: "",

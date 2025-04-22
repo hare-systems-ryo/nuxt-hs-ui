@@ -150,13 +150,13 @@ export const Option = (option?: any) => {
           pagination: {
             page_size: "Page Size ",
             page_title: "Show Page",
-            first: "", // text for the first page button
+            first: "<<", // text for the first page button
             first_title: "First", // tooltip text for the first page button
-            last: "",
+            last: ">>",
             last_title: "Last",
-            prev: "",
+            prev: "<",
             prev_title: "Prev ",
-            next: "",
+            next: ">",
             next_title: "Next",
             all: "All",
             counter: {
@@ -185,7 +185,7 @@ export const Option = (option?: any) => {
     option
   );
 };
-export const TabulatorFunc = {
+export const Func = {
   cellMouseOut,
   cellMouseUp,
   cellMouseDown,
