@@ -12,7 +12,8 @@ const isObject = (value: any) => {
 export const GetTextByMultiLang = (
   text: MultiLang,
   lang: string,
-  fallBackLang?: string | undefined
+  fallBackLang?: string | undefined,
+  showLog?: boolean
 ) => {
   if (!isObject(text)) {
     return String(text);
@@ -21,16 +22,21 @@ export const GetTextByMultiLang = (
     return (text as { [key: string]: string })[lang];
   } else if (fallBackLang !== undefined && fallBackLang in (text as any)) {
     // フォールバック
-    console.error(
-      `GetTextByMultiLang :: Language fallback [${lang} -> en]`,
-      text
-    );
+    if (showLog === true) {
+      console.error(
+        `GetTextByMultiLang :: Language fallback [${lang} -> en]`,
+        text
+      );
+    }
+
     return (text as { [key: string]: string })[fallBackLang] || "";
   } else {
-    console.error(
-      `GetTextByMultiLang :: Language Error    [${lang} -> en]`,
-      text
-    );
+    if (showLog === true) {
+      console.error(
+        `GetTextByMultiLang :: Language Error    [${lang} -> en]`,
+        text
+      );
+    }
     return JSON.stringify(text);
   }
 };

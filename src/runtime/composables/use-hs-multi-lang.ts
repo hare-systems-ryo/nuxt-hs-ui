@@ -23,6 +23,7 @@ interface StoreState {
     fallBack: string;
     dateFormat: string;
     isInit: boolean;
+    showLog: boolean;
   };
 
   // apiSetDefaultLang: {
@@ -39,6 +40,7 @@ export const useHsMultiLang = defineStore("HsMultiLang", {
         fallBack: "ja",
         dateFormat: "YYYY-MM-DD",
         isInit: false,
+        showLog: false,
       },
     };
   },
@@ -80,9 +82,14 @@ export const useHsMultiLang = defineStore("HsMultiLang", {
       const state = this.state;
       return computed(() => {
         if (lang) {
-          return GetTextByMultiLang(text, lang, state.fallBack);
+          return GetTextByMultiLang(text, lang, state.fallBack, state.showLog);
         }
-        return GetTextByMultiLang(text, state.lang, state.fallBack);
+        return GetTextByMultiLang(
+          text,
+          state.lang,
+          state.fallBack,
+          state.showLog
+        );
       });
     },
     // ---------------------

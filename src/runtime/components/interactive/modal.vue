@@ -32,7 +32,6 @@ const props = withDefaults(defineProps<Props>(), {
   show: false,
   mounted: true,
   zIndex: undefined,
-  focusLock: false,
   closeable: false,
 });
 
