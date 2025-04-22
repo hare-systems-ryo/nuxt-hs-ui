@@ -59,6 +59,9 @@ export const useHsMultiLang = defineStore("HsMultiLang", {
     }) {
       const state = this.state;
       if (state.isInit) return;
+      if (arg.lang !== undefined) {
+        state.lang = arg.lang;
+      }
       const changeLangFunc =
         arg.changeLangFunc === undefined
           ? (lang: string) => {

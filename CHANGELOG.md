@@ -2,6 +2,18 @@
 
 
 <<<<<<< HEAD
+## v2.1.1
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.1.0...v2.1.1)
+
+### 🏡 Chore
+
+- **release:** V2.0.37 ([366d725](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/366d725))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.1.0
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.0.36...v2.1.0)
