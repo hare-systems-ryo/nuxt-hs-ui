@@ -369,7 +369,7 @@ input {
   appearance: none;
   border: 0px;
   outline: none;
-  line-height: 1em;
+  line-height: 1.4em;
   color: inherit;
   // height: 20px;
 }

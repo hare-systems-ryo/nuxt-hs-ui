@@ -26,6 +26,7 @@ const linkList2 = [
       <div class="grid gap-2">
         <Breadcrumb :links="linkList"></Breadcrumb>
         <Breadcrumb :links="linkList2"></Breadcrumb>
+        <Breadcrumb :links="linkList" class="h-[100px]"></Breadcrumb>
       </div>
     </CardItem>
   </Card>

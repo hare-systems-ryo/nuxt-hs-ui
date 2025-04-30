@@ -33,7 +33,7 @@ const classStyle = computed(() => {
 <template>
   <Card :class="classStyle">
     <CardItem
-      class="px-1 py-1 sm:px-4 sm:py-1 min-w-0"
+      class="px-1 py-1 sm:px-4 sm:py-1 min-w-0 h-full flex-c"
       theme="back"
       variant="body"
     >

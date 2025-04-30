@@ -194,6 +194,8 @@ export const Func = {
   Option,
 };
 
+export const TabulatorFunc = Func;
+
 /**
  * パス禁止文字
  */
