@@ -2,6 +2,18 @@
 
 
 <<<<<<< HEAD
+## v2.1.9
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.1.8...v2.1.9)
+
+### 🩹 Fixes
+
+- Default warning toast duration 300ms -> 3000ms , Corrected the default display time for warning toasts in Form components. ([97fda61](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/97fda61))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.1.8
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.1.7...v2.1.8)
