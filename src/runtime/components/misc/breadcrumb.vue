@@ -20,13 +20,23 @@ import CardItem from "../layout/card-item.vue";
 interface Props {
   class?: ClassType;
   links: { label: string; to?: string }[];
+  classLink?: ClassType;
+  classUnlink?: ClassType;
 }
 const props = withDefaults(defineProps<Props>(), {
   class: "",
+  classLink: "",
+  classUnlink: "",
 });
 
 const classStyle = computed(() => {
   return twMerge(`w-full  min-w-0`, ClassTypeToString(props.class));
+});
+const classStyleLink = computed(() => {
+  return twMerge(`text-main1`, ClassTypeToString(props.classLink));
+});
+const classStyleUnlink = computed(() => {
+  return twMerge(`text-gray-600`, ClassTypeToString(props.classUnlink));
 });
 </script>
 
@@ -43,15 +53,13 @@ const classStyle = computed(() => {
             <NuxtLink
               v-if="item.to !== undefined"
               :to="item.to"
-              class="text-main1"
-              :class="{ hasBefore: index !== 0 }"
+              :class="[classStyleLink, { hasBefore: index !== 0 }]"
             >
               {{ item.label }}
             </NuxtLink>
             <span
               v-else
-              class="text-gray-600"
-              :class="{ hasBefore: index !== 0 }"
+              :class="[classStyleUnlink, { hasBefore: index !== 0 }]"
             >
               {{ item.label }}
             </span>

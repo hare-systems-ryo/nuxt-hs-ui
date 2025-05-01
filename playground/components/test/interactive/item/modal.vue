@@ -5,34 +5,37 @@
 // TestInteractiveItemModal
 // TestInteractiveItemModalTestInteractiveItemModal
 ----------------------------------------------------------------------------- */
-
-import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
-
 const showModal1 = ref(false);
 const showModal2 = ref(false);
-const focusTargetElm1 = ref<HTMLElement | null>(null);
-const focusTargetElm2 = ref<HTMLElement | null>(null);
+const scrollLockA = useHsScrollLock();
+const focusTargetElm1 = useTemplateRef<HTMLElement>("focusTargetElm1");
+watch(focusTargetElm1, (elm) => {
+  scrollLockA.init(elm);
+});
+const scrollLockB = useHsScrollLock();
+const focusTargetElm2 = useTemplateRef<HTMLElement>("focusTargetElm2");
+watch(focusTargetElm2, (elm) => {
+  scrollLockB.init(elm);
+});
+
+onUnmounted(() => {
+  // ロックしたままを回避
+  scrollLockA.unlock();
+  scrollLockB.unlock();
+});
 
 watch(showModal1, (v) => {
-  if (!focusTargetElm1.value) return;
   if (v) {
-    const options = {
-      reserveScrollBarGap: true,
-    };
-    disableBodyScroll(focusTargetElm1.value, options);
+    scrollLockA.lock();
   } else {
-    enableBodyScroll(focusTargetElm1.value);
+    scrollLockA.unlock();
   }
 });
 watch(showModal2, (v) => {
-  if (!focusTargetElm2.value) return;
   if (v) {
-    const options = {
-      reserveScrollBarGap: true,
-    };
-    disableBodyScroll(focusTargetElm2.value, options);
+    scrollLockB.lock();
   } else {
-    enableBodyScroll(focusTargetElm2.value);
+    scrollLockB.unlock();
   }
 });
 const storeModal = useHsModal();
@@ -54,7 +57,7 @@ const storeModal = useHsModal();
     </CardItem>
     <!--  -->
     <Modal :show="showModal1" closeable @close="() => (showModal1 = false)">
-      <Card class="max-h-full h-full" @click.stop>
+      <Card ref="focusTargetElm1" class="max-h-full" @click.stop>
         <CardItem class="bg-main1 text-white" variant="header">
           Modal
           <Btn
@@ -66,11 +69,7 @@ const storeModal = useHsModal();
             Close
           </Btn>
         </CardItem>
-        <CardItem
-          class="bg-back"
-          variant="body"
-          @ref="(e) => (focusTargetElm1 = e)"
-        >
+        <CardItem class="bg-back" variant="body" scroll>
           <Btn color="accent1" variant="flat" @click="showModal2 = true">
             showModal2
           </Btn>
@@ -91,7 +90,11 @@ const storeModal = useHsModal();
     </Modal>
     <!--  -->
     <Modal :show="showModal2" @close="() => (showModal2 = false)">
-      <Card class="max-h-full max-w-full w-[500px]" @click.stop>
+      <Card
+        ref="focusTargetElm2"
+        class="max-h-full max-w-full w-[500px]"
+        @click.stop
+      >
         <CardItem class="bg-main2 text-white" variant="header">
           Modal
           <Btn
@@ -103,12 +106,7 @@ const storeModal = useHsModal();
             Close
           </Btn>
         </CardItem>
-        <CardItem
-          class="bg-back"
-          variant="body"
-          scroll
-          @ref="(e) => (focusTargetElm2 = e)"
-        >
+        <CardItem class="bg-back" variant="body" scroll>
           <div class="py-10">Modal</div>
           <div class="py-10">Modal</div>
           <div class="py-10">Modal</div>
