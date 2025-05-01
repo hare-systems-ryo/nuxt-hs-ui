@@ -75,7 +75,7 @@ const props = withDefaults(defineProps<Props>(), {
   // 表示
   label: "",
   warn: "",
-  warnTimeOut: 300,
+  warnTimeOut: 3000,
   // ----------------------------------------------------------------------------
   // 設定
   size: "m",

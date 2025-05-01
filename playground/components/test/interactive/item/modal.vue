@@ -10,12 +10,12 @@ const showModal2 = ref(false);
 const scrollLockA = useHsScrollLock();
 const focusTargetElm1 = useTemplateRef<HTMLElement>("focusTargetElm1");
 watch(focusTargetElm1, (elm) => {
-  scrollLockA.init(elm);
+  if (elm !== null) scrollLockA.init(elm);
 });
 const scrollLockB = useHsScrollLock();
 const focusTargetElm2 = useTemplateRef<HTMLElement>("focusTargetElm2");
 watch(focusTargetElm2, (elm) => {
-  scrollLockB.init(elm);
+  if (elm !== null) scrollLockB.init(elm);
 });
 
 onUnmounted(() => {

@@ -107,7 +107,7 @@ const props = withDefaults(defineProps<Props>(), {
   require: false,
   requireText: "必須",
   warn: "",
-  warnTimeOut: 300,
+  warnTimeOut: 3000,
   // ----------------------------------------------------------------------------
   // 設定
   size: "m",
