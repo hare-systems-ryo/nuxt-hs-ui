@@ -2,6 +2,10 @@
 
 
 <<<<<<< HEAD
+## v2.1.10
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.1.9...v2.1.10)
+
 ## v2.1.9
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.1.8...v2.1.9)
