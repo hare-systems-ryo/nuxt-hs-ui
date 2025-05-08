@@ -19,8 +19,6 @@ interface StoreState {
     isInit: boolean;
     isReady: boolean;
     isMobile: boolean;
-    isBracke: boolean;
-    spBracke: number;
     // ローディング終了までの時間
     readyDeray: number;
     window: {
@@ -37,9 +35,7 @@ export const useHsMisc = defineStore("HsMisc", {
       state: {
         isInit: false,
         isReady: false,
-        isMobile: false,
-        isBracke: false,
-        spBracke: 768,
+        isMobile: IsMobile(),
         readyDeray: 10,
         window: {
           h: 0,
@@ -51,22 +47,21 @@ export const useHsMisc = defineStore("HsMisc", {
   },
   // ----------------------------------------------------------------------------
   actions: {
+    IsMobile() {
+      return IsMobile();
+    },
     // ---------------------
-    async Init(arg?: { spBracke?: number; readyDeray?: number }) {
+    async Init(arg?: { readyDeray?: number }) {
       await Sleep(0);
       const state = this.state;
       if (state.isInit) return;
       if (arg?.readyDeray) {
         state.readyDeray = arg.readyDeray;
       }
-      if (arg?.spBracke) {
-        state.spBracke = arg.spBracke;
-      }
       state.isInit = true;
       state.isMobile = IsMobile();
       const initWindow = () => {
         useEventListener(window, "resize", () => {
-          state.isBracke = window.innerWidth < state.spBracke;
           state.window = {
             h: window.innerHeight,
             w: window.innerWidth,
@@ -76,7 +71,6 @@ export const useHsMisc = defineStore("HsMisc", {
               ? 0
               : window.innerWidth - document.body.clientWidth;
         });
-        state.isBracke = window.innerWidth < state.spBracke;
         state.window = {
           h: window.innerHeight,
           w: window.innerWidth,

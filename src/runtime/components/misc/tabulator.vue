@@ -10,7 +10,14 @@
 // [ node_modules ]
 import { TabulatorFull as Tabulator } from "tabulator-tables";
 // [ NUXT ]
-import { ref, watch, computed, onMounted, onUnmounted } from "#imports";
+import {
+  ref,
+  watch,
+  computed,
+  onMounted,
+  // onUnmounted,
+  onBeforeUnmount,
+} from "#imports";
 // ----------------------------------------------------------------------------
 // [ utils ]
 import { Option } from "../../utils/tabulator";
@@ -175,7 +182,10 @@ const initTabulator = () => {
 onMounted(() => {
   initTabulator();
 });
-onUnmounted(() => {
+
+onBeforeUnmount(() => {
+  // console.log("onBeforeUnmount");
+  if (tabulator.value === null) return;
   tabulator.value.destroy();
   tabulator.value = null;
 });

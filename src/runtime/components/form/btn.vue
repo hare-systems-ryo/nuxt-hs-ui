@@ -259,6 +259,7 @@ import BtnLineLoading from "./btn-line-loading.vue";
 interface Props {
   class?: ClassType;
   classInner?: ClassType;
+  classOverlay?: ClassType;
   disabled?: boolean;
   to?: string;
   theme?: Theme;
@@ -275,6 +276,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   class: "",
   classInner: "",
+  classOverlay: "",
   to: undefined,
   theme: "accent1",
   variant: "outlined",
@@ -429,7 +431,9 @@ const btnTvBody = computed(() => {
 });
 
 const btnTvOverlay = computed(() => {
-  return ui.value.overlay({});
+  return ui.value.overlay({
+    class: ClassTypeToString(props.classOverlay),
+  });
 });
 
 // ----------------------------------------------------------------------------

@@ -1,4 +1,10 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const hsMisc = useHsMisc();
+
+onMounted(() => {
+  hsMisc.Init();
+});
+</script>
 
 <template>
   <NuxtLayout>

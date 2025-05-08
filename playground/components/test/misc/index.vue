@@ -27,6 +27,15 @@ const changeTestName = (name: string) => {
     router.replace(route.path + "?item=" + name);
   }
 };
+
+// const hsMisc = useHsMisc();
+// // hsMisc.IsMobile();
+// onMounted(() => {
+//   nextTick(() => {
+//     // hsMisc.IsMobile();
+//   });
+// });
+
 // ----------------------------------------------------------------------------
 
 const list = [
