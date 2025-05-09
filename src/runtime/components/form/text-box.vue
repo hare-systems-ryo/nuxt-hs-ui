@@ -42,7 +42,7 @@ type Props = {
     | "decimal"
     | undefined;
   // ----------------------------------------------------------------------------
-  data: string;
+  data: string | null;
   diff?: string | undefined;
   tabindex?: string | undefined;
   // ----------------------------------------------------------------------------
@@ -173,7 +173,7 @@ const updateValue = async (text: string | null) => {
   state.value = setText;
   emit("update:data", setText);
   await nextTick();
-  emit("value-change", setText, before);
+  emit("value-change", setText, before || "");
 };
 
 const setValue = (text: string | null) => {

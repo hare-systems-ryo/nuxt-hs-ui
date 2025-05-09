@@ -152,6 +152,7 @@ const displayData = ref<DisplaySelectItem | null>(null);
 watch(displayData, (v) => {
   const before = props.data;
   if (v === null) {
+    if (before === null) return;
     emit("update:data", null);
     emit("value-change", null, before);
     return;
@@ -160,6 +161,7 @@ watch(displayData, (v) => {
     displayData.value = null;
     return;
   }
+  if (v.id === before) return;
   emit("update:data", v.id);
   emit("value-change", v.id, before);
 });

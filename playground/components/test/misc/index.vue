@@ -28,13 +28,13 @@ const changeTestName = (name: string) => {
   }
 };
 
-// const hsMisc = useHsMisc();
-// // hsMisc.IsMobile();
-// onMounted(() => {
-//   nextTick(() => {
-//     // hsMisc.IsMobile();
-//   });
-// });
+const hsMisc = useHsMisc();
+hsMisc.IsMobile();
+onMounted(() => {
+  nextTick(() => {
+    hsMisc.IsMobile();
+  });
+});
 
 // ----------------------------------------------------------------------------
 
