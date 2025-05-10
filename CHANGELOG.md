@@ -2,6 +2,18 @@
 
 
 <<<<<<< HEAD
+## v2.3.0
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.2.0...v2.3.0)
+
+### 🚀 Enhancements
+
+- Allow selecting variant for interactive dialog buttons ([ad6c133](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/ad6c133))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.2.0
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.1.20...v2.2.0)
