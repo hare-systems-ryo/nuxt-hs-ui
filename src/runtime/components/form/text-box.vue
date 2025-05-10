@@ -43,7 +43,7 @@ type Props = {
     | undefined;
   // ----------------------------------------------------------------------------
   data: string | null;
-  diff?: string | undefined;
+  diff?: string | null | undefined;
   tabindex?: string | undefined;
   // ----------------------------------------------------------------------------
   class?: ClassType;
@@ -120,7 +120,7 @@ type Emits = {
   blur: [elm: HTMLElement];
   // ----------------------------
   "update:data": [value: string];
-  "value-change": [after: string, before: string];
+  "value-change": [after: string, before: string | null];
   // ----------------------------
   keydown: [event: KeyboardEvent];
   keyup: [event: KeyboardEvent];
@@ -173,7 +173,7 @@ const updateValue = async (text: string | null) => {
   state.value = setText;
   emit("update:data", setText);
   await nextTick();
-  emit("value-change", setText, before || "");
+  emit("value-change", setText, before);
 };
 
 const setValue = (text: string | null) => {

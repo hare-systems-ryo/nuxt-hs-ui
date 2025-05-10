@@ -109,12 +109,12 @@ watch(
 const initTabulator = () => {
   // console.log(ct, 'initTabulator');
   if (table.value === null) return;
-  let height = 0;
-  if (props.rowCountHeight !== 0) {
-    height = props.rowCountHeight * 39 + 85 + 2;
-  }
   const option = props.option;
-  option.height = height === 0 ? "" : height;
+  if (props.rowCountHeight !== 0) {
+    let height = 0;
+    height = props.rowCountHeight * 39 + 85 + 2;
+    option.height = height === 0 ? "" : height;
+  }
   option.columns = props.columns;
   option.data = data.value;
   option.reactiveData = false;

@@ -29,8 +29,8 @@ type Props = {
   maxRows?: number;
   maxLen?: number;
   // ----------------------------------------------------------------------------
-  data: string;
-  diff?: string | undefined;
+  data: string | null;
+  diff?: string | null | undefined;
   tabindex?: string | undefined;
   // ----------------------------------------------------------------------------
   class?: ClassType;
@@ -114,7 +114,7 @@ type Emits = {
   blur: [elm: HTMLElement];
   // ----------------------------
   "update:data": [value: string];
-  "value-change": [after: string, before: string];
+  "value-change": [after: string, before: string | null];
   // ----------------------------
   keydown: [event: KeyboardEvent];
   keyup: [event: KeyboardEvent];
