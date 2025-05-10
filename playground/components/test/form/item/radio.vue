@@ -55,6 +55,14 @@ const listB: SelectItem[] = [
     order: 1,
   },
 ];
+
+const listString: SelectItem<string>[] = [
+  { id: `a`, text: "id:a" },
+  { id: `b`, text: "id:b" },
+  { id: `c`, text: "id:c" },
+];
+const listStringData = ref<string | null>(null);
+const listStringDiff = ref<string | null>(null);
 </script>
 <template>
   <Card class="mt-4">
@@ -106,13 +114,19 @@ const listB: SelectItem[] = [
           nullable
           label="nullable"
         />
-        <Radio
-          v-model:data="valueA"
-          :list="listA"
-          size="m"
-          label="!nullable"
-        />
+        <Radio v-model:data="valueA" :list="listA" size="m" label="!nullable" />
       </div>
+      <div>
+        <div class="">文字列がIDキー</div>
+        <div class="">listStringData = {{ listStringData }}</div>
+      </div>
+      <Radio
+        v-model:data="listStringData"
+        :diff="listStringDiff"
+        :list="listString"
+        size="s"
+        label="IDが文字列 listStringData"
+      />
     </CardItem>
   </Card>
 </template>

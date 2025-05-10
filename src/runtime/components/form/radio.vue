@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="IdType extends string|number">
 /* ----------------------------------------------------------------------------
 // src\runtime\components\form\radio.vue
 // ----------------------------------------------------------------------------
@@ -31,7 +31,7 @@ const tx = multiLang.tx;
 type Props = {
   // ----------------------------------------------------------------------------
   // Input 種類別
-  list: SelectItem[];
+  list: SelectItem<IdType>[];
   order?: boolean;
   image?: boolean;
   loading?: boolean;
@@ -42,8 +42,8 @@ type Props = {
   classImgTag?: ClassType;
   nullable?: boolean;
   // ----------------------------------------------------------------------------
-  data: number | null;
-  diff?: number | null | undefined;
+  data: IdType | null;
+  diff?: IdType | null | undefined;
   tabindex?: string | undefined;
   // ----------------------------------------------------------------------------
   class?: ClassType;
@@ -115,6 +115,7 @@ const props = withDefaults(defineProps<Props>(), {
   // 設定
   size: "m",
 });
+type EmitIdType = IdType extends string ? string : number;
 // ----------------------------------------------------------------------------
 // [ emit ]
 type Emits = {
@@ -122,8 +123,8 @@ type Emits = {
   focus: [elm: HTMLElement];
   blur: [elm: HTMLElement];
   // ----------------------------
-  "update:data": [value: number | null];
-  "value-change": [after: number | null, before: number | null];
+  "update:data": [value: EmitIdType | null];
+  "value-change": [after: EmitIdType | null, before: EmitIdType | null];
   // ----------------------------
   keydown: [event: KeyboardEvent];
   keyup: [event: KeyboardEvent];
@@ -150,22 +151,27 @@ const isChangeData = computed(() => {
 // [ ref ]
 
 // ----------------------------------------------------------------------------
-const displayData = ref<DisplaySelectItem | null>(null);
+const displayData = ref<DisplaySelectItem<IdType> | null>(null);
 watch(displayData, (v) => {
   const before = props.data;
   if (v === null) {
     emit("update:data", null);
-    emit("value-change", null, before);
+    emit("value-change", null, before as any as EmitIdType | null);
     return;
   }
   if (v.id === null) {
     displayData.value = null;
     return;
   }
-  emit("update:data", v.id);
-  emit("value-change", v.id, before);
+  emit("update:data", v.id as any as EmitIdType | null);
+  emit(
+    "value-change",
+    v.id as any as EmitIdType | null,
+    before as any as EmitIdType | null
+  );
 });
 const selectedId = computed(() => {
+  console.log("selectedId", displayData.value);
   if (displayData.value === null) {
     return null;
   }
@@ -190,13 +196,14 @@ const includeHidden = computed(() => {
 });
 // ----------------------------------------------------------------------------
 /** 選択肢 */
-interface SelectItemShow extends DisplaySelectItem {
+interface SelectItemShow extends DisplaySelectItem<IdType> {
   elm: HTMLElement | null;
   activate: boolean;
+  i: number;
 }
 
 const displayList = computed<SelectItemShow[]>(() => {
-  return useDisplayList({
+  return useDisplayList<IdType>({
     list: props.list,
     id: props.data,
     order: props.order,
@@ -205,17 +212,18 @@ const displayList = computed<SelectItemShow[]>(() => {
     isShowHidden: isShowHidden.value,
     require: props.require || !props.nullable,
     nullText: props.nullText,
-  }).map((row) => {
+  }).map((row, index) => {
     return {
       ...row,
       elm: null,
       activate: false,
+      i: index,
     };
   });
 });
 // ----------------------------------------------------------------------------
 
-const checkData = (id: number | null) => {
+const checkData = (id: IdType | null) => {
   const ret = displayList.value.find((row) => row.id === id);
   if (ret === undefined) {
     // 選択肢に存在しないコード引当
@@ -426,7 +434,6 @@ const inputClass = computed(() => {
             <input
               :id="`radio${uid}-null`"
               :ref="(e:any) => (inputElementNull = e)"
-              v-bind="(selectedId as any)"
               type="radio"
               :name="`radio${uid}`"
               :tabindex="props.tabindex"
@@ -469,7 +476,6 @@ const inputClass = computed(() => {
               <input
                 :id="`radio${uid}-${row.id}`"
                 :ref="(e:any) => (row.elm = e)"
-                v-bind="(selectedId as any)"
                 type="radio"
                 class=""
                 :name="`radio${uid}`"

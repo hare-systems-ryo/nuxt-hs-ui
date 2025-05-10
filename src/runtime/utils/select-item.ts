@@ -6,8 +6,8 @@
 
 import type { MultiLang } from "./multi-lang";
 
-export interface SelectItem {
-  readonly id: number;
+export interface SelectItem<IdType extends number | string = number> {
+  readonly id: IdType;
   /**
    * 多言語の場合は多言語のオブジェクトをセットする
    */
@@ -33,6 +33,6 @@ export interface SelectItem {
    */
   deleted?: boolean;
 }
-type WithoutRequier = Partial<Omit<SelectItem, "id" | "text">>;
-export type SelectItemOrigin = Omit<SelectItem, keyof WithoutRequier> &
-  WithoutRequier;
+// type WithoutRequier = Partial<Omit<SelectItem, "id" | "text">>;
+// export type SelectItemOrigin = Omit<SelectItem, keyof WithoutRequier> &
+//   WithoutRequier;

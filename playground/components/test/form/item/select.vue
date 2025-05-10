@@ -50,6 +50,21 @@ const listB: SelectItem[] = [
     order: 1,
   },
 ];
+const listString: SelectItem<string>[] = [
+  { id: `a`, text: "id:a" },
+  { id: `b`, text: "id:b" },
+  { id: `c`, text: "id:c" },
+];
+
+const listNumber: SelectItem[] = [
+  { id: 1, text: "id:1" },
+  { id: 2, text: "id:2" },
+  { id: 3, text: "id:3" },
+];
+const listStringData = ref<string | null>(null);
+const listStringDiff = ref<string | null>(null);
+const listNumberData = ref<number | null>(null);
+const listNumberDiff = ref<number | null>(null);
 </script>
 <template>
   <Card class="mt-4">
@@ -135,6 +150,28 @@ const listB: SelectItem[] = [
           </div>
         </div>
       </div>
+      <div>
+        <div class="">文字列がIDキー</div>
+        <div class="">listStringData = {{ listStringData }}</div>
+        <div class="">listNumberData = {{ listNumberData }}</div>
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        <Select
+          v-model:data="listStringData"
+          :diff="listStringDiff"
+          :list="listString"
+          size="s"
+          label="IDが文字列 listStringData"
+        />
+        <Select
+          v-model:data="listNumberData"
+          :diff="listNumberDiff"
+          :list="listNumber"
+          size="s"
+          label="IDが数値 listNumberData"
+        />
+      </div>
+      <div class=""></div>
       <!-- ------------------------------------------------ -->
     </CardItem>
   </Card>

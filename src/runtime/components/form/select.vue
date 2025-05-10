@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="IdType extends string|number">
 /* ----------------------------------------------------------------------------
 // src\runtime\components\form\select.vue
 // ----------------------------------------------------------------------------
@@ -31,7 +31,7 @@ const tx = multiLang.tx;
 type Props = {
   // ----------------------------------------------------------------------------
   // Input 種類別
-  list: SelectItem[];
+  list: SelectItem<IdType>[];
   order?: boolean;
   loading?: boolean;
   nullText?: string;
@@ -40,8 +40,8 @@ type Props = {
   classImgTag?: ClassType;
   nullable?: boolean;
   // ----------------------------------------------------------------------------
-  data: number | null;
-  diff?: number | null | undefined;
+  data: IdType | null;
+  diff?: IdType | null | undefined;
   tabindex?: string | undefined;
   // ----------------------------------------------------------------------------
   class?: ClassType;
@@ -112,14 +112,16 @@ const props = withDefaults(defineProps<Props>(), {
   size: "m",
 });
 // ----------------------------------------------------------------------------
+type EmitIdType = IdType extends string ? string : number;
+
 // [ emit ]
 type Emits = {
   ref: [element: HTMLElement];
   focus: [elm: HTMLElement];
   blur: [elm: HTMLElement];
   // ----------------------------
-  "update:data": [value: number | null];
-  "value-change": [after: number | null, before: number | null];
+  "update:data": [value: EmitIdType | null];
+  "value-change": [after: EmitIdType | null, before: EmitIdType | null];
   // ----------------------------
   keydown: [event: KeyboardEvent];
   keyup: [event: KeyboardEvent];
@@ -148,13 +150,13 @@ const isChangeData = computed(() => {
 // [ ref ]
 
 // ----------------------------------------------------------------------------
-const displayData = ref<DisplaySelectItem | null>(null);
+const displayData = ref<DisplaySelectItem<IdType> | null>(null);
 watch(displayData, (v) => {
   const before = props.data;
   if (v === null) {
     if (before === null) return;
     emit("update:data", null);
-    emit("value-change", null, before);
+    emit("value-change", null, before as any as EmitIdType | null);
     return;
   }
   if (v.id === null) {
@@ -162,8 +164,12 @@ watch(displayData, (v) => {
     return;
   }
   if (v.id === before) return;
-  emit("update:data", v.id);
-  emit("value-change", v.id, before);
+  emit("update:data", v.id as any as EmitIdType | null);
+  emit(
+    "value-change",
+    v.id as any as EmitIdType | null,
+    before as any as EmitIdType | null
+  );
 });
 
 // ----------------------------------------------------------------------------
@@ -186,7 +192,7 @@ const includeHidden = computed(() => {
 // ----------------------------------------------------------------------------
 /** 選択肢 */
 const displayList = computed(() => {
-  return useDisplayList({
+  return useDisplayList<IdType>({
     list: props.list,
     id: props.data,
     order: props.order,
@@ -199,7 +205,7 @@ const displayList = computed(() => {
 });
 // ----------------------------------------------------------------------------
 
-const checkData = (id: number | null) => {
+const checkData = (id: IdType | null) => {
   const ret = displayList.value.find((row) => row.id === id);
   if (ret === undefined) {
     // 選択肢に存在しないコード引当

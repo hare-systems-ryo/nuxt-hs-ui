@@ -6,18 +6,21 @@
 
 import type { SelectItem } from "./select-item";
 
-export type DisplaySelectItem = { id: number | null } & Omit<SelectItem, "id">;
-export const useDisplayList = (arg: {
-  list: SelectItem[];
-  id: number | null;
+export type DisplaySelectItem<IdType extends string | number> = {
+  id: IdType | null;
+} & Omit<SelectItem<IdType>, "id">;
+
+export const useDisplayList = <IdType extends string | number>(arg: {
+  list: SelectItem<IdType>[];
+  id: IdType | null;
   order: boolean;
-  unKnownData: SelectItem | null;
+  unKnownData: SelectItem<IdType> | null;
   unKnownSelected: boolean;
   isShowHidden: boolean;
   require: boolean;
   nullText: string;
 }) => {
-  type ret = { id: number | null } & Omit<SelectItem, "id">;
+  type ret = { id: IdType | null } & Omit<SelectItem<IdType>, "id">;
   //
   const {
     //
@@ -31,7 +34,7 @@ export const useDisplayList = (arg: {
     nullText,
   } = arg;
   //   const displayList = computed(() => {
-  const ret: DisplaySelectItem[] = list
+  const ret: DisplaySelectItem<IdType>[] = list
     .filter((row) => {
       if (row.deleted === true && row.id != id) {
         return false;
