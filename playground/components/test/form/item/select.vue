@@ -23,12 +23,14 @@ const listA: SelectItem[] = [
     text: "id:1",
     order: 1,
     imgUrl: "/assets/code-color-group/gray.png",
+    appendIcon: "fa-solid fa-arrow-up-wide-short w-[1em] text-center",
   },
   {
     id: 2,
     text: "id:2",
     order: 2,
     imgUrl: "/assets/code-color-group/green.png",
+    appendIcon: "fa-solid fa-arrow-up-wide-short w-[1em] text-center",
   },
 ];
 const listB: SelectItem[] = [
@@ -37,25 +39,43 @@ const listB: SelectItem[] = [
     text: "id:1",
     order: 3,
     hidden: true,
+    appendIcon: "fa-solid fa-arrow-up-wide-short w-[1em] text-center",
   },
   {
     id: 2,
     text: "id:2",
     order: 2,
     deleted: true,
+    appendIcon: "fa-solid fa-arrow-up-wide-short w-[1em] text-center",
   },
   {
     id: 3,
     text: "id:3",
     order: 1,
+    appendIcon: "fa-solid fa-arrow-up-wide-short w-[1em] text-center",
   },
 ];
 const listString: SelectItem<string>[] = [
-  { id: `a`, text: "id:a" },
-  { id: `b`, text: "id:b" },
-  { id: `c`, text: "id:c" },
+  {
+    id: `a-asc`,
+    text: "A",
+    appendIcon: "fa-solid fa-arrow-up-wide-short w-[1em] text-center",
+  },
+  {
+    id: `a-desc`,
+    text: "A",
+    appendIcon: "fa-solid fa-arrow-down-wide-short w-[1em] text-center",
+  },
+  {
+    id: `c`,
+    text: "id:c",
+    appendIcon: [
+      "fa-solid fa-thumbs-up me-1 w-[1em] text-center",
+      "fa-solid fa-envelope",
+    ],
+  },
 ];
-
+// <i class=""></i>
 const listNumber: SelectItem[] = [
   { id: 1, text: "id:1" },
   { id: 2, text: "id:2" },

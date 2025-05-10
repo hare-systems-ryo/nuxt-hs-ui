@@ -32,6 +32,8 @@ export interface SelectItem<IdType extends number | string = number> {
    * ただし選択要素は表示する
    */
   deleted?: boolean;
+  /** iタグのアイコンを追加出来る Class */
+  appendIcon?: string | string[];
 }
 // type WithoutRequier = Partial<Omit<SelectItem, "id" | "text">>;
 // export type SelectItemOrigin = Omit<SelectItem, keyof WithoutRequier> &

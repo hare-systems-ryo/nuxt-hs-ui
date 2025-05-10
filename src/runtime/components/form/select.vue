@@ -333,7 +333,9 @@ const selectClose = () => {
     >
       <!--  -->
       <!--  -->
-      <template #selected-option="{ text, imgUrl, deleted, hidden }">
+      <template
+        #selected-option="{ text, imgUrl, deleted, hidden, appendIcon }"
+      >
         <div class="flex items-baseline w-full">
           <SelectImgIcon
             v-if="imgUrl && props.image"
@@ -350,9 +352,15 @@ const selectClose = () => {
           <div v-if="hidden" class="text-error text-[0.7em] leading-[1em]">
             ※非表示
           </div>
+          <span v-if="appendIcon && typeof appendIcon === 'string'">
+            <i :class="appendIcon"></i>
+          </span>
+          <span v-else-if="appendIcon && Array.isArray(appendIcon)">
+            <i v-for="(c, i) in appendIcon" :key="i" :class="c"></i>
+          </span>
         </div>
       </template>
-      <template #option="{ text, imgUrl, deleted, hidden }">
+      <template #option="{ text, imgUrl, deleted, hidden, appendIcon }">
         <div class="flex items-center">
           <SelectImgIcon
             v-if="props.image"
@@ -368,6 +376,12 @@ const selectClose = () => {
           <div v-if="hidden" class="text-error text-[0.7em] leading-[1em]">
             ※非表示
           </div>
+          <span v-if="appendIcon && typeof appendIcon === 'string'">
+            <i :class="appendIcon"></i>
+          </span>
+          <span v-else-if="appendIcon && Array.isArray(appendIcon)">
+            <i v-for="(c, i) in appendIcon" :key="i" :class="c"></i>
+          </span>
         </div>
       </template>
       <template v-if="includeHidden" #list-footer>
@@ -409,9 +423,16 @@ const selectClose = () => {
   > div {
     border-width: 0 !important;
   }
+  &:not(.vs--open).vs--single.vs--searchable .vs__selected {
+    width: 100%;
+  }
+  &.vs--open.vs--single.vs--searchable .vs__selected {
+    width: calc(100% - 0.5em);
+  }
   .vs__selected {
     margin-top: 0 !important;
     margin-bottom: 0 !important;
+    flex: 1 1 auto;
   }
   .vs__selected,
   .vs__selected-options {
