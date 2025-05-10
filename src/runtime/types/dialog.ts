@@ -29,11 +29,13 @@ export interface DialogOption {
     isShow: boolean;
     title: MultiLang;
     theme: Theme;
+    variant: "flat" | "text" | "outlined";
   };
   btnRight: {
     isShow: boolean;
     title: MultiLang;
     theme: Theme;
+    variant: "flat" | "text" | "outlined";
   };
   btnCancel: {
     isShow: boolean;
@@ -54,11 +56,13 @@ export const InitDialogOption = (): DialogOption => {
       isShow: true,
       title: "no",
       theme: "dark",
+      variant: "flat",
     },
     btnRight: {
       isShow: true,
       title: "Yes",
       theme: "accent1",
+      variant: "flat",
     },
     btnCancel: {
       isShow: true,

@@ -260,11 +260,16 @@ const baseCardHeader = [
             {{ tx(activeItem.data.message) }}
           </div>
           <div :class="btnBaseStyle">
-            <div>
+            <div class="flex-cc">
               <Btn
                 v-if="activeItem.data.option.btnLeft.isShow"
-                :class="btnStyle"
-                variant="flat"
+                :class="[
+                  btnStyle,
+                  activeItem.data.option.btnLeft.variant === 'outlined'
+                    ? 'bg-white'
+                    : '',
+                ]"
+                :variant="activeItem.data.option.btnLeft.variant"
                 :theme="activeItem.data.option.btnLeft.theme"
                 @click="clickLeft()"
                 @ref="(e:any) => (leftBtnElm = e)"
@@ -273,11 +278,16 @@ const baseCardHeader = [
                 {{ tx(activeItem.data.option.btnLeft.title) }}
               </Btn>
             </div>
-            <div>
+            <div class="flex-cc">
               <Btn
                 v-if="activeItem.data.option.btnRight.isShow"
-                :class="btnStyle"
-                variant="flat"
+                :class="[
+                  btnStyle,
+                  activeItem.data.option.btnRight.variant === 'outlined'
+                    ? 'bg-white'
+                    : '',
+                ]"
+                :variant="activeItem.data.option.btnRight.variant"
                 :theme="activeItem.data.option.btnRight.theme"
                 @click="clickRight()"
                 @ref="(e:any) => (rightBtnElm = e)"
