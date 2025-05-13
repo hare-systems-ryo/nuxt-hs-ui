@@ -21,7 +21,6 @@ type Props = {
 };
 const props = withDefaults(defineProps<Props>(), {
   class: "",
-  show: false,
   message: "Loading",
 });
 const baseClass = [

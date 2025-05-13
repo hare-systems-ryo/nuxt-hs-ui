@@ -64,8 +64,6 @@ const props = withDefaults(defineProps<Props>(), {
   classImgTag: "",
   classLabel: "",
   // ----------------------------------------------------------------------------
-  // data
-  data: false,
   diff: undefined,
   tabindex: undefined,
   // ----------------------------------------------------------------------------

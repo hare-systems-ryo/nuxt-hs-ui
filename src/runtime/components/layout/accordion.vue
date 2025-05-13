@@ -22,7 +22,6 @@ type Props = {
 };
 const props = withDefaults(defineProps<Props>(), {
   class: "",
-  open: true,
   span: 300,
 });
 

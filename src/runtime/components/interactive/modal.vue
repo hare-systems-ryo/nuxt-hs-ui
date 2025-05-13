@@ -29,7 +29,6 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   class: "",
   classInner: "",
-  show: false,
   mounted: true,
   zIndex: undefined,
   closeable: false,

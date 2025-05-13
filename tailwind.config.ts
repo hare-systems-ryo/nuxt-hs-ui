@@ -26,7 +26,7 @@ export default <Partial<Config>>{
         main1: "#1c03a2",
         main2: "#4443ff",
         main3: "#628cff",
-        accent1: "#ff8000",
+        accent1: "#FF6600",
         accent2: "#ffac7c",
         info: "#2badd5",
         link: "#6200EE",
