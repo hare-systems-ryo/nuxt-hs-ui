@@ -169,6 +169,8 @@ export const Option = (option?: any) => {
         },
       },
       layout: "fitColumns",
+      maxHeight: "600px",
+      virtualDomBuffer: 200,
       downloadConfig: {
         columnHeaders: true, // do not include column headers in downloaded table
         columnGroups: false, // do not include column groups in column headers for downloaded table
@@ -176,11 +178,6 @@ export const Option = (option?: any) => {
         columnCalcs: false, // do not include column calcs in downloaded table
         dataTree: false, // do not include data tree in downloaded table
       },
-      // pagination: true,
-      // paginationSize: 20,
-      // paginationSizeSelector: [20, 50, 100],
-      // clipboard: true,
-      // ...option,
     },
     option
   );

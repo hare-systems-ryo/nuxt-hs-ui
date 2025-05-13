@@ -31,11 +31,10 @@ const multiLang = useHsMultiLang();
 type Props = {
   columns: any[];
   rows: any[];
-  rowCountHeight?: number;
   option?: any;
 };
 const props = withDefaults(defineProps<Props>(), {
-  rowCountHeight: 0,
+  // rowCountHeight: 0,
   option: () => Option(),
 });
 // [ emit ]
@@ -54,9 +53,6 @@ const emit = defineEmits<Emits>();
 const table = ref<HTMLElement | null>(null); // reference to your table element
 const tabulator = ref<any>(null); // variable to hold your table
 
-// const data = computed(() => {
-//   return [...props.rows];
-// });
 const data = computed(() => {
   return props.rows;
 });
@@ -66,13 +62,13 @@ const refreshStopFlag = ref(false);
 watch(
   () => props.rows,
   () => {
-    // console.log(ct, 'watch rows', props.rows);
+    console.log("watch rows", props.rows);
     if (table.value === null) return;
     if (isInit.value && tabulator.value !== null && !refreshStopFlag.value) {
       tabulator.value.replaceData(data.value as any);
     }
-  },
-  { deep: true }
+  }
+  //   //   { deep: true }
 );
 
 watch(
@@ -109,15 +105,12 @@ watch(
 const initTabulator = () => {
   // console.log(ct, 'initTabulator');
   if (table.value === null) return;
-  const option = props.option;
-  if (props.rowCountHeight !== 0) {
-    let height = 0;
-    height = props.rowCountHeight * 39 + 85 + 2;
-    option.height = height === 0 ? "" : height;
-  }
-  option.columns = props.columns;
-  option.data = data.value;
-  option.reactiveData = false;
+  const option = {
+    reactiveData: true,
+    ...props.option,
+    columns: props.columns,
+    data: data.value,
+  };
   tabulator.value = new Tabulator(table.value, option);
   tabulator.value.on("rowClick", (e: any, row: any) => {
     emit("row-click", row._row.data);
@@ -135,7 +128,7 @@ const initTabulator = () => {
     const afterRows = props.rows.length;
     if (buildingFlag && beforeRows !== afterRows) {
       buildingFlag = false;
-      tabulator.value.replaceData(data.value as any);
+      tabulator.value.replaceData(props.rows as any);
     }
     isInit.value = true;
   });
