@@ -34,6 +34,12 @@ export const ObjectValues = <T>(obj: T): T[keyof T][] => {
 };
 
 /**
+ * Object.entries
+ */
+export const ObjectEntries = <T>(obj: T): [keyof T, T[keyof T]][] =>
+  Object.entries(obj as any) as [keyof T, T[keyof T]][];
+
+/**
  * オブジェクトのキーを再利用して
  * Value値をinitDataにした新しいオブジェクトを生成します
  */

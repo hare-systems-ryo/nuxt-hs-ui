@@ -30,7 +30,7 @@ scrollLock.unlock();
 import { defineStore } from "pinia";
 import { GenerateUniqeKey } from "../utils/com";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
-import { ref } from "vue";
+import { ref, onUnmounted } from "vue";
 
 export const useHsScrollLockPinia = defineStore("HsScrollLockPinia", () => {
   // ---------------------------------------------------
@@ -45,6 +45,10 @@ export const useHsScrollLock = () => {
   const elm = ref<HTMLElement | null>(null);
   const key = GenerateUniqeKey();
   const hsScrollLockPinia = useHsScrollLockPinia();
+
+  onUnmounted(() => {
+    unlock();
+  });
 
   // ----------------------------------------------------------------------------
   const checkSafariMobile = () => {
