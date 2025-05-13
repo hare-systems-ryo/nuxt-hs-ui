@@ -2,6 +2,18 @@
 
 
 <<<<<<< HEAD
+## v2.4.0
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.3.3...v2.4.0)
+
+### 🚀 Enhancements
+
+- Enable partial rendering for Tablator component.　 Enabled partial rendering for the wrapped Tablator component by setting the reactive flag to true in the Tablator library. This should improve performance by only re-rendering the necessary parts of the table when data changes. ([54226bf](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/54226bf))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.3.3
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.3.2...v2.3.3)
