@@ -62,7 +62,7 @@ const refreshStopFlag = ref(false);
 watch(
   () => props.rows,
   () => {
-    console.log("watch rows", props.rows);
+    // console.log("watch rows", props.rows);
     if (table.value === null) return;
     if (isInit.value && tabulator.value !== null && !refreshStopFlag.value) {
       tabulator.value.replaceData(data.value as any);
