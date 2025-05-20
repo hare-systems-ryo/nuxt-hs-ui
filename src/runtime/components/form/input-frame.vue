@@ -164,8 +164,7 @@ const iconDisabled = computed(() => {
 const slots = useSlots();
 const hasHeader = computed(() => {
   if (props.label.length !== 0) return true;
-  if (props.require) return true;
-  if (props.readonly) return true;
+  if (props.require && !props.readonly) return true;
   // if (slots.label) return true;
   if (slots["label-prepend"]) return true;
   if (slots["label-append"]) return true;
@@ -201,9 +200,6 @@ const hasHeader = computed(() => {
         <div class="flex-1"></div>
         <div class="flex-none flex gap-2">
           <slot name="header-right" :default-class="headerIconClass" />
-          <!-- <div v-if="props.readonly" :class="headerIconClass" class="text-dark">
-            <span data-type="readonly">readonly</span>
-          </div> -->
           <div
             v-if="props.require && !props.readonly"
             :class="headerIconClass"

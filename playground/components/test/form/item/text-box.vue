@@ -55,6 +55,34 @@ const list = ["a", "b", "c"];
         />
         <div class="h-[44px] w-4 bg-red-600 flex-cc text-white"></div>
       </div>
+      <div>特殊制限</div>
+      <div class="flex items-start gap-2">
+        <TextBox
+          :data="'readonly'"
+          :diff="textB"
+          label=""
+          :disabled="disabled"
+          readonly
+        />
+        <TextBox
+          :data="'readonly'"
+          :diff="textB"
+          label="readonly"
+          :disabled="disabled"
+          readonly
+        />
+
+        <TextBox
+          :data="'require'"
+          :diff="textB"
+          label="ラベルセットで使う"
+          :disabled="disabled"
+          require
+        />
+      </div>
+      <div class="">
+        Requireは赤い必須ラベルがつくだけなのでラベルをボックスの外で使うときは別途タグを設置
+      </div>
       <!-- ------------------------------------------------ -->
       <div class="p-1"></div>
       <div>datalist付き</div>
