@@ -2,6 +2,22 @@
 
 
 <<<<<<< HEAD
+## v2.5.0
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.4.2...v2.5.0)
+
+### 🚀 Enhancements
+
+- Add getter function gt to useHsMultiLang for retrieving active language ([45dee16](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/45dee16))
+
+### 🩹 Fixes
+
+- Remove reserved label space in readonly form components without labels ([146b2ea](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/146b2ea))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.4.2
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.4.1...v2.4.2)
