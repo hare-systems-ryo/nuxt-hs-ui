@@ -81,6 +81,7 @@ export const useHsMultiLang = defineStore("HsMultiLang", {
       );
     },
     // ---------------------
+    /** Text Ref  */
     tx(text: MultiLang, lang = undefined) {
       const state = this.state;
       return computed(() => {
@@ -94,6 +95,19 @@ export const useHsMultiLang = defineStore("HsMultiLang", {
           state.showLog
         );
       });
+    },
+    /** GetText  */
+    gt(text: MultiLang, lang = undefined) {
+      const state = this.state;
+      if (lang) {
+        return GetTextByMultiLang(text, lang, state.fallBack, state.showLog);
+      }
+      return GetTextByMultiLang(
+        text,
+        state.lang,
+        state.fallBack,
+        state.showLog
+      );
     },
     // ---------------------
   },
