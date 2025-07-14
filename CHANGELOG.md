@@ -2,6 +2,18 @@
 
 
 <<<<<<< HEAD
+## v2.5.2
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.5.1...v2.5.2)
+
+### 🩹 Fixes
+
+- Update isMobile detection to support latest iPad models ([96e3de1](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/96e3de1))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.5.1
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.5.0...v2.5.1)
