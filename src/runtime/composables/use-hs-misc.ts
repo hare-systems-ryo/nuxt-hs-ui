@@ -47,15 +47,13 @@ export const useHsMisc = defineStore("HsMisc", () => {
 
   const IsMobile = () => {
     const ua = GetUa();
-    // console.log({ ua });
-    if (/\(iPad.*OS/i.test(ua)) return true;
-    if (/iP(?:ad|hone|od)/i.test(ua)) return true;
-    if (/android|ipod|ipad|iphone|mobile/i.test(ua)) return true;
-    if (/Macintosh/.test(ua) && import.meta.client) {
-      if (navigator === undefined) return false;
-      return navigator.maxTouchPoints > 1;
-    }
-    return false;
+    // if (typeof navigator === "undefined") return false;
+    // const ua = navigator.userAgent || "";
+    const isOldIPad = /\(iPad.*OS/.test(ua);
+    const isIpad = /Macintosh/.test(ua) && navigator.maxTouchPoints > 1;
+    const isiOS = /iP(?:ad|hone|od)/.test(ua);
+    const isAndroid = /android|mobile/i.test(ua);
+    return isOldIPad || isIpad || isiOS || isAndroid;
   };
 
   const state = reactive<StoreState>({
