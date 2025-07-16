@@ -2,6 +2,18 @@
 
 
 <<<<<<< HEAD
+## v2.6.0
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.5.4...v2.6.0)
+
+### 🚀 Enhancements
+
+- Enable defaultSlot insertion for BlockLoading message ([7b7e937](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/7b7e937))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.5.4
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.5.3...v2.5.4)
