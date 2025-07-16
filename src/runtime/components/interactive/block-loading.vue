@@ -74,7 +74,7 @@ const classStyle = computed(() => {
         <div class="loading-ball" />
         <div class="loading-ball" />
       </div>
-      <div class="loading-text">{{ props.message }}</div>
+      <div class="loading-text">{{ props.message }}<slot /></div>
     </div>
   </div>
 </template>

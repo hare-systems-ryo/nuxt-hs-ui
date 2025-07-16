@@ -49,9 +49,12 @@ export const useHsMisc = defineStore("HsMisc", () => {
     const ua = GetUa();
     // if (typeof navigator === "undefined") return false;
     // const ua = navigator.userAgent || "";
-    const isOldIPad = /\(iPad.*OS/.test(ua);
-    const isIpad = /Macintosh/.test(ua) && navigator.maxTouchPoints > 1;
-    const isiOS = /iP(?:ad|hone|od)/.test(ua);
+    const isOldIPad = /\(ipad.*os/.test(ua);
+    const isIpad =
+      /macintosh/.test(ua) &&
+      navigator !== undefined &&
+      navigator.maxTouchPoints > 1;
+    const isiOS = /ip(?:ad|hone|od)/.test(ua);
     const isAndroid = /android|mobile/i.test(ua);
     return isOldIPad || isIpad || isiOS || isAndroid;
   };

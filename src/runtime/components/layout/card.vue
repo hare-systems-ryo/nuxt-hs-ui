@@ -28,7 +28,7 @@ const baseClass = [
   "flex-col",
   "border-[2px]",
   "border-white",
-  "shadow shadow-[0px_0px_4px_0px_#000]",
+  "shadow-[0px_0px_4px_0px_#000]",
 ];
 const classStyle = computed(() => {
   return twMerge(baseClass, ClassTypeToString(props.class));
