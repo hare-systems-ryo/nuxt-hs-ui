@@ -22,10 +22,12 @@ import {
 import type { ClassType } from "../../utils/class-style";
 import { InsertComma } from "../../utils/number";
 import { FloatNullable } from "../../utils/float";
+import type { MultiLang } from "../../utils/multi-lang";
 // [ composables ]
 import { useHsFocus } from "../../composables/use-hs-focus";
 import { useHsToast } from "../../composables/use-hs-toast";
 import { useHsMisc } from "../../composables/use-hs-misc";
+import { useHsMultiLang } from "../../composables/use-hs-multi-lang";
 // [ Components ]
 import InputFrame from "./input-frame.vue";
 // ----------------------------------------------------------------------------
@@ -35,6 +37,9 @@ import InputFrame from "./input-frame.vue";
 const hsFocus = useHsFocus();
 const hsMisc = useHsMisc();
 const Toast = useHsToast();
+const multiLang = useHsMultiLang();
+const gt = multiLang.gt;
+
 // ----------------------------------------------------------------------------
 // [ Props ]
 type Props = {
@@ -73,7 +78,7 @@ type Props = {
   label?: string;
   // 表示-副情報
   require?: boolean;
-  requireText?: string;
+  requireText?: MultiLang;
   warn?: string;
   warnTimeOut?: number;
   // ----------------------------------------------------------------------------
@@ -82,10 +87,10 @@ type Props = {
   // ----------------------------------------------------------------------------
   uiText?: {
     validError: {
-      title: string;
-      nullValue: string;
-      minValue: string;
-      maxValue: string;
+      title: MultiLang;
+      nullValue: MultiLang;
+      minValue: MultiLang;
+      maxValue: MultiLang;
     };
   };
 };
@@ -125,7 +130,7 @@ const props = withDefaults(defineProps<Props>(), {
   label: "",
   // 表示-副情報
   require: false,
-  requireText: "必須",
+  requireText: () => ({ ja: "必須", en: "Required" }),
   warn: "",
   warnTimeOut: 3000,
   // ----------------------------------------------------------------------------
@@ -135,10 +140,19 @@ const props = withDefaults(defineProps<Props>(), {
   uiText: () => {
     return {
       validError: {
-        title: "入力値の警告",
-        nullValue: "数値以外は許可されていません。",
-        minValue: "[{value}]以下の数値は入力できません",
-        maxValue: "[{value}]以上の数値は入力できません",
+        title: { ja: "入力値の警告", en: "Input Value Warning" },
+        nullValue: {
+          ja: "数値以外は許可されていません。",
+          en: "Non-numeric values are not allowed.",
+        },
+        minValue: {
+          ja: "[{value}]以下の数値は入力できません",
+          en: "You cannot enter a number below {value}.",
+        },
+        maxValue: {
+          ja: "[{value}]以上の数値は入力できません",
+          en: "You cannot enter a number greater than {value}.",
+        },
       },
     };
   },
@@ -211,7 +225,7 @@ const validCheck = (
       return {
         result: false,
         value: 0,
-        message: props.uiText.validError.nullValue,
+        message: gt(props.uiText.validError.nullValue),
       };
     } else {
       return { result: true, value: null, message: "" };
@@ -221,7 +235,7 @@ const validCheck = (
     return {
       result: false,
       value: props.min,
-      message: props.uiText.validError.minValue.replace(
+      message: gt(props.uiText.validError.minValue).replace(
         /\{value\}/g,
         String(props.min)
       ),
@@ -231,7 +245,7 @@ const validCheck = (
     return {
       result: false,
       value: props.max,
-      message: props.uiText.validError.maxValue.replace(
+      message: gt(props.uiText.validError.maxValue).replace(
         /\{value\}/g,
         String(props.min)
       ),

@@ -14,6 +14,7 @@ import { reactive, ref, watch, computed, nextTick, useId } from "#imports";
 
 // [ utils ]
 import type { ClassType } from "../../utils/class-style";
+import type { MultiLang } from "../../utils/multi-lang";
 // [ composables ]
 import { useHsFocus } from "../../composables/use-hs-focus";
 // [ Components ]
@@ -65,7 +66,7 @@ type Props = {
   label?: string;
   // 表示-副情報
   require?: boolean;
-  requireText?: string;
+  requireText?: MultiLang;
   warn?: string;
   warnTimeOut?: number;
   // ----------------------------------------------------------------------------
@@ -105,7 +106,7 @@ const props = withDefaults(defineProps<Props>(), {
   label: "",
   // 表示-副情報
   require: false,
-  requireText: "必須",
+  requireText: () => ({ ja: "必須", en: "Required" }),
   warn: "",
   warnTimeOut: 3000,
   // ----------------------------------------------------------------------------

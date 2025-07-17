@@ -31,7 +31,7 @@ type Props = {
   // Input 種類別
   list: SelectItem[] | readonly SelectItem[];
   image?: boolean;
-  nullText?: string;
+  nullText?: MultiLang;
   classRow?: ClassType;
   classCol?: ClassType;
   classItem?: ClassType;
@@ -59,7 +59,7 @@ type Props = {
   label?: string;
   // 表示-副情報
   require?: boolean;
-  requireText?: string;
+  requireText?: MultiLang;
   warn?: string;
   warnTimeOut?: number;
   // ----------------------------------------------------------------------------
@@ -72,7 +72,7 @@ const props = withDefaults(defineProps<Props>(), {
   // Input 種類別
   order: false,
   image: false,
-  nullText: "選択してください",
+  nullText: () => ({ ja: "選択してください", en: "" }),
   nullable: true,
   classRow: "",
   classCol: "",
@@ -102,7 +102,7 @@ const props = withDefaults(defineProps<Props>(), {
   label: "",
   // 表示-副情報
   require: false,
-  requireText: "必須",
+  requireText: () => ({ ja: "必須", en: "" }),
   warn: "",
   warnTimeOut: 3000,
   // ----------------------------------------------------------------------------
@@ -314,7 +314,7 @@ const itemClass = computed(() => {
     :readonly="props.readonly"
     :label="props.label"
     :require="props.require"
-    :require-text="props.requireText"
+    :require-text="tx(props.requireText).value"
     :warn="props.warn"
     :warn-time-out="props.warnTimeOut"
     :size="props.size"

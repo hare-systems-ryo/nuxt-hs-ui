@@ -12,8 +12,10 @@ import { twMerge } from "tailwind-merge";
 import { computed, useSlots } from "#imports";
 // [ utils ]
 import { type ClassType, ClassTypeToString } from "../../utils/class-style";
+import type { MultiLang } from "../../utils/multi-lang";
 // [ composables ]
 import { useHsToast } from "../../composables/use-hs-toast";
+import { useHsMultiLang } from "../../composables/use-hs-multi-lang";
 // ----------------------------------------------------------------------------
 // [ Props ]
 type Props = {
@@ -37,7 +39,7 @@ type Props = {
   label?: string;
   // 表示-副情報
   require?: boolean;
-  requireText?: string;
+  requireText?: MultiLang;
   warn?: string;
   warnTimeOut?: number;
   // ----------------------------------------------------------------------------
@@ -64,7 +66,7 @@ const props = withDefaults(defineProps<Props>(), {
   label: "",
   // 表示-副情報
   require: false,
-  requireText: "必須",
+  requireText: () => ({ ja: "必須", en: "Required" }),
   warn: "",
   warnTimeOut: 3000,
   // ----------------------------------------------------------------------------
@@ -82,6 +84,8 @@ const emit = defineEmits<Emits>();
 
 const toast = useHsToast();
 
+const multiLang = useHsMultiLang();
+const tx = multiLang.tx;
 // ----------------------------------------------------------------------------
 const baseClass = computed(() => {
   return [
@@ -205,7 +209,7 @@ const hasHeader = computed(() => {
             :class="headerIconClass"
             class="text-white bg-error"
           >
-            <span data-type="require">{{ props.requireText }}</span>
+            <span data-type="require">{{ tx(props.requireText) }}</span>
           </div>
         </div>
       </div>

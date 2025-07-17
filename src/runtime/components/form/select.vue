@@ -13,6 +13,7 @@ import { reactive, ref, watch, computed, useId } from "#imports";
 import type { ClassType } from "../../utils/class-style";
 import type { SelectItem } from "../../utils/select-item";
 import { useDisplayList, type DisplaySelectItem } from "../../utils/select";
+import type { MultiLang } from "../../utils/multi-lang";
 // [ composables ]
 import { useHsFocus } from "../../composables/use-hs-focus";
 import { useHsMultiLang } from "../../composables/use-hs-multi-lang";
@@ -34,7 +35,7 @@ type Props = {
   list: SelectItem<IdType>[];
   order?: boolean;
   loading?: boolean;
-  nullText?: string;
+  nullText?: MultiLang;
   image?: boolean;
   classImg?: ClassType;
   classImgTag?: ClassType;
@@ -63,7 +64,7 @@ type Props = {
   label?: string;
   // 表示-副情報
   require?: boolean;
-  requireText?: string;
+  requireText?: MultiLang;
   warn?: string;
   warnTimeOut?: number;
   // ----------------------------------------------------------------------------
@@ -76,7 +77,7 @@ const props = withDefaults(defineProps<Props>(), {
   // Input 種類別
   order: false,
   loading: false,
-  nullText: "選択してください",
+  nullText: () => ({ ja: "選択してください", en: "Select..." }),
   nullable: false,
   image: false,
   classImg: "",
@@ -104,7 +105,7 @@ const props = withDefaults(defineProps<Props>(), {
   label: "",
   // 表示-副情報
   require: false,
-  requireText: "必須",
+  requireText: () => ({ ja: "必須", en: "Required" }),
   warn: "",
   warnTimeOut: 3000,
   // ----------------------------------------------------------------------------
@@ -200,7 +201,7 @@ const displayList = computed(() => {
     unKnownSelected: unKnownSelected.value,
     isShowHidden: isShowHidden.value,
     require: props.require || !props.nullable,
-    nullText: props.nullText,
+    nullText: tx(props.nullText).value,
   });
 });
 // ----------------------------------------------------------------------------
@@ -290,7 +291,7 @@ const selectClose = () => {
     :readonly="props.readonly"
     :label="props.label"
     :require="props.require"
-    :require-text="props.requireText"
+    :require-text="tx(props.requireText).value"
     :warn="props.warn"
     :warn-time-out="props.warnTimeOut"
     :size="props.size"
@@ -309,7 +310,7 @@ const selectClose = () => {
       class="absolute inset-0 flex items-center px-1 pointer-events-none text-[0.9em]"
       :class="[computedActivate ? 'opacity-30' : '']"
     >
-      {{ props.nullText }}
+      {{ tx(props.nullText) }}
     </div>
     <v-select
       ref="inputElement"

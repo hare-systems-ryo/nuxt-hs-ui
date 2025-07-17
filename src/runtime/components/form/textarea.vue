@@ -12,6 +12,7 @@ import { twMerge } from "tailwind-merge";
 import { reactive, ref, watch, computed, useId, nextTick } from "#imports";
 // [ utils ]
 import type { ClassType } from "../../utils/class-style";
+import type { MultiLang } from "../../utils/multi-lang";
 // [ composables ]
 import { useHsFocus } from "../../composables/use-hs-focus";
 import { useHsMisc } from "../../composables/use-hs-misc";
@@ -52,7 +53,7 @@ type Props = {
   label?: string;
   // 表示-副情報
   require?: boolean;
-  requireText?: string;
+  requireText?: MultiLang;
   warn?: string;
   warnTimeOut?: number;
   // ----------------------------------------------------------------------------
@@ -92,7 +93,7 @@ const props = withDefaults(defineProps<Props>(), {
   label: "",
   // 表示-副情報
   require: false,
-  requireText: "必須",
+  requireText: () => ({ ja: "必須", en: "Required" }),
   warn: "",
   warnTimeOut: 3000,
   // ----------------------------------------------------------------------------

@@ -29,6 +29,7 @@ import {
 import { Sleep } from "../../utils/com";
 import type { ClassType } from "../../utils/class-style";
 import { GetTimeShiftValue, Dayjs, DayjsInit } from "../../utils/dayjs";
+import type { MultiLang } from "../../utils/multi-lang";
 // [ utils ]
 
 import { ja } from "../../types/flatpickr/ja";
@@ -59,6 +60,7 @@ const hsFocus = useHsFocus();
 const Toast = useHsToast();
 const multiLang = useHsMultiLang();
 const hsMisc = useHsMisc();
+const tx = multiLang.tx;
 // ----------------------------------------------------------------------------
 // [ vueuse ]
 const isMounted = useMounted();
@@ -108,7 +110,7 @@ type Props = {
   label?: string;
   // 表示-副情報
   require?: boolean;
-  requireText?: string;
+  requireText?: MultiLang;
   warn?: string;
   warnTimeOut?: number;
   // ----------------------------------------------------------------------------
@@ -158,7 +160,7 @@ const props = withDefaults(defineProps<Props>(), {
   label: "",
   // 表示-副情報
   require: false,
-  requireText: "必須",
+  requireText: () => ({ ja: "必須", en: "Required" }),
   warn: "",
   warnTimeOut: 3000,
   // ----------------------------------------------------------------------------
@@ -751,7 +753,7 @@ const computedIsFocusOpenBtn = computed(() => {
     :readonly="props.readonly"
     :label="props.label"
     :require="props.require"
-    :require-text="props.requireText"
+    :require-text="tx(props.requireText).value"
     :warn="props.warn"
     :warn-time-out="props.warnTimeOut"
     :size="props.size"
