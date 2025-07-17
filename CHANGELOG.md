@@ -2,6 +2,18 @@
 
 
 <<<<<<< HEAD
+## v2.7.0
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.6.0...v2.7.0)
+
+### 🚀 Enhancements
+
+- Support bilingual labels for required fields and unselected Select components ([24ef416](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/24ef416))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.6.0
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.5.4...v2.6.0)
