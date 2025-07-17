@@ -56,7 +56,7 @@ type Props = {
   readonly?: boolean;
   // ----------------------------------------------------------------------------
   // 表示
-  label?: string;
+  label?: MultiLang;
   // 表示-副情報
   require?: boolean;
   requireText?: MultiLang;

@@ -16,6 +16,7 @@ import type { MultiLang } from "../../utils/multi-lang";
 // [ composables ]
 import { useHsFocus } from "../../composables/use-hs-focus";
 import { useHsMisc } from "../../composables/use-hs-misc";
+import { useHsMultiLang } from "../../composables/use-hs-multi-lang";
 // [ Components ]
 import InputFrame from "./input-frame.vue";
 // ----------------------------------------------------------------------------
@@ -50,7 +51,7 @@ type Props = {
   readonly?: boolean;
   // ----------------------------------------------------------------------------
   // 表示
-  label?: string;
+  label?: MultiLang;
   // 表示-副情報
   require?: boolean;
   requireText?: MultiLang;
@@ -61,7 +62,7 @@ type Props = {
   size?: "s" | "m" | "l";
   // ----------------------------------------------------------------------------
   uiText?: {
-    rowsUnit: string;
+    rowsUnit: MultiLang;
   };
 };
 const props = withDefaults(defineProps<Props>(), {
@@ -99,11 +100,10 @@ const props = withDefaults(defineProps<Props>(), {
   // ----------------------------------------------------------------------------
   // 設定
   size: "m",
-
   // ----------------------------------------------------------------------------
   uiText: () => {
     return {
-      rowsUnit: "行",
+      rowsUnit: { ja: "行", en: "Rows" },
     };
   },
 });
@@ -123,7 +123,12 @@ type Emits = {
 };
 const emit = defineEmits<Emits>();
 // ----------------------------------------------------------------------------
+
+const multiLang = useHsMultiLang();
+const tx = multiLang.tx;
+
 // [ getCurrentInstance ]
+
 const uid = useId();
 // ----------------------------------------------------------------------------
 
@@ -373,7 +378,7 @@ const textAreaClass = computed(() => {
       </div>
       <div v-if="props.maxRows !== 0" :class="[defaultClass, rowLabelClass]">
         {{ state.value.split("\n").length }} / {{ props.maxRows }}
-        {{ props.uiText.rowsUnit }}
+        {{ tx(props.uiText.rowsUnit) }}
       </div>
     </template>
     <div

@@ -36,7 +36,7 @@ type Props = {
   // ----------------------------------------------------------------------------
 
   // 表示
-  label?: string;
+  label?: MultiLang;
   // 表示-副情報
   require?: boolean;
   requireText?: MultiLang;
@@ -165,9 +165,11 @@ const iconDisabled = computed(() => {
   return false;
 });
 // ----------------------------------------------------------------------------
+const label = computed(() => tx(props.label).value);
+// ----------------------------------------------------------------------------
 const slots = useSlots();
 const hasHeader = computed(() => {
-  if (props.label.length !== 0) return true;
+  if (label.value.length !== 0) return true;
   if (props.require && !props.readonly) return true;
   // if (slots.label) return true;
   if (slots["label-prepend"]) return true;
@@ -195,11 +197,10 @@ const hasHeader = computed(() => {
       >
         <div
           class="grow-0 shrink-1 truncate leading-[1.5em]"
-          :title="props.label"
+          :title="label"
           @click.stop="emit('header-label-click')"
         >
-          <slot name="label-prepend" />{{ props.label
-          }}<slot name="label-append" />
+          <slot name="label-prepend" />{{ label }}<slot name="label-append" />
         </div>
         <div class="flex-1"></div>
         <div class="flex-none flex gap-2">

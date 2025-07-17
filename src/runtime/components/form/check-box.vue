@@ -12,9 +12,11 @@ import { twMerge } from "tailwind-merge";
 import { reactive, ref, watch, computed, useId, nextTick } from "#imports";
 // [ utils ]
 import { type ClassType, ClassTypeToString } from "../../utils/class-style";
+import type { MultiLang } from "../../utils/multi-lang";
 // [ composables ]
 import { useHsFocus } from "../../composables/use-hs-focus";
 import { useHsToast } from "../../composables/use-hs-toast";
+import { useHsMultiLang } from "../../composables/use-hs-multi-lang";
 // [ Components ]
 import SelectImgIcon from "./select-img-icon.vue";
 // ----------------------------------------------------------------------------
@@ -41,7 +43,7 @@ type Props = {
   disabled?: boolean;
   // ----------------------------------------------------------------------------
   // 表示
-  label?: string;
+  label?: MultiLang;
   warn?: string;
   warnTimeOut?: number;
   // ----------------------------------------------------------------------------
@@ -50,7 +52,7 @@ type Props = {
   // ----------------------------------------------------------------------------
   uiText?: {
     validError: {
-      title: string;
+      title: MultiLang;
     };
   };
 };
@@ -80,7 +82,7 @@ const props = withDefaults(defineProps<Props>(), {
   uiText: () => {
     return {
       validError: {
-        title: "入力値の警告",
+        title: { ja: "入力値の警告", en: "Input Value Warning" },
       },
     };
   },
@@ -100,6 +102,10 @@ type Emits = {
   // ----------------------------
 };
 const emit = defineEmits<Emits>();
+// ----------------------------------------------------------------------------
+
+const multiLang = useHsMultiLang();
+const tx = multiLang.tx;
 // ----------------------------------------------------------------------------
 // [ getCurrentInstance ]
 const uid = useId();
@@ -292,7 +298,7 @@ const labelClass = computed(() => {
         :class-img-tag="props.classImgTag"
       />
       <div class="flex-1 min-w-[0] whitespace-pre-wrap break-words">
-        {{ label }}
+        {{ tx(label) }}
         <slot />
       </div>
       <span

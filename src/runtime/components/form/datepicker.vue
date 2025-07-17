@@ -107,7 +107,7 @@ type Props = {
   readonly?: boolean;
   // ----------------------------------------------------------------------------
   // 表示
-  label?: string;
+  label?: MultiLang;
   // 表示-副情報
   require?: boolean;
   requireText?: MultiLang;
@@ -119,8 +119,8 @@ type Props = {
   // ----------------------------------------------------------------------------
   uiText?: {
     error: {
-      inputRangeTitle: string;
-      inputRangeMessage: string;
+      inputRangeTitle: MultiLang;
+      inputRangeMessage: MultiLang;
     };
   };
 };
@@ -170,8 +170,11 @@ const props = withDefaults(defineProps<Props>(), {
   uiText: () => {
     return {
       error: {
-        inputRangeTitle: "入力値エラー",
-        inputRangeMessage: "入力範囲外です",
+        inputRangeTitle: { ja: "入力値の警告", en: "Input Value Warning" },
+        inputRangeMessage: {
+          ja: "入力範囲外です",
+          en: "Input is out of range",
+        },
       },
     };
   },
