@@ -2,6 +2,18 @@
 
 
 <<<<<<< HEAD
+## v2.8.0
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.7.0...v2.8.0)
+
+### 🚀 Enhancements
+
+- **form:** Support MultiLang type for labels in form components ([3704936](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/3704936))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.7.0
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.6.0...v2.7.0)
