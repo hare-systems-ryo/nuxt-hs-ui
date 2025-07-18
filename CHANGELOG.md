@@ -2,6 +2,18 @@
 
 
 <<<<<<< HEAD
+## v2.9.1
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.9.0...v2.9.1)
+
+### 🩹 Fixes
+
+- Ensure icon is displayed for non-link items in Breadcrumb component ([b4302bd](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/b4302bd))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.9.0
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.8.2...v2.9.0)
