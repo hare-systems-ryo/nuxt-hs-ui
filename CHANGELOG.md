@@ -2,6 +2,18 @@
 
 
 <<<<<<< HEAD
+## v2.8.1
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.8.0...v2.8.1)
+
+### 🩹 Fixes
+
+- Resolve text overflow issue in breadcrumb ([ea45fa4](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/ea45fa4))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.8.0
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.7.0...v2.8.0)
