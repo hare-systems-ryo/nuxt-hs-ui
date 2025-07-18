@@ -68,6 +68,7 @@ const classStyleUnlink = computed(() => {
               v-else
               :class="[classStyleUnlink, { hasBefore: index !== 0 }]"
             >
+              <i v-if="item.icon" :class="item.icon"></i>
               {{ tx(item.label) }}
             </span>
           </div>
