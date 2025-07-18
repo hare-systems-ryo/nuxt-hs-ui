@@ -2,6 +2,18 @@
 
 
 <<<<<<< HEAD
+## v2.9.0
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.8.2...v2.9.0)
+
+### 🚀 Enhancements
+
+- Add support for displaying icon before label in Breadcrumb component ([ecdfab4](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/ecdfab4))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.8.2
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.8.1...v2.8.2)
