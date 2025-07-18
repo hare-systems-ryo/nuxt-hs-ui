@@ -186,7 +186,10 @@ const unKnownData = computed(() => {
   if (props.data === null) return null;
   return {
     id: props.data,
-    text: `選択肢にない値です ID=${props.data}`,
+    text: {
+      ja: `無効な値が選択されています (ID=${props.data})`,
+      en: `Invalid value selected (ID=${props.data})`,
+    },
   };
 });
 
