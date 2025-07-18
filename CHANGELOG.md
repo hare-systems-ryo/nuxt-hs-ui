@@ -2,6 +2,18 @@
 
 
 <<<<<<< HEAD
+## v2.8.2
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.8.1...v2.8.2)
+
+### 🩹 Fixes
+
+- Display English labels for invalid Select UI values ([9908cc5](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/9908cc5))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.8.1
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.8.0...v2.8.1)
