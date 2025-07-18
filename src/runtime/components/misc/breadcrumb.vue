@@ -15,11 +15,13 @@ import { type ClassType, ClassTypeToString } from "../../utils/class-style";
 
 import Card from "../layout/card.vue";
 import CardItem from "../layout/card-item.vue";
+import type { MultiLang } from "../../utils/multi-lang";
+import { useHsMultiLang } from "../../composables/use-hs-multi-lang";
 // ----------------------------------------------------------------------------
 
 interface Props {
   class?: ClassType;
-  links: { label: string; to?: string }[];
+  links: { label: MultiLang; to?: string; icon?: string }[];
   classLink?: ClassType;
   classUnlink?: ClassType;
 }
@@ -28,6 +30,10 @@ const props = withDefaults(defineProps<Props>(), {
   classLink: "",
   classUnlink: "",
 });
+// ----------------------------------------------------------------------------
+const multiLang = useHsMultiLang();
+const tx = multiLang.tx;
+// ----------------------------------------------------------------------------
 
 const classStyle = computed(() => {
   return twMerge(`w-full  min-w-0`, ClassTypeToString(props.class));
@@ -55,13 +61,14 @@ const classStyleUnlink = computed(() => {
               :to="item.to"
               :class="[classStyleLink, { hasBefore: index !== 0 }]"
             >
-              {{ item.label }}
+              <i v-if="item.icon" :class="item.icon"></i>
+              {{ tx(item.label) }}
             </NuxtLink>
             <span
               v-else
               :class="[classStyleUnlink, { hasBefore: index !== 0 }]"
             >
-              {{ item.label }}
+              {{ tx(item.label) }}
             </span>
           </div>
         </template>
