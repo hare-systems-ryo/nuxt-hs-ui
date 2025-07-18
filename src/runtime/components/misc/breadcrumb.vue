@@ -47,7 +47,7 @@ const classStyleUnlink = computed(() => {
       theme="back"
       variant="body"
     >
-      <div class="flex flex-wrap gap-[2px] sm:gap-[4px]">
+      <div class="flex flex-wrap gap-[2px] sm:gap-[4px] max-w-full">
         <template v-for="(item, index) in props.links" :key="index">
           <div class="truncate min-w-0 w-full sm:w-auto">
             <NuxtLink
