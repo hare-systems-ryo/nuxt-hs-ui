@@ -2,6 +2,18 @@
 
 
 <<<<<<< HEAD
+## v2.9.2
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.9.1...v2.9.2)
+
+### 🩹 Fixes
+
+- Resolved z-index conflict between v-select items and Dialog backdrop ([c35384e](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/c35384e))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.9.1
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.9.0...v2.9.1)
