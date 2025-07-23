@@ -53,13 +53,21 @@ const zOrder = computed(() => {
   return hsModal.myzIndex(id).value;
 });
 if (props.show) {
-  hsModal.add(id, props.closeable);
+  if (props.zIndex !== undefined) {
+    hsModal.add(id, props.closeable, props.zIndex - 1);
+  } else {
+    hsModal.add(id, props.closeable);
+  }
 }
 watch(
   () => props.show,
-  (v) => {
-    if (v) {
-      hsModal.add(id, props.closeable);
+  (show) => {
+    if (show) {
+      if (props.zIndex !== undefined) {
+        hsModal.add(id, props.closeable, props.zIndex - 1);
+      } else {
+        hsModal.add(id, props.closeable);
+      }
     } else {
       hsModal.remove(id);
     }

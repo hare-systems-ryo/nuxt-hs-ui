@@ -73,11 +73,20 @@ export const useHsModal = defineStore("HsModal", {
         return target.zIndex;
       });
     },
-    add(id: string, closeable: boolean = false) {
-      const zIndex =
-        this.state.activeList.length === 0
-          ? this.state.baseIndex
-          : Math.max(...this.state.activeList.map((row) => row.zIndex)) + 2;
+    add(
+      id: string,
+      closeable: boolean = false,
+      _zIndex: undefined | number = undefined
+    ) {
+      const getIndex = () => {
+        if (_zIndex !== undefined) return _zIndex;
+        if (this.state.activeList.length === 0) return this.state.baseIndex;
+        return Math.max(...this.state.activeList.map((row) => row.zIndex)) + 2;
+      };
+      const zIndex = getIndex();
+      // this.state.activeList.length === 0
+      // ? this.state.baseIndex
+      // : Math.max(...this.state.activeList.map((row) => row.zIndex)) + 2;
       this.state.activeList.push({
         id: id,
         zIndex: zIndex,

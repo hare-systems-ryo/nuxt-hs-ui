@@ -33,7 +33,7 @@ const buttonTv = tv({
       `absolute inset-0`,
       "bg-white",
       "transition-[opacity_100ms_ease]",
-      "z-10",
+      // "z-10",
       "opacity-0",
     ],
     body: [
@@ -459,10 +459,10 @@ const btnTvOverlay = computed(() => {
     @keyup.enter="pushOff"
   >
     <div :class="btnTvIndicator"></div>
-    <div :class="btnTvOverlay"></div>
     <div :class="btnTvBody">
       <slot />
     </div>
+    <div :class="btnTvOverlay"></div>
     <BtnLineLoading class="Btn--loading" :show="props.loading" />
   </button>
   <NuxtLink
