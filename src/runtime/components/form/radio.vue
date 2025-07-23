@@ -514,13 +514,15 @@ const inputClass = computed(() => {
                   <span
                     v-if="row.deleted"
                     class="text-error text-[0.7em] leading-[1em]"
-                    >※削除済み</span
                   >
+                    {{ tx({ ja: "※削除済", en: "*Deleted" }) }}
+                  </span>
                   <span
                     v-if="row.hidden"
                     class="text-error text-[0.7em] leading-[1em]"
-                    >※非表示</span
                   >
+                    {{ tx({ ja: "※非表示", en: "*Off by Default" }) }}
+                  </span>
                 </div>
               </div>
             </div>

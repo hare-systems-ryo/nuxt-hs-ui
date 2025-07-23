@@ -351,10 +351,10 @@ const selectClose = () => {
           />
           <div class="flex-1 truncate">{{ tx(text) }}</div>
           <div v-if="deleted" class="text-error text-[0.7em] leading-[1em]">
-            ※削除済み
+            {{ tx({ ja: "※削除済", en: "*Deleted" }) }}
           </div>
           <div v-if="hidden" class="text-error text-[0.7em] leading-[1em]">
-            ※非表示
+            {{ tx({ ja: "※非表示", en: "*Off by Default" }) }}
           </div>
           <span v-if="appendIcon && typeof appendIcon === 'string'">
             <i :class="appendIcon"></i>
