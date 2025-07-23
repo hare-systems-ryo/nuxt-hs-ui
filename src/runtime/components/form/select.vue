@@ -337,9 +337,7 @@ const selectClose = () => {
     >
       <!--  -->
       <!--  -->
-      <template
-        #selected-option="{ text, imgUrl, deleted, hidden, appendIcon }"
-      >
+      <template #selected-option="{ text, imgUrl, deleted, appendIcon }">
         <div class="flex items-baseline w-full">
           <SelectImgIcon
             v-if="imgUrl && props.image"
@@ -351,11 +349,11 @@ const selectClose = () => {
           />
           <div class="flex-1 truncate">{{ tx(text) }}</div>
           <div v-if="deleted" class="text-error text-[0.7em] leading-[1em]">
-            {{ tx({ ja: "※削除済", en: "*Deleted" }) }}
+            {{ tx({ ja: "削除済", en: "Deleted" }) }}
           </div>
-          <div v-if="hidden" class="text-error text-[0.7em] leading-[1em]">
-            {{ tx({ ja: "※非表示", en: "*Off by Default" }) }}
-          </div>
+          <!-- <div v-if="hidden" class="text-error text-[0.7em] leading-[1em]">
+            {{ tx({ ja: "非表示", en: "Hidden" }) }}
+          </div> -->
           <span v-if="appendIcon && typeof appendIcon === 'string'">
             <i :class="appendIcon"></i>
           </span>
@@ -375,10 +373,10 @@ const selectClose = () => {
           />
           <div class="flex-1 truncate">{{ tx(text) }}</div>
           <div v-if="deleted" class="text-error text-[0.7em] leading-[1em]">
-            ※削除済み
+            {{ tx({ ja: "削除済", en: "Deleted" }) }}
           </div>
           <div v-if="hidden" class="text-error text-[0.7em] leading-[1em]">
-            ※非表示
+            {{ tx({ ja: "非表示", en: "Hidden" }) }}
           </div>
           <span v-if="appendIcon && typeof appendIcon === 'string'">
             <i :class="appendIcon"></i>
