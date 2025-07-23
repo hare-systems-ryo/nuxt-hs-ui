@@ -2,6 +2,18 @@
 
 
 <<<<<<< HEAD
+## v2.9.4
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.9.3...v2.9.4)
+
+### 🩹 Fixes
+
+- Added English translation support for hidden label in option UI ([e7d714d](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/e7d714d))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.9.3
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.9.2...v2.9.3)
