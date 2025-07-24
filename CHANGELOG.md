@@ -2,6 +2,18 @@
 
 
 <<<<<<< HEAD
+## v2.9.5
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.9.4...v2.9.5)
+
+### 🩹 Fixes
+
+- Truncate overflowing label in Select component correctly ([882fd5b](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/882fd5b))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.9.4
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.9.3...v2.9.4)
