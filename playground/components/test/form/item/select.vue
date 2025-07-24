@@ -20,7 +20,7 @@ const valueBtext = computed(() => {
 const listA: SelectItem[] = [
   {
     id: 1,
-    text: "id:1",
+    text: "id:1 fjoehfoaheophq0934hq0onelnfoqi4hf9po28h3o[f ]",
     order: 1,
     imgUrl: "/assets/code-color-group/gray.png",
     appendIcon: "fa-solid fa-arrow-up-wide-short w-[1em] text-center",

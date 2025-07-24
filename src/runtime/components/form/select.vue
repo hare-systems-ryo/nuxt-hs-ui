@@ -338,7 +338,7 @@ const selectClose = () => {
       <!--  -->
       <!--  -->
       <template #selected-option="{ text, imgUrl, deleted, appendIcon }">
-        <div class="flex items-baseline w-full">
+        <div class="flex items-baseline w-full max-w-full min-w-0">
           <SelectImgIcon
             v-if="imgUrl && props.image"
             class="flex-none"
@@ -347,19 +347,26 @@ const selectClose = () => {
             :class-img="props.classImg"
             :class-img-tag="props.classImgTag"
           />
-          <div class="flex-1 truncate">{{ tx(text) }}</div>
+          <div class="flex-1 truncate min-w-0">{{ tx(text) }}</div>
           <div v-if="deleted" class="text-error text-[0.7em] leading-[1em]">
             {{ tx({ ja: "削除済", en: "Deleted" }) }}
           </div>
           <!-- <div v-if="hidden" class="text-error text-[0.7em] leading-[1em]">
             {{ tx({ ja: "非表示", en: "Hidden" }) }}
           </div> -->
-          <span v-if="appendIcon && typeof appendIcon === 'string'">
+          <div
+            v-if="appendIcon && typeof appendIcon === 'string'"
+            class="flex-none"
+          >
             <i :class="appendIcon"></i>
-          </span>
-          <span v-else-if="appendIcon && Array.isArray(appendIcon)">
+          </div>
+
+          <div
+            v-else-if="appendIcon && Array.isArray(appendIcon)"
+            class="flex-none"
+          >
             <i v-for="(c, i) in appendIcon" :key="i" :class="c"></i>
-          </span>
+          </div>
         </div>
       </template>
       <template #option="{ text, imgUrl, deleted, hidden, appendIcon }">
@@ -439,6 +446,7 @@ const selectClose = () => {
   .vs__selected,
   .vs__selected-options {
     max-width: 100%;
+    min-width: 0;
   }
   .vs__search {
     margin: 0 !important;

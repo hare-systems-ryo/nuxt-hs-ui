@@ -30,6 +30,7 @@ type Props = {
   rows?: number;
   maxRows?: number;
   maxLen?: number;
+  autosize?: boolean;
   // ----------------------------------------------------------------------------
   data: string | null;
   diff?: string | null | undefined;
@@ -71,6 +72,7 @@ const props = withDefaults(defineProps<Props>(), {
   rows: 5,
   maxRows: 0,
   maxLen: 0,
+  autosize: false,
   // ----------------------------------------------------------------------------
   diff: undefined,
   tabindex: undefined,
@@ -139,6 +141,7 @@ interface State {
 const state = reactive<State>({
   value: "",
 });
+
 // ----------------------------------------------------------------------------
 watch(
   () => props.data,
@@ -342,6 +345,11 @@ const textAreaClass = computed(() => {
     ),
   ];
 });
+
+const _rows = computed(() => {
+  if (!props.autosize) return props.rows;
+  return Math.max(state.value.split("\n").length, props.rows);
+});
 </script>
 
 <template>
@@ -390,7 +398,7 @@ const textAreaClass = computed(() => {
         v-model="state.value"
         type="text"
         :class="textAreaClass"
-        :rows="props.rows"
+        :rows="_rows"
         :disabled="props.disabled || props.readonly"
         :tabindex="tabindex"
         @blur="onBlur()"
