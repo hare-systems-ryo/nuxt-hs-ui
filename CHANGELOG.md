@@ -2,6 +2,18 @@
 
 
 <<<<<<< HEAD
+## v2.9.7
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.9.6...v2.9.7)
+
+### 🩹 Fixes
+
+- Correct multiligual display for invalid value in Select component ([f3962bb](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/f3962bb))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.9.6
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.9.5...v2.9.6)
