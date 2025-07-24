@@ -20,14 +20,20 @@ const valueBtext = computed(() => {
 const listA: SelectItem[] = [
   {
     id: 1,
-    text: "id:1 fjoehfoaheophq0934hq0onelnfoqi4hf9po28h3o[f ]",
+    text: {
+      ja: "id:1 日本語",
+      en: "id:1 英語",
+    },
     order: 1,
     imgUrl: "/assets/code-color-group/gray.png",
     appendIcon: "fa-solid fa-arrow-up-wide-short w-[1em] text-center",
   },
   {
     id: 2,
-    text: "id:2",
+    text: {
+      ja: "id:2 日本語",
+      en: "id:2 英語",
+    },
     order: 2,
     imgUrl: "/assets/code-color-group/green.png",
     appendIcon: "fa-solid fa-arrow-up-wide-short w-[1em] text-center",

@@ -26,6 +26,7 @@ import Btn from "../form/btn.vue";
 const hsFocus = useHsFocus();
 const multiLang = useHsMultiLang();
 const tx = multiLang.tx;
+const gt = multiLang.gt;
 
 // ----------------------------------------------------------------------------
 // [ Props ]
@@ -197,7 +198,9 @@ const includeHidden = computed(() => {
 /** 選択肢 */
 const displayList = computed(() => {
   return useDisplayList<IdType>({
-    list: props.list,
+    list: props.list.map((row) => {
+      return { ...row, text: gt(row.text) };
+    }),
     id: props.data,
     order: props.order,
     unKnownData: unKnownData.value,
@@ -347,7 +350,7 @@ const selectClose = () => {
             :class-img="props.classImg"
             :class-img-tag="props.classImgTag"
           />
-          <div class="flex-1 truncate min-w-0">{{ tx(text) }}</div>
+          <div class="flex-1 truncate min-w-0">{{ text }}</div>
           <div v-if="deleted" class="text-error text-[0.7em] leading-[1em]">
             {{ tx({ ja: "削除済", en: "Deleted" }) }}
           </div>
@@ -378,7 +381,7 @@ const selectClose = () => {
             :class-img="props.classImg"
             :class-img-tag="props.classImgTag"
           />
-          <div class="flex-1 truncate">{{ tx(text) }}</div>
+          <div class="flex-1 truncate">{{ text }}</div>
           <div v-if="deleted" class="text-error text-[0.7em] leading-[1em]">
             {{ tx({ ja: "削除済", en: "Deleted" }) }}
           </div>
