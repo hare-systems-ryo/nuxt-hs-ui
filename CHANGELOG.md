@@ -2,6 +2,18 @@
 
 
 <<<<<<< HEAD
+## v2.9.6
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.9.5...v2.9.6)
+
+### 🩹 Fixes
+
+- Handle multilingual text filtering in Select option list ([1d54d81](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/1d54d81))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.9.5
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.9.4...v2.9.5)
