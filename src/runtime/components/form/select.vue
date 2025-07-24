@@ -181,10 +181,10 @@ const unKnownData = computed(() => {
   if (props.data === null) return null;
   return {
     id: props.data,
-    text: {
+    text: gt({
       ja: `無効な値が選択されています (ID=${props.data})`,
       en: `Invalid value selected (ID=${props.data})`,
-    },
+    }),
   };
 });
 
