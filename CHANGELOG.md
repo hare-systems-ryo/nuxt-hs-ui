@@ -2,6 +2,18 @@
 
 
 <<<<<<< HEAD
+## v2.9.8
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.9.7...v2.9.8)
+
+### 🩹 Fixes
+
+- Corrected cell alignment issue forcing vertical centering in table component ([882c59c](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/882c59c))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.9.7
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.9.6...v2.9.7)
