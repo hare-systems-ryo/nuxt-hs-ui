@@ -220,15 +220,13 @@ export const SortIconClassName = <T>(uid: string) => {
   };
 };
 
-const headerStyle = `style="--row-height:28px;"`;
-const rowStyle = `style="--row-height:28px;"`;
-export const GetCellHtml = (html: string) =>
-  `<div class="v-cell-container" ${rowStyle}>{replace}</div>`.replace(
+export const GetCellHtml = (html: string, style = "") =>
+  `<div class="v-cell-container" style="--row-height:28px;${style}">{replace}</div>`.replace(
     /\{replace\}/g,
     html
   );
-export const GetHeaderHtml = (html: string) =>
-  `<div class="v-cell-container" ${headerStyle}>{replace}</div>`.replace(
+export const GetHeaderHtml = (html: string, style = "") =>
+  `<div class="v-cell-container" style="--row-height:28px;${style}">{replace}</div>`.replace(
     /\{replace\}/g,
     html
   );

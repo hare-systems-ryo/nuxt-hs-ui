@@ -173,7 +173,7 @@ watch(displayData, (v) => {
   );
 });
 const selectedId = computed(() => {
-  console.log("selectedId", displayData.value);
+  // console.log("selectedId", displayData.value);
   if (displayData.value === null) {
     return null;
   }
