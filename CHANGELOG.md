@@ -2,6 +2,18 @@
 
 
 <<<<<<< HEAD
+## v2.10.0
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.9.8...v2.10.0)
+
+### 🚀 Enhancements
+
+- Add unique class attributes to InputFrame label and default slot for easier styling ([f9b4273](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/f9b4273))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.9.8
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.9.7...v2.9.8)
