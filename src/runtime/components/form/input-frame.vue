@@ -196,7 +196,7 @@ const hasHeader = computed(() => {
         :class="headerClass"
       >
         <div
-          class="grow-0 shrink-1 truncate leading-[1.5em]"
+          class="hc-input-label grow-0 shrink-1 truncate leading-[1.5em]"
           :title="label"
           @click.stop="emit('header-label-click')"
         >
@@ -214,7 +214,7 @@ const hasHeader = computed(() => {
           </div>
         </div>
       </div>
-      <div class="flex-1 flex flex-col justify-center">
+      <div class="hc-input-body flex-1 flex flex-col justify-center">
         <div :class="inputClass"><slot /></div>
       </div>
     </div>
