@@ -2,6 +2,18 @@
 
 
 <<<<<<< HEAD
+## v2.10.1
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.10.0...v2.10.1)
+
+### 🩹 Fixes
+
+- Avoid setting maxHeight option to prevent Tabulator internal errors ([6df74eb](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/6df74eb))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.10.0
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.9.8...v2.10.0)
