@@ -169,7 +169,6 @@ export const Option = (option?: any) => {
         },
       },
       layout: "fitColumns",
-      maxHeight: "600px",
       virtualDomBuffer: 200,
       downloadConfig: {
         columnHeaders: true, // do not include column headers in downloaded table
