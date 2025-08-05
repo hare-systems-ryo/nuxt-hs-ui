@@ -2,6 +2,18 @@
 
 
 <<<<<<< HEAD
+## v2.10.2
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.10.1...v2.10.2)
+
+### 🩹 Fixes
+
+- Resolve incorrect display of selected ID not in loaded options ([9baa1b5](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/9baa1b5))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.10.1
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.10.0...v2.10.1)
