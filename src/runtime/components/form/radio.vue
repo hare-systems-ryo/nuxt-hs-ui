@@ -9,7 +9,7 @@
 // [ tailwind ]
 import { twMerge } from "tailwind-merge";
 // [ NUXT ]
-import { reactive, ref, watch, computed, useId } from "#imports";
+import { reactive, ref, watch, computed, useId, nextTick } from "#imports";
 // [ utils ]
 import { type ClassType, ClassTypeToString } from "../../utils/class-style";
 import type { SelectItem } from "../../utils/select-item";
@@ -247,6 +247,12 @@ watch(
     checkData(id);
   }
 );
+watch(displayList, () => {
+  // console.log("change list");
+  nextTick(() => {
+    checkData(props.data);
+  });
+});
 // ----------------------------------------------------------------------------
 
 // [ focus, blur ]

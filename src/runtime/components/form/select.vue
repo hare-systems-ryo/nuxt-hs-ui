@@ -8,7 +8,7 @@
 
 // [ tailwind ]
 // [ NUXT ]
-import { reactive, ref, watch, computed, useId } from "#imports";
+import { reactive, ref, watch, computed, useId, nextTick } from "#imports";
 // [ utils ]
 import type { ClassType } from "../../utils/class-style";
 import type { SelectItem } from "../../utils/select-item";
@@ -213,6 +213,7 @@ const displayList = computed(() => {
 // ----------------------------------------------------------------------------
 
 const checkData = (id: IdType | null) => {
+  // console.log("checkData");
   const ret = displayList.value.find((row) => row.id === id);
   if (ret === undefined) {
     // 選択肢に存在しないコード引当
@@ -231,6 +232,12 @@ watch(
     checkData(id);
   }
 );
+watch(displayList, () => {
+  // console.log("change list");
+  nextTick(() => {
+    checkData(props.data);
+  });
+});
 // ----------------------------------------------------------------------------
 
 // [ focus, blur ]

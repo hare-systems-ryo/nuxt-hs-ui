@@ -61,26 +61,7 @@ const listB: SelectItem[] = [
     appendIcon: "fa-solid fa-arrow-up-wide-short w-[1em] text-center",
   },
 ];
-const listString: SelectItem<string>[] = [
-  {
-    id: `a-asc`,
-    text: "A",
-    appendIcon: "fa-solid fa-arrow-up-wide-short w-[1em] text-center",
-  },
-  {
-    id: `a-desc`,
-    text: "A",
-    appendIcon: "fa-solid fa-arrow-down-wide-short w-[1em] text-center",
-  },
-  {
-    id: `c`,
-    text: "id:c",
-    appendIcon: [
-      "fa-solid fa-thumbs-up me-1 w-[1em] text-center",
-      "fa-solid fa-envelope",
-    ],
-  },
-];
+const listString = ref<SelectItem<string>[]>([]);
 // <i class=""></i>
 const listNumber: SelectItem[] = [
   { id: 1, text: "id:1" },
@@ -91,6 +72,32 @@ const listStringData = ref<string | null>(null);
 const listStringDiff = ref<string | null>(null);
 const listNumberData = ref<number | null>(null);
 const listNumberDiff = ref<number | null>(null);
+
+onMounted(() => {
+  setTimeout(() => {
+    listStringData.value = "TN";
+    setTimeout(() => {
+      listString.value.push(
+        ...[
+          {
+            id: "SR",
+            text: {
+              ja: "スリナム",
+              en: "SURINAME",
+            },
+          },
+          {
+            id: "TN",
+            text: {
+              ja: "チュニジア",
+              en: "TUNISIA",
+            },
+          },
+        ]
+      );
+    }, 2000);
+  }, 2000);
+});
 </script>
 <template>
   <Card class="mt-4">
