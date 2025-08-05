@@ -2,6 +2,18 @@
 
 
 <<<<<<< HEAD
+## v2.11.0
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.10.2...v2.11.0)
+
+### 🚀 Enhancements
+
+- Add forced header hide mode for form inputs to suppress label/icons ([81e9cdf](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/81e9cdf))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.10.2
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.10.1...v2.10.2)
