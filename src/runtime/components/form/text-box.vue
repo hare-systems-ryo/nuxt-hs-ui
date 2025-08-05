@@ -61,6 +61,7 @@ type Props = {
   disabled?: boolean;
   disabledColor?: string;
   readonly?: boolean;
+  headerless?: boolean;
   // ----------------------------------------------------------------------------
   // 表示
   label?: MultiLang;
@@ -101,6 +102,7 @@ const props = withDefaults(defineProps<Props>(), {
   disabled: false,
   disabledColor: "",
   readonly: false,
+  headerless: false,
   // ----------------------------------------------------------------------------
   // 表示
   label: "",
@@ -306,6 +308,7 @@ const dataListId = ref(`textbox-list-${uid}`);
     :warn="props.warn"
     :warn-time-out="props.warnTimeOut"
     :size="props.size"
+    :headerless="props.headerless"
     @click="elmFocus"
   >
     <template v-if="slots['left-icons']" #left-icons>

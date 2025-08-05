@@ -33,6 +33,7 @@ type Props = {
   disabled?: boolean;
   disabledColor?: string;
   readonly?: boolean;
+  headerless?: boolean;
   // ----------------------------------------------------------------------------
 
   // 表示
@@ -61,6 +62,7 @@ const props = withDefaults(defineProps<Props>(), {
   disabled: false,
   disabledColor: "",
   readonly: false,
+  headerless: false,
   // ----------------------------------------------------------------------------
   // 表示
   label: "",
@@ -191,7 +193,7 @@ const hasHeader = computed(() => {
     </div>
     <div class="flex-1 flex flex-col overflow-hidden justify-start">
       <div
-        v-if="hasHeader"
+        v-if="hasHeader && !props.headerless"
         class="flex-none flex items-end"
         :class="headerClass"
       >

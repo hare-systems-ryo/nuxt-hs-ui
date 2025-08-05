@@ -57,6 +57,8 @@ const list = ["a", "b", "c"];
       </div>
       <div>特殊制限</div>
       <div class="flex items-start gap-2">
+        <TextBox :data="'icon付き'" :diff="textB" headerless :max-len="10" />
+        <!-- <TextBox :data="'iconナシ'" :diff="textB" :max-len="39" /> -->
         <TextBox
           :data="'readonly'"
           :diff="textB"

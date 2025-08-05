@@ -50,6 +50,7 @@ type Props = {
   disabled?: boolean;
   disabledColor?: string;
   readonly?: boolean;
+  headerless?: boolean;
   // ----------------------------------------------------------------------------
   // 表示
   label?: MultiLang;
@@ -91,6 +92,7 @@ const props = withDefaults(defineProps<Props>(), {
   disabled: false,
   disabledColor: "",
   readonly: false,
+  headerless: false,
   // ----------------------------------------------------------------------------
   // 表示
   label: "",
@@ -372,6 +374,7 @@ const _rows = computed(() => {
     :warn="props.warn"
     :warn-time-out="props.warnTimeOut"
     :size="props.size"
+    :headerless="props.headerless"
     @click="elmFocus"
   >
     <template v-if="$slots.label" #label>
