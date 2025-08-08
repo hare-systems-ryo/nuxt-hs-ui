@@ -2,6 +2,18 @@
 
 
 <<<<<<< HEAD
+## v2.11.1
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.11.0...v2.11.1)
+
+### 🩹 Fixes
+
+- **modal:** Prevent drag interactions from triggering unintended backdrop click ([57ec133](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/57ec133))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.11.0
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.10.2...v2.11.0)
