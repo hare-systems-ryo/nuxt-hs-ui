@@ -277,9 +277,9 @@ const lenLabelClass = computed(() => {
   return [
     twMerge(
       "text-white bg-[#2fa412]",
-      props.maxLen - state.value.length < 5 ? "bg-[#fdc90d]" : "",
-      props.maxLen - state.value.length < 3 ? "bg-[#fd750d]" : "",
-      props.maxLen - state.value.length < 1 ? "bg-[#fa541d]" : ""
+      props.maxLen - state.value.length < 9 ? "bg-[#fdc90d]" : "",
+      props.maxLen - state.value.length < 6 ? "bg-[#fd750d]" : "",
+      props.maxLen - state.value.length < 3 ? "bg-[#fa541d]" : ""
     ),
   ];
 });

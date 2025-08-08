@@ -9,7 +9,7 @@
 // [ tailwind ]
 import { twMerge } from "tailwind-merge";
 // [ NUXT ]
-import { useId, computed, watch, onUnmounted } from "#imports";
+import { useId, computed, watch, onUnmounted, ref } from "#imports";
 // [ utils ]
 import { type ClassType, ClassTypeToString } from "../../utils/class-style";
 // [ composables ]
@@ -111,6 +111,7 @@ const classInner = computed(() => {
     "transition-opacity",
     props.closeable ? "cursor-pointer" : "",
     props.show ? "pointer-events-all" : "pointer-events-none",
+    // "bg-red-600",
     ClassTypeToString(props.classInner)
   );
 });
@@ -118,6 +119,14 @@ const closeOnBackEvent = () => {
   if (props.closeable) {
     emit("update:show", false);
     emit("close");
+  }
+};
+const down = ref(false);
+const downStop = () => {
+  console.log("downStop", down.value);
+  if (down.value) {
+    down.value = false;
+    closeOnBackEvent();
   }
 };
 </script>
@@ -133,10 +142,17 @@ const closeOnBackEvent = () => {
         :class="classStyle"
         :style="{ zIndex: zOrder, opacity: props.show ? 1 : 0 }"
       >
-        <!-- :aria-hidden="!props.show" -->
-        <div :class="classInner" @click="closeOnBackEvent">
+        <div
+          :class="classInner"
+          @mousedown.self="down = true"
+          @mouseup.self="downStop"
+          @mousedown.stop
+          @mouseup.stop
+          @click.stop=""
+        >
           <slot />
         </div>
+        <div class="fixed bottom-0 right-0 bg-white z-50">{{ down }}</div>
       </div>
     </Teleport>
   </ClientOnly>

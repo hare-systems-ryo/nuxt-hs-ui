@@ -319,9 +319,9 @@ const rowLabelClass = computed(() => {
   return [
     twMerge(
       "text-white bg-[#2fa412]",
-      last < 5 ? "bg-[#fdc90d]" : "",
-      last < 3 ? "bg-[#fd750d]" : "",
-      last < 1 ? "bg-[#fa541d]" : ""
+      last < 9 ? "bg-[#fdc90d]" : "",
+      last < 6 ? "bg-[#fd750d]" : "",
+      last < 3 ? "bg-[#fa541d]" : ""
     ),
   ];
 });

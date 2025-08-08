@@ -14,7 +14,7 @@ import {
 
 // ----------------------------------------------------------------------------
 
-const Dialog = useHsDialog();
+// const Dialog = useHsDialog();
 
 interface Modal {
   testA: ModalControl;
@@ -25,23 +25,23 @@ const modal = reactive<Modal>({
   testB: InitModalControl(),
 });
 onMounted(() => InitModals(modal, nextTick));
-modal.testA.closeBefore = async () => {
-  // if(md.)
-  const option = Dialog.InitOption();
-  option.theme = Dialog.Themes.main1;
-  option.btnCancel.isShow = true;
-  option.btnLeft.isShow = true;
-  option.btnLeft.title = { ja: "キャンセル" };
-  option.btnLeft.theme = Dialog.Themes.main2;
-  option.btnLeft.variant = "outlined";
-  option.btnRight.isShow = true;
-  option.btnRight.title = { ja: "OK" };
-  option.btnRight.theme = Dialog.Themes.download;
-  option.btnRight.variant = "outlined";
-  const ret1 = await Dialog.Show("message", "title", option);
-  if (ret1 === "right") return false;
-  return true;
-};
+// modal.testA.closeBefore = async () => {
+//   // if(md.)
+//   const option = Dialog.InitOption();
+//   option.theme = Dialog.Themes.main1;
+//   option.btnCancel.isShow = true;
+//   option.btnLeft.isShow = true;
+//   option.btnLeft.title = { ja: "キャンセル" };
+//   option.btnLeft.theme = Dialog.Themes.main2;
+//   option.btnLeft.variant = "outlined";
+//   option.btnRight.isShow = true;
+//   option.btnRight.title = { ja: "OK" };
+//   option.btnRight.theme = Dialog.Themes.download;
+//   option.btnRight.variant = "outlined";
+//   const ret1 = await Dialog.Show("message", "title", option);
+//   if (ret1 === "right") return false;
+//   return true;
+// };
 // ----------------------------------------------------------------------------
 
 const scrollLockA = useHsScrollLock();
@@ -106,7 +106,7 @@ const listNumber = [
     </CardItem>
     <!--  -->
     <Modal :show="modal.testA.isShow" closeable @close="modal.testA.close()">
-      <Card ref="focusTargetElm1" class="max-h-full" @click.stop>
+      <Card ref="focusTargetElm1" class="max-h-full">
         <CardItem class="bg-main1 text-white" variant="header">
           Modal
           <Btn
@@ -146,11 +146,7 @@ const listNumber = [
     </Modal>
     <!--  -->
     <Modal :show="modal.testB.isShow">
-      <Card
-        ref="focusTargetElm2"
-        class="max-h-full max-w-full w-[500px]"
-        @click.stop
-      >
+      <Card ref="focusTargetElm2" class="max-h-full max-w-full w-[500px]">
         <CardItem class="bg-main2 text-white" variant="header">
           Modal
           <Btn
