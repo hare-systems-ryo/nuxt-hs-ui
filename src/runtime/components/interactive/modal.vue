@@ -123,7 +123,7 @@ const closeOnBackEvent = () => {
 };
 const down = ref(false);
 const downStop = () => {
-  console.log("downStop", down.value);
+  // console.log("downStop", down.value);
   if (down.value) {
     down.value = false;
     closeOnBackEvent();
