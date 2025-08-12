@@ -15,6 +15,7 @@ import { type ClassType, ClassTypeToString } from "../../utils/class-style";
 import type { SelectItem } from "../../utils/select-item";
 import { useDisplayList, type DisplaySelectItem } from "../../utils/select";
 import type { MultiLang } from "../../utils/multi-lang";
+import { ObjectCopy } from "../../utils/object";
 
 // [ composables ]
 import { useHsFocus } from "../../composables/use-hs-focus";
@@ -28,6 +29,7 @@ import Btn from "../form/btn.vue";
 const hsFocus = useHsFocus();
 const multiLang = useHsMultiLang();
 const tx = multiLang.tx;
+const gt = multiLang.gt;
 // ----------------------------------------------------------------------------
 // [ Props ]
 type Props = {
@@ -208,26 +210,61 @@ interface SelectItemShow extends DisplaySelectItem<IdType> {
   activate: boolean;
   i: number;
 }
+const displayList = ref<SelectItemShow[]>([]);
 
-const displayList = computed<SelectItemShow[]>(() => {
-  return useDisplayList<IdType>({
-    list: props.list,
-    id: props.data,
-    order: props.order,
-    unKnownData: unKnownData.value,
-    unKnownSelected: unKnownSelected.value,
-    isShowHidden: isShowHidden.value,
-    require: props.require || !props.nullable,
-    nullText: tx(props.nullText).value,
-  }).map((row, index) => {
-    return {
-      ...row,
-      elm: null,
-      activate: false,
-      i: index,
-    };
-  });
-});
+watch(
+  () => [
+    props.list,
+    props.list.length,
+    props.data,
+    isShowHidden.value,
+    props.require,
+    props.nullable,
+    props.nullText,
+  ],
+  () => {
+    displayList.value = useDisplayList<IdType>({
+      list: ObjectCopy(props.list).map((row) => {
+        return { ...row, text: gt(row.text) };
+      }),
+      id: props.data,
+      order: props.order,
+      unKnownData: unKnownData.value,
+      unKnownSelected: unKnownSelected.value,
+      isShowHidden: isShowHidden.value,
+      require: props.require || !props.nullable,
+      nullText: tx(props.nullText).value,
+    }).map((row, index) => {
+      return {
+        ...row,
+        elm: null,
+        activate: false,
+        i: index,
+      };
+    }) as SelectItemShow[];
+  },
+  { immediate: true }
+);
+
+// const displayList = computed<SelectItemShow[]>(() => {
+//   return useDisplayList<IdType>({
+//     list: props.list,
+//     id: props.data,
+//     order: props.order,
+//     unKnownData: unKnownData.value,
+//     unKnownSelected: unKnownSelected.value,
+//     isShowHidden: isShowHidden.value,
+//     require: props.require || !props.nullable,
+//     nullText: tx(props.nullText).value,
+//   }).map((row, index) => {
+//     return {
+//       ...row,
+//       elm: null,
+//       activate: false,
+//       i: index,
+//     };
+//   });
+// });
 // ----------------------------------------------------------------------------
 
 const checkData = (id: IdType | null) => {
@@ -306,7 +343,7 @@ const onBlur = (index: null | number) => {
   if (props.readonly) return;
   if (index === null) {
     focusState.isNullActivate = false;
-  } else {
+  } else if (index in displayList.value) {
     displayList.value[index].activate = false;
   }
   setTimeout(() => {
@@ -481,7 +518,7 @@ const inputClass = computed(() => {
             :class="colClass"
             @mousedown="onMousedownItem"
             @mouseup="onMouseupItem(row.elm)"
-            @click="setValue(row)"
+            @click="setValue(row as SelectItemShow)"
           >
             <div
               class="nac-radio"

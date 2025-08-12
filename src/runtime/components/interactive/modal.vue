@@ -9,7 +9,7 @@
 // [ tailwind ]
 import { twMerge } from "tailwind-merge";
 // [ NUXT ]
-import { useId, computed, watch, onUnmounted, ref } from "#imports";
+import { useId, computed, watch, onUnmounted, ref, useHead } from "#imports";
 // [ utils ]
 import { type ClassType, ClassTypeToString } from "../../utils/class-style";
 // [ composables ]
@@ -59,6 +59,14 @@ if (props.show) {
     hsModal.add(id, props.closeable);
   }
 }
+useHead({
+  style: [
+    {
+      // flatpickr が毎回勝てるよう、都度上書き
+      children: `.flatpickr-calendar{z-index:${zOrder.value + 1} !important;}`,
+    },
+  ],
+});
 watch(
   () => props.show,
   (show) => {

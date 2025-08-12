@@ -17,61 +17,69 @@ const valueBtext = computed(() => {
   if (valueB.value === null) return "null";
   return valueB.value;
 });
-const listA: SelectItem[] = [
-  {
-    id: 1,
-    text: {
-      ja: "id:1 日本語",
-      en: "id:1 英語",
-    },
-    order: 1,
-    imgUrl: "/assets/code-color-group/gray.png",
-    appendIcon: "fa-solid fa-arrow-up-wide-short w-[1em] text-center",
-  },
-  {
-    id: 2,
-    text: {
-      ja: "id:2 日本語",
-      en: "id:2 英語",
-    },
-    order: 2,
-    imgUrl: "/assets/code-color-group/green.png",
-    appendIcon: "fa-solid fa-arrow-up-wide-short w-[1em] text-center",
-  },
-];
-const listB: SelectItem[] = [
-  {
-    id: 1,
-    text: "id:1",
-    order: 3,
-    hidden: true,
-    appendIcon: "fa-solid fa-arrow-up-wide-short w-[1em] text-center",
-  },
-  {
-    id: 2,
-    text: "id:2",
-    order: 2,
-    deleted: true,
-    appendIcon: "fa-solid fa-arrow-up-wide-short w-[1em] text-center",
-  },
-  {
-    id: 3,
-    text: "id:3",
-    order: 1,
-    appendIcon: "fa-solid fa-arrow-up-wide-short w-[1em] text-center",
-  },
-];
+const listA: SelectItem[] = Array.from({ length: 100 })
+  .fill(null)
+  .map((row, index) => {
+    return {
+      id: index,
+      text: `ID:{inxex}`,
+    };
+  });
+// [
+// {
+//   id: 1,
+//   text: {
+//     ja: "id:1 日本語",
+//     en: "id:1 英語",
+//   },
+//   order: 1,
+//   imgUrl: "/assets/code-color-group/gray.png",
+//   appendIcon: "fa-solid fa-arrow-up-wide-short w-[1em] text-center",
+// },
+// {
+//   id: 2,
+//   text: {
+//     ja: "id:2 日本語",
+//     en: "id:2 英語",
+//   },
+//   order: 2,
+//   imgUrl: "/assets/code-color-group/green.png",
+//   appendIcon: "fa-solid fa-arrow-up-wide-short w-[1em] text-center",
+// },
+// ];
+// const listB: SelectItem[] = [
+//   {
+//     id: 1,
+//     text: "id:1",
+//     order: 3,
+//     hidden: true,
+//     appendIcon: "fa-solid fa-arrow-up-wide-short w-[1em] text-center",
+//   },
+//   {
+//     id: 2,
+//     text: "id:2",
+//     order: 2,
+//     deleted: true,
+//     appendIcon: "fa-solid fa-arrow-up-wide-short w-[1em] text-center",
+//   },
+//   {
+//     id: 3,
+//     text: "id:3",
+//     order: 1,
+//     appendIcon: "fa-solid fa-arrow-up-wide-short w-[1em] text-center",
+//   },
+// ];
 const listString = ref<SelectItem<string>[]>([]);
 // <i class=""></i>
-const listNumber: SelectItem[] = [
-  { id: 1, text: "id:1" },
-  { id: 2, text: "id:2" },
-  { id: 3, text: "id:3" },
-];
+// const listNumber: SelectItem[] = [
+//   { id: 1, text: "id:1" },
+//   { id: 2, text: "id:2" },
+//   { id: 3, text: "id:3" },
+// ];
 const listStringData = ref<string | null>(null);
-const listStringDiff = ref<string | null>(null);
-const listNumberData = ref<number | null>(null);
-const listNumberDiff = ref<number | null>(null);
+// const listStringDiff = ref<string | null>(null);
+// const listNumberData = ref<number | null>(null);
+// const listNumberDiff = ref<number | null>(null);
 
 onMounted(() => {
   setTimeout(() => {
@@ -110,7 +118,6 @@ onMounted(() => {
       </div>
       <!-- ------------------------------------------------ -->
       <div class="p-1"></div>
-
       <div>
         <div class="">通常</div>
         <div class="">data = {{ valueAtext }} :: diff = {{ valueBtext }}</div>
@@ -134,12 +141,12 @@ onMounted(() => {
       </div>
 
       <!-- ------------------------------------------------ -->
-      <div class="p-1"></div>
+      <!-- <div class="p-1"></div>
       <div>
         <div class="">画像付き</div>
         <div class="">data = {{ valueAtext }} :: diff = {{ valueBtext }}</div>
-      </div>
-      <Select
+      </div> -->
+      <!-- <Select
         v-model:data="valueA"
         :diff="valueB"
         :list="listA"
@@ -147,28 +154,28 @@ onMounted(() => {
         label="画像付き"
         class-img-tag="object-cover"
         image
-      />
+      /> -->
       <!-- ------------------------------------------------ -->
-      <div class="p-1"></div>
+      <!-- <div class="p-1"></div>
       <div>
         <div class="">非表示・削除アイテム含む</div>
         <div class="">data = {{ valueBtext }}</div>
-      </div>
-      <Select
+      </div> -->
+      <!-- <Select
         v-model:data="valueB"
         :list="listB"
         size="s"
         label="非表示アイテム含む"
-      />
-      <div class="mt-1 flex gap-1">
+      /> -->
+      <!-- <div class="mt-1 flex gap-1">
         <Btn variant="outlined" class="bg-white" @click="valueB = 1">
           Hidden Item
         </Btn>
         <Btn variant="outlined" class="bg-white" @click="valueB = 2">
           Delete Item
         </Btn>
-      </div>
-      <div class="">
+      </div> -->
+      <!-- <div class="">
         <div class="flex">
           <div class="w-32">非表示アイテム</div>
           <div class="">
@@ -182,27 +189,26 @@ onMounted(() => {
             選択肢に原則出てこない、プログラムから値がセットされたときにだけ表示する
           </div>
         </div>
-      </div>
+      </div> -->
       <div>
         <div class="">文字列がIDキー</div>
         <div class="">listStringData = {{ listStringData }}</div>
-        <div class="">listNumberData = {{ listNumberData }}</div>
+        <!-- <div class="">listNumberData = {{ listNumberData }}</div> -->
       </div>
       <div class="grid grid-cols-2 gap-2">
         <Select
           v-model:data="listStringData"
-          :diff="listStringDiff"
           :list="listString"
           size="s"
           label="IDが文字列 listStringData"
         />
-        <Select
+        <!-- <Select
           v-model:data="listNumberData"
           :diff="listNumberDiff"
           :list="listNumber"
           size="s"
           label="IDが数値 listNumberData"
-        />
+        /> -->
       </div>
       <div class=""></div>
       <!-- ------------------------------------------------ -->

@@ -33,7 +33,6 @@ export const useDisplayList = <IdType extends string | number>(arg: {
     require,
     nullText,
   } = arg;
-  //   const displayList = computed(() => {
   const ret: DisplaySelectItem<IdType>[] = list
     .filter((row) => {
       if (row.deleted === true && row.id != id) {

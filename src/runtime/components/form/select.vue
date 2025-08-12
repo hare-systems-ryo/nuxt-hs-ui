@@ -9,10 +9,15 @@
 // [ tailwind ]
 // [ NUXT ]
 import { reactive, ref, watch, computed, useId, nextTick } from "#imports";
+
+// import { createPopper } from "@popperjs/core";
+
 // [ utils ]
 import type { ClassType } from "../../utils/class-style";
 import type { SelectItem } from "../../utils/select-item";
 import { useDisplayList, type DisplaySelectItem } from "../../utils/select";
+import { ObjectCopy } from "../../utils/object";
+
 import type { MultiLang } from "../../utils/multi-lang";
 // [ composables ]
 import { useHsFocus } from "../../composables/use-hs-focus";
@@ -193,25 +198,58 @@ const unKnownData = computed(() => {
 // ----------------------------------------------------------------------------
 const isShowHidden = ref(false);
 /** 選択肢に非表示アイテムが含まれているかどうか */
+
+const pList = computed(() => {
+  return ObjectCopy(props.list);
+});
 const includeHidden = computed(() => {
-  return props.list.filter((row) => row.hidden).length > 0;
+  return pList.value.filter((row) => row.hidden).length > 0;
 });
 // ----------------------------------------------------------------------------
 /** 選択肢 */
-const displayList = computed(() => {
-  return useDisplayList<IdType>({
-    list: props.list.map((row) => {
-      return { ...row, text: gt(row.text) };
-    }),
-    id: props.data,
-    order: props.order,
-    unKnownData: unKnownData.value,
-    unKnownSelected: unKnownSelected.value,
-    isShowHidden: isShowHidden.value,
-    require: props.require || !props.nullable,
-    nullText: tx(props.nullText).value,
-  });
-});
+const displayList = ref<DisplaySelectItem<IdType>[]>([]);
+
+watch(
+  () => [
+    props.list,
+    props.list.length,
+    props.data,
+    isShowHidden.value,
+    props.require,
+    props.nullable,
+    props.nullText,
+  ],
+  () => {
+    displayList.value = useDisplayList<IdType>({
+      list: ObjectCopy(props.list).map((row) => {
+        return { ...row, text: gt(row.text) };
+      }),
+      id: props.data,
+      order: props.order,
+      unKnownData: unKnownData.value,
+      unKnownSelected: unKnownSelected.value,
+      isShowHidden: isShowHidden.value,
+      require: props.require || !props.nullable,
+      nullText: tx(props.nullText).value,
+    });
+  },
+  { immediate: true }
+);
+// const displayList = computed(() => {
+//   console.log("displayList");
+//   return useDisplayList<IdType>({
+//     list: ObjectCopy(props.list).map((row) => {
+//       return { ...row, text: gt(row.text) };
+//     }),
+//     id: props.data,
+//     order: props.order,
+//     unKnownData: unKnownData.value,
+//     unKnownSelected: unKnownSelected.value,
+//     isShowHidden: isShowHidden.value,
+//     require: props.require || !props.nullable,
+//     nullText: tx(props.nullText).value,
+//   });
+// });
 // ----------------------------------------------------------------------------
 
 const checkData = (id: IdType | null) => {
@@ -286,6 +324,33 @@ const selectClose = () => {
   focusState.isOpen = false;
   emit("selectClose", uid);
 };
+// const placement = ref("top");
+const inputElement = ref<HTMLElement | null>(null);
+// const withPopper = (dropdownList: any, component: any, { width }: any) => {
+//   dropdownList.style.width = width;
+//   const popper = createPopper(component.$refs.toggle, dropdownList, {
+//     placement: placement.value as any,
+//     modifiers: [
+//       {
+//         name: "offset",
+//         options: {
+//           offset: [0, -1],
+//         },
+//       },
+//       {
+//         name: "toggleClass",
+//         enabled: true,
+//         phase: "write",
+//         fn({ state }) {
+//           component.$el.classList.toggle("drop-up", state.placement === "top");
+//         },
+//       },
+//     ],
+//   });
+//   return () => popper.destroy();
+// };
+//       :calculate-position="withPopper"
+
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 </script>
@@ -507,6 +572,10 @@ const selectClose = () => {
       display: none;
     }
   }
+}
+.vs__dropdown-menu {
+  //
+  max-height: 250px;
 }
 // 表示非表示の要素
 .v-select-hidden-toggle-switch {

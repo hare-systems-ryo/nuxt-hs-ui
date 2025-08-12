@@ -88,6 +88,7 @@ const listNumber = [
   { id: 2, text: "id:2" },
   { id: 3, text: "id:3" },
 ];
+const valueA = ref<string | null>("2024-12-16");
 </script>
 <template>
   <Card class="">
@@ -122,6 +123,12 @@ const listNumber = [
           <Btn color="accent1" variant="flat" @click="modal.testB.show()">
             showModal2
           </Btn>
+          <Datepicker
+            v-model:data="valueA"
+            show-format="YYYY-MM-DD(ddd)"
+            class=""
+            label="ge"
+          />
           <Select
             :data="1"
             :diff="1"
@@ -159,6 +166,12 @@ const listNumber = [
           </Btn>
         </CardItem>
         <CardItem class="bg-back" variant="body" scroll>
+          <Datepicker
+            v-model:data="valueA"
+            show-format="YYYY-MM-DD(ddd)"
+            class=""
+            label="ge"
+          />
           <div class="py-10">Modal</div>
           <div class="py-10">Modal</div>
           <div class="py-10">Modal</div>
