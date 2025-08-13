@@ -159,7 +159,7 @@ export default defineNuxtModule<ModuleOptions>({
       exposeConfig: true,
       config: twConfig,
     });
-    await installModule("@pinia/nuxt", { disableVuex: true });
+    await installModule("@pinia/nuxt");
     await installModule("@vueuse/nuxt");
     // await installModule("@nuxt/ui");
     // await installModule("@nuxt/ui");

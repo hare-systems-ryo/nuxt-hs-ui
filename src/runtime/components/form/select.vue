@@ -416,7 +416,10 @@ const inputElement = ref<HTMLElement | null>(null);
       <!--  -->
       <!--  -->
       <template #selected-option="{ text, imgUrl, deleted, appendIcon }">
-        <div class="flex items-baseline w-full max-w-full min-w-0">
+        <div
+          class="flex items-baseline w-full max-w-full min-w-0"
+          :class="loading ? 'opacity-0' : ''"
+        >
           <SelectImgIcon
             v-if="imgUrl && props.image"
             class="flex-none"

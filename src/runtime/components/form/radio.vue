@@ -9,7 +9,15 @@
 // [ tailwind ]
 import { twMerge } from "tailwind-merge";
 // [ NUXT ]
-import { reactive, ref, watch, computed, useId, nextTick } from "#imports";
+import {
+  reactive,
+  ref,
+  watch,
+  computed,
+  useId,
+  nextTick,
+  type Ref,
+} from "#imports";
 // [ utils ]
 import { type ClassType, ClassTypeToString } from "../../utils/class-style";
 import type { SelectItem } from "../../utils/select-item";
@@ -210,7 +218,30 @@ interface SelectItemShow extends DisplaySelectItem<IdType> {
   activate: boolean;
   i: number;
 }
-const displayList = ref<SelectItemShow[]>([]);
+const displayList: Ref<SelectItemShow[]> = ref([]);
+
+const setDisplayList = () => {
+  console.log("setDisplayList");
+  displayList.value = useDisplayList<IdType>({
+    list: ObjectCopy(props.list).map((row) => {
+      return { ...row, text: gt(row.text) };
+    }),
+    id: props.data,
+    order: props.order,
+    unKnownData: unKnownData.value,
+    unKnownSelected: unKnownSelected.value,
+    isShowHidden: isShowHidden.value,
+    require: props.require || !props.nullable,
+    nullText: tx(props.nullText).value,
+  }).map((row, index) => {
+    return {
+      ...row,
+      elm: null,
+      activate: false,
+      i: index,
+    };
+  }) as SelectItemShow[];
+};
 
 watch(
   () => [
@@ -223,48 +254,12 @@ watch(
     props.nullText,
   ],
   () => {
-    displayList.value = useDisplayList<IdType>({
-      list: ObjectCopy(props.list).map((row) => {
-        return { ...row, text: gt(row.text) };
-      }),
-      id: props.data,
-      order: props.order,
-      unKnownData: unKnownData.value,
-      unKnownSelected: unKnownSelected.value,
-      isShowHidden: isShowHidden.value,
-      require: props.require || !props.nullable,
-      nullText: tx(props.nullText).value,
-    }).map((row, index) => {
-      return {
-        ...row,
-        elm: null,
-        activate: false,
-        i: index,
-      };
-    }) as SelectItemShow[];
+    nextTick(() => {
+      setDisplayList();
+    });
   },
   { immediate: true }
 );
-
-// const displayList = computed<SelectItemShow[]>(() => {
-//   return useDisplayList<IdType>({
-//     list: props.list,
-//     id: props.data,
-//     order: props.order,
-//     unKnownData: unKnownData.value,
-//     unKnownSelected: unKnownSelected.value,
-//     isShowHidden: isShowHidden.value,
-//     require: props.require || !props.nullable,
-//     nullText: tx(props.nullText).value,
-//   }).map((row, index) => {
-//     return {
-//       ...row,
-//       elm: null,
-//       activate: false,
-//       i: index,
-//     };
-//   });
-// });
 // ----------------------------------------------------------------------------
 
 const checkData = (id: IdType | null) => {
@@ -395,6 +390,7 @@ const onKeyup = (event: KeyboardEvent) => {
 const setValue = async (row: SelectItemShow | null) => {
   if (props.disabled) return;
   if (props.readonly) return;
+  console.log(row);
   displayData.value = row;
 };
 
@@ -518,7 +514,7 @@ const inputClass = computed(() => {
             :class="colClass"
             @mousedown="onMousedownItem"
             @mouseup="onMouseupItem(row.elm)"
-            @click="setValue(row as SelectItemShow)"
+            @click="setValue(row)"
           >
             <div
               class="nac-radio"

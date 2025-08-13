@@ -80,10 +80,11 @@ const listStringData = ref<string | null>(null);
 // const listStringDiff = ref<string | null>(null);
 // const listNumberData = ref<number | null>(null);
 // const listNumberDiff = ref<number | null>(null);
-
+const loading = ref(true);
 onMounted(() => {
   setTimeout(() => {
     listStringData.value = "TN";
+    loading.value = true;
     setTimeout(() => {
       listString.value.push(
         ...[
@@ -103,6 +104,7 @@ onMounted(() => {
           },
         ]
       );
+      loading.value = false;
     }, 2000);
   }, 2000);
 });
@@ -199,6 +201,7 @@ onMounted(() => {
         <Select
           v-model:data="listStringData"
           :list="listString"
+          :loading="loading"
           size="s"
           label="IDが文字列 listStringData"
         />
