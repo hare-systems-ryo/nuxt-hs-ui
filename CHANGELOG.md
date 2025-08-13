@@ -2,6 +2,18 @@
 
 
 <<<<<<< HEAD
+## v2.11.4
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.11.3...v2.11.4)
+
+### 🩹 Fixes
+
+- Prevent invalid value error when selecting from null in Radio component ([4bdb4f0](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/4bdb4f0))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.11.3
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.11.2...v2.11.3)
