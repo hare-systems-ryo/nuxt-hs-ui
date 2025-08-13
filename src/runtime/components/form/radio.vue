@@ -221,7 +221,7 @@ interface SelectItemShow extends DisplaySelectItem<IdType> {
 const displayList: Ref<SelectItemShow[]> = ref([]);
 
 const setDisplayList = () => {
-  console.log("setDisplayList");
+  // console.log("setDisplayList");
   displayList.value = useDisplayList<IdType>({
     list: ObjectCopy(props.list).map((row) => {
       return { ...row, text: gt(row.text) };
@@ -390,7 +390,7 @@ const onKeyup = (event: KeyboardEvent) => {
 const setValue = async (row: SelectItemShow | null) => {
   if (props.disabled) return;
   if (props.readonly) return;
-  console.log(row);
+  // console.log(row);
   displayData.value = row;
 };
 
