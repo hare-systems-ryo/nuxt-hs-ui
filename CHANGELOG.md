@@ -2,6 +2,18 @@
 
 
 <<<<<<< HEAD
+## v2.11.5
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.11.4...v2.11.5)
+
+### 🏡 Chore
+
+- Remove debug console.log statements ([bdb9051](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/bdb9051))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.11.4
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.11.3...v2.11.4)
