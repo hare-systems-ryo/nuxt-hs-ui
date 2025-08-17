@@ -11,9 +11,11 @@ const Dialog = useHsDialog();
 const test1 = async () => {
   dialogResult1.value = "";
   dialogResult2.value = "";
+
   // const Color = Dialog.Color;
   const option = Dialog.InitOption();
   option.theme = Dialog.Themes.main1;
+  option.bgClose = true;
   option.btnCancel.isShow = false;
   option.btnLeft.isShow = true;
   option.btnLeft.title = { ja: "キャンセル" };
@@ -25,15 +27,20 @@ const test1 = async () => {
   option.btnRight.variant = "text";
 
   // option.btnCancel.isShow = true;
-  option.btnCancel.isShow = true;
+  // option.btnCancel.isShow = true;
   // option.btnCancel.title = 'Cancel';
   const ret1 = await Dialog.Show("message", "title", option);
+  const option2 = Dialog.InitOption();
+
   dialogResult1.value = ret1;
-  option.btnCancel.isShow = false;
-  option.btnLeft.variant = "text";
-  option.btnRight.variant = "outlined";
+  option2.bgClose = false;
+  option2.btnCancel.isShow = false;
+  option2.btnLeft.variant = "text";
+  option2.btnRight.variant = "outlined";
+  option2.btnLeft.title = { ja: "Cancel" };
+  option2.btnRight.title = { ja: "Export" };
   // option.btnCancel.color = Color.main3;
-  const ret2 = await Dialog.Show("message", "title", option);
+  const ret2 = await Dialog.Show("message", "title", option2);
   dialogResult2.value = ret2;
 };
 </script>

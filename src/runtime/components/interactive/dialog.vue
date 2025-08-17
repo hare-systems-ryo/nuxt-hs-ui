@@ -83,6 +83,17 @@ const clickCancel = () => {
   item.data.cancelBtnClick();
 };
 
+const clickBg = () => {
+  if (activeItem.value === null) return;
+  const item = activeItem.value;
+  if (activeItem.value?.data.option.bgClose === true) {
+    item.data.cancelBtnClick();
+    return;
+  }
+  if (item.data.option.btnCancel.isShow === false) return;
+  item.data.cancelBtnClick();
+};
+
 watch(activateTs, async (ts) => {
   await nextTick();
   if (ts === null || !isShow.value) {
@@ -217,6 +228,14 @@ const baseCardHeader = [
   "py-1",
   "pe-1",
 ];
+
+const modalClosable = computed(() => {
+  if (activeItem.value?.data.option.btnCancel.isShow) return true;
+  if (activeItem.value?.data.option.bgClose !== undefined) {
+    return activeItem.value?.data.option.bgClose;
+  }
+  return false;
+});
 </script>
 
 <template>
@@ -226,8 +245,8 @@ const baseCardHeader = [
       :show="isShow"
       :z-index="zindex"
       focus-lock
-      :closeable="activeItem?.data.option.btnCancel.isShow || false"
-      @close="clickCancel()"
+      :closeable="modalClosable"
+      @close="clickBg()"
     >
       <Card
         v-if="activeItem !== null"

@@ -25,6 +25,7 @@ export interface DialogOption {
   zindex: number;
   theme: Theme;
   defaultBtn: "left" | "right" | "cancel" | null;
+  bgClose?: boolean;
   btnLeft: {
     isShow: boolean;
     title: MultiLang;
@@ -52,6 +53,7 @@ export const InitDialogOption = (): DialogOption => {
     zindex: 10001,
     theme: "main1",
     defaultBtn: "right",
+    bgClose: undefined,
     btnLeft: {
       isShow: true,
       title: "no",
