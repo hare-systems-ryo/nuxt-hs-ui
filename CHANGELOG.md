@@ -2,6 +2,18 @@
 
 
 <<<<<<< HEAD
+## v2.12.0
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.11.5...v2.12.0)
+
+### 🚀 Enhancements
+
+- Add option to close Dialog on background click ([df0ad43](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/df0ad43))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.11.5
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.11.4...v2.11.5)
