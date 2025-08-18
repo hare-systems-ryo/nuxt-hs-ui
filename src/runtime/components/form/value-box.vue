@@ -249,7 +249,7 @@ const validCheck = (
       value: props.max,
       message: gt(props.uiText.validError.maxValue).replace(
         /\{value\}/g,
-        String(props.min)
+        String(props.max)
       ),
       // message: `[${props.max}]以上の数値は入力できません`,
     };
