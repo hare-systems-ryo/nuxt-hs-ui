@@ -2,6 +2,18 @@
 
 
 <<<<<<< HEAD
+## v2.12.2
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.12.1...v2.12.2)
+
+### 🩹 Fixes
+
+- Suppress warning for initial value in Radio and Select components ([2b52c21](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/2b52c21))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.12.1
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.12.0...v2.12.1)
