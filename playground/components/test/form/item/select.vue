@@ -7,6 +7,38 @@
 ----------------------------------------------------------------------------- */
 import type { SelectItem } from "../../../../../src/runtime/utils/select-item";
 
+const state = ref<{
+  testString: {
+    data: string | null;
+    diff: string | null;
+    list: SelectItem<string>[];
+  };
+  testNumber: {
+    data: number | null;
+    diff: number | null;
+    list: SelectItem<number>[];
+  };
+}>({
+  testString: {
+    data: "b",
+    diff: null,
+    list: [
+      { id: `a`, text: "id:a" },
+      { id: `b`, text: "id:b" },
+      { id: `c`, text: "id:c" },
+    ],
+  },
+  testNumber: {
+    data: 1,
+    diff: null,
+    list: [
+      { id: 1, text: "id:1" },
+      { id: 2, text: "id:2" },
+      { id: 3, text: "id:3" },
+    ],
+  },
+});
+
 const valueA = ref<number | null>(null);
 const valueAtext = computed(() => {
   if (valueA.value === null) return "null";
@@ -17,14 +49,14 @@ const valueBtext = computed(() => {
   if (valueB.value === null) return "null";
   return valueB.value;
 });
-const listA: SelectItem[] = Array.from({ length: 100 })
-  .fill(null)
-  .map((row, index) => {
-    return {
-      id: index,
-      text: `ID:{inxex}`,
-    };
-  });
+// const listA: SelectItem[] = Array.from({ length: 100 })
+//   .fill(null)
+//   .map((row, index) => {
+//     return {
+//       id: index,
+//       text: `ID:{inxex}`,
+//     };
+//   });
 // [
 // {
 //   id: 1,
@@ -126,20 +158,27 @@ onMounted(() => {
       </div>
       <div class="grid grid-cols-2 gap-1">
         <Select
-          v-model:data="valueA"
-          :diff="valueB"
-          :list="listA"
+          v-model:data="state.testString.data"
+          :list="state.testString.list"
           size="s"
-          label="基本的な使い方"
+          label=""
         />
+        <div class="flex-c">{{ state.testString.data }}</div>
         <Select
+          v-model:data="state.testNumber.data"
+          :list="state.testNumber.list"
+          size="s"
+          label=""
+        />
+        <div class="flex-c">{{ state.testNumber.data }}</div>
+        <!-- <Select
           v-model:data="valueA"
           :diff="valueB"
           :list="listA"
           size="s"
           label="基本的な使い方(Null許容)"
           nullable
-        />
+        /> -->
       </div>
 
       <!-- ------------------------------------------------ -->

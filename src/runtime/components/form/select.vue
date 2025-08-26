@@ -208,6 +208,33 @@ const includeHidden = computed(() => {
 // ----------------------------------------------------------------------------
 /** 選択肢 */
 const displayList = ref<DisplaySelectItem<IdType>[]>([]);
+const baseList = computed(() => {
+  return ObjectCopy(props.list).map((row) => {
+    return { ...row, text: gt(row.text) };
+  });
+});
+
+const setDisplayList = () => {
+  displayList.value = useDisplayList<IdType>({
+    list: baseList.value,
+    id: props.data,
+    order: props.order,
+    unKnownData: unKnownData.value,
+    unKnownSelected: unKnownSelected.value,
+    isShowHidden: isShowHidden.value,
+    require: props.require || !props.nullable,
+    nullText: tx(props.nullText).value,
+  });
+};
+watch(
+  () => props.list,
+  () => {
+    nextTick(() => {
+      setDisplayList();
+    });
+  },
+  { deep: true }
+);
 
 watch(
   () => [
@@ -220,41 +247,18 @@ watch(
     props.nullText,
   ],
   () => {
-    displayList.value = useDisplayList<IdType>({
-      list: ObjectCopy(props.list).map((row) => {
-        return { ...row, text: gt(row.text) };
-      }),
-      id: props.data,
-      order: props.order,
-      unKnownData: unKnownData.value,
-      unKnownSelected: unKnownSelected.value,
-      isShowHidden: isShowHidden.value,
-      require: props.require || !props.nullable,
-      nullText: tx(props.nullText).value,
+    nextTick(() => {
+      setDisplayList();
     });
   },
   { immediate: true }
 );
-// const displayList = computed(() => {
-//   console.log("displayList");
-//   return useDisplayList<IdType>({
-//     list: ObjectCopy(props.list).map((row) => {
-//       return { ...row, text: gt(row.text) };
-//     }),
-//     id: props.data,
-//     order: props.order,
-//     unKnownData: unKnownData.value,
-//     unKnownSelected: unKnownSelected.value,
-//     isShowHidden: isShowHidden.value,
-//     require: props.require || !props.nullable,
-//     nullText: tx(props.nullText).value,
-//   });
-// });
+
 // ----------------------------------------------------------------------------
 
 const checkData = (id: IdType | null) => {
   // console.log("checkData");
-  const ret = displayList.value.find((row) => row.id === id);
+  const ret = baseList.value.find((row) => row.id === id);
   if (ret === undefined) {
     // 選択肢に存在しないコード引当
     unKnownSelected.value = true;
@@ -272,7 +276,7 @@ watch(
     checkData(id);
   }
 );
-watch(displayList, () => {
+watch(baseList, () => {
   // console.log("change list");
   nextTick(() => {
     checkData(props.data);

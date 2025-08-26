@@ -21,7 +21,7 @@ const state = ref<{
   };
 }>({
   testString: {
-    data: null,
+    data: "b",
     diff: null,
     list: [
       { id: `a`, text: "id:a" },
@@ -30,7 +30,7 @@ const state = ref<{
     ],
   },
   testNumber: {
-    data: null,
+    data: 1,
     diff: null,
     list: [
       { id: 1, text: "id:1" },
@@ -38,6 +38,9 @@ const state = ref<{
       { id: 3, text: "id:3" },
     ],
   },
+});
+onMounted(() => {
+  // state.value.testString.data = `a`;
 });
 // const valueA = ref<string | null>(null);
 // const listAString: SelectItem<string>[] = [

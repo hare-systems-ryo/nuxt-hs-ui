@@ -220,12 +220,15 @@ interface SelectItemShow extends DisplaySelectItem<IdType> {
 }
 const displayList: Ref<SelectItemShow[]> = ref([]);
 
+const baseList = computed(() => {
+  return ObjectCopy(props.list).map((row) => {
+    return { ...row, text: gt(row.text) };
+  });
+});
+
 const setDisplayList = () => {
-  // console.log("setDisplayList");
   displayList.value = useDisplayList<IdType>({
-    list: ObjectCopy(props.list).map((row) => {
-      return { ...row, text: gt(row.text) };
-    }),
+    list: baseList.value,
     id: props.data,
     order: props.order,
     unKnownData: unKnownData.value,
@@ -242,16 +245,25 @@ const setDisplayList = () => {
     };
   }) as SelectItemShow[];
 };
+watch(
+  () => props.list,
+  () => {
+    nextTick(() => {
+      setDisplayList();
+    });
+  },
+  { deep: true }
+);
 
 watch(
   () => [
-    props.list,
-    props.list.length,
     props.data,
     isShowHidden.value,
     props.require,
     props.nullable,
     props.nullText,
+    unKnownSelected.value,
+    displayData.value,
   ],
   () => {
     nextTick(() => {
@@ -263,7 +275,7 @@ watch(
 // ----------------------------------------------------------------------------
 
 const checkData = (id: IdType | null) => {
-  const ret = displayList.value.find((row) => row.id === id);
+  const ret = baseList.value.find((row) => row.id === id);
   if (ret === undefined) {
     // 選択肢に存在しないコード引当
     unKnownSelected.value = true;
@@ -281,7 +293,7 @@ watch(
     checkData(id);
   }
 );
-watch(displayList, () => {
+watch(baseList, () => {
   // console.log("change list");
   nextTick(() => {
     checkData(props.data);
