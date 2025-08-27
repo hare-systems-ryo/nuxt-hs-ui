@@ -2,6 +2,18 @@
 
 
 <<<<<<< HEAD
+## v2.12.3
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.12.2...v2.12.3)
+
+### 🩹 Fixes
+
+- Hide 'Today Input' button when datepicker is readonly ([6261e21](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/6261e21))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.12.2
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.12.1...v2.12.2)
