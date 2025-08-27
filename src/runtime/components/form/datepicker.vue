@@ -844,7 +844,7 @@ const computedIsFocusOpenBtn = computed(() => {
         >{{ displayText }}</span
       >
       <span
-        v-if="props.data === null && !props.hideTodayBtn"
+        v-if="props.data === null && !props.hideTodayBtn && !props.readonly"
         class="today"
         :class="
           !manualInput
