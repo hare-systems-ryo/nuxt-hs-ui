@@ -20,12 +20,12 @@ const state = ref<{
   };
 }>({
   testString: {
-    data: "b",
+    data: null,
     diff: null,
     list: [
-      { id: `a`, text: "id:a" },
-      { id: `b`, text: "id:b" },
-      { id: `c`, text: "id:c" },
+      // { id: `a`, text: "id:a" },
+      // { id: `b`, text: "id:b" },
+      // { id: `c`, text: "id:c" },
     ],
   },
   testNumber: {
@@ -37,6 +37,19 @@ const state = ref<{
       { id: 3, text: "id:3" },
     ],
   },
+});
+onMounted(() => {
+  state.value.testString.list.push(
+    ...Array.from({ length: 20 })
+      .fill(null)
+      .map((row, index) => {
+        return {
+          id: index.toString(36),
+          text: "id:" + index.toString(36),
+        };
+      })
+  );
+  loading.value = false;
 });
 
 const valueA = ref<number | null>(null);
@@ -152,11 +165,20 @@ onMounted(() => {
       </div>
       <!-- ------------------------------------------------ -->
       <div class="p-1"></div>
+      <div class="p-20"></div>
+      <div class="p-20"></div>
+      <div class="p-20"></div>
+      <div class="p-20"></div>
+      <div class="p-20"></div>
+      <div class="p-20"></div>
+      <div class="p-20"></div>
+      <div class="p-20"></div>
+      <div class="p-20"></div>
       <div>
         <div class="">通常</div>
         <div class="">data = {{ valueAtext }} :: diff = {{ valueBtext }}</div>
       </div>
-      <div class="grid grid-cols-2 gap-1">
+      <div class="grid grid-cols-1 600:grid-cols-2 gap-1">
         <Select
           v-model:data="state.testString.data"
           :list="state.testString.list"
@@ -180,6 +202,19 @@ onMounted(() => {
           nullable
         /> -->
       </div>
+      <div class="p-20"></div>
+      <div class="p-20"></div>
+      <div class="p-20"></div>
+      <div class="p-20"></div>
+      <div class="p-20"></div>
+      <div class="p-20"></div>
+      <div class="p-20"></div>
+      <div class="p-20"></div>
+      <div class="p-20"></div>
+      <div class="p-20"></div>
+      <div class="p-20"></div>
+      <div class="p-20"></div>
+      <div class="p-20"></div>
 
       <!-- ------------------------------------------------ -->
       <!-- <div class="p-1"></div>

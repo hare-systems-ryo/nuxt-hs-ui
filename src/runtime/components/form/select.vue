@@ -22,6 +22,7 @@ import type { MultiLang } from "../../utils/multi-lang";
 // [ composables ]
 import { useHsFocus } from "../../composables/use-hs-focus";
 import { useHsMultiLang } from "../../composables/use-hs-multi-lang";
+import { useHsMisc } from "../../composables/use-hs-misc";
 // [ Components ]
 import InputFrame from "./input-frame.vue";
 import SelectImgIcon from "./select-img-icon.vue";
@@ -32,6 +33,7 @@ const hsFocus = useHsFocus();
 const multiLang = useHsMultiLang();
 const tx = multiLang.tx;
 const gt = multiLang.gt;
+const hsMisc = useHsMisc();
 
 // ----------------------------------------------------------------------------
 // [ Props ]
@@ -405,6 +407,7 @@ const inputElement = ref<HTMLElement | null>(null);
       append-to-body
       :options="displayList"
       :loading="props.loading"
+      :searchable="!hsMisc.IsMobile"
       :clearable="!props.require && props.nullable"
       :disabled="props.disabled || props.readonly"
       :uid="uid"
@@ -417,6 +420,8 @@ const inputElement = ref<HTMLElement | null>(null);
       @blur="onBlur()"
       @focus="onFocus()"
     >
+      <!-- :autoscroll="false" -->
+      <!--  -->
       <!--  -->
       <!--  -->
       <template #selected-option="{ text, imgUrl, deleted, appendIcon }">
@@ -513,6 +518,8 @@ const inputElement = ref<HTMLElement | null>(null);
 </template>
 
 <style lang="scss">
+// safari ios 勝手にスクロール対策
+
 .v-select {
   > div {
     border-width: 0 !important;
@@ -581,7 +588,7 @@ const inputElement = ref<HTMLElement | null>(null);
   }
 }
 .vs__dropdown-menu {
-  //
+  // position: fixed !important;
   max-height: 250px;
 }
 // 表示非表示の要素
