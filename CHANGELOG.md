@@ -2,6 +2,18 @@
 
 
 <<<<<<< HEAD
+## v2.12.4
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.12.3...v2.12.4)
+
+### 🩹 Fixes
+
+- Disable search in Select component on mobile due to compatibility issues ([f6919b2](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/f6919b2))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.12.3
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.12.2...v2.12.3)
