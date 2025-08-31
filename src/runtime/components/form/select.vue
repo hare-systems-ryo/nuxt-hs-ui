@@ -365,7 +365,6 @@ const isMobile = useHsIsMobile();
 </script>
 
 <template>
-  {{ { a: isMobile.isMobile } }}
   <InputFrame
     :class="[props.class]"
     :class-header="props.classHeader"
