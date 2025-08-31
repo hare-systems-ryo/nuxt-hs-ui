@@ -2,6 +2,18 @@
 
 
 <<<<<<< HEAD
+## v2.12.5
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.12.4...v2.12.5)
+
+### 🩹 Fixes
+
+- Correct mobile detection logic in Select component ([e0ba419](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/e0ba419))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.12.4
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.12.3...v2.12.4)
