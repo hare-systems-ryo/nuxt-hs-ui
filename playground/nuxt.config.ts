@@ -4,6 +4,8 @@ export default defineNuxtConfig({
     appManifest: false,
   },
   modules: [
+    "@pinia/nuxt",
+    "pinia-plugin-persistedstate/nuxt",
     //
     [
       "../src/module",
@@ -18,7 +20,6 @@ export default defineNuxtConfig({
       },
     ],
     // ["@nuxtjs/tailwindcss", { config: twConfig, exposeConfig: true }],
-    "@pinia/nuxt",
   ],
   // myModule: {},
   devServer: {

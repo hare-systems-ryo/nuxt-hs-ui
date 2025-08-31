@@ -160,10 +160,10 @@ export default defineNuxtModule<ModuleOptions>({
       config: twConfig,
     });
     await installModule("@pinia/nuxt");
+    // 型拡張も注入（配布先で types 設定不要にする）
     await installModule("@vueuse/nuxt");
     // await installModule("@nuxt/ui");
     // await installModule("@nuxt/ui");
-
     addPlugin(resolve("runtime/plugin/v-select"));
   },
 });

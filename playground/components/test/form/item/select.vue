@@ -165,6 +165,7 @@ onMounted(() => {
       </div>
       <!-- ------------------------------------------------ -->
       <div class="p-1"></div>
+      <!-- <div class="p-20"></div>
       <div class="p-20"></div>
       <div class="p-20"></div>
       <div class="p-20"></div>
@@ -172,8 +173,7 @@ onMounted(() => {
       <div class="p-20"></div>
       <div class="p-20"></div>
       <div class="p-20"></div>
-      <div class="p-20"></div>
-      <div class="p-20"></div>
+      <div class="p-20"></div> -->
       <div>
         <div class="">通常</div>
         <div class="">data = {{ valueAtext }} :: diff = {{ valueBtext }}</div>
@@ -184,6 +184,7 @@ onMounted(() => {
           :list="state.testString.list"
           size="s"
           label=""
+          searchable
         />
         <div class="flex-c">{{ state.testString.data }}</div>
         <Select

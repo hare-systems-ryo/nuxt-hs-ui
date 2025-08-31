@@ -22,7 +22,9 @@ import type { MultiLang } from "../../utils/multi-lang";
 // [ composables ]
 import { useHsFocus } from "../../composables/use-hs-focus";
 import { useHsMultiLang } from "../../composables/use-hs-multi-lang";
-import { useHsMisc } from "../../composables/use-hs-misc";
+// import { useHsMisc } from "../../composables/use-hs-misc";
+import { useHsIsMobile } from "../../composables/use-hs-is-mobile";
+
 // [ Components ]
 import InputFrame from "./input-frame.vue";
 import SelectImgIcon from "./select-img-icon.vue";
@@ -33,7 +35,7 @@ const hsFocus = useHsFocus();
 const multiLang = useHsMultiLang();
 const tx = multiLang.tx;
 const gt = multiLang.gt;
-const hsMisc = useHsMisc();
+// const hsMisc = useHsMisc();
 
 // ----------------------------------------------------------------------------
 // [ Props ]
@@ -48,6 +50,7 @@ type Props = {
   classImg?: ClassType;
   classImgTag?: ClassType;
   nullable?: boolean;
+  searchable?: boolean;
   // ----------------------------------------------------------------------------
   data: IdType | null;
   diff?: IdType | null | undefined;
@@ -356,12 +359,13 @@ const inputElement = ref<HTMLElement | null>(null);
 //   return () => popper.destroy();
 // };
 //       :calculate-position="withPopper"
-
+const isMobile = useHsIsMobile();
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 </script>
 
 <template>
+  {{ { a: isMobile.isMobile } }}
   <InputFrame
     :class="[props.class]"
     :class-header="props.classHeader"
@@ -407,7 +411,7 @@ const inputElement = ref<HTMLElement | null>(null);
       append-to-body
       :options="displayList"
       :loading="props.loading"
-      :searchable="!hsMisc.IsMobile"
+      :searchable="!isMobile.isMobile && searchable"
       :clearable="!props.require && props.nullable"
       :disabled="props.disabled || props.readonly"
       :uid="uid"
