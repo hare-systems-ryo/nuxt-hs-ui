@@ -41,6 +41,6 @@ export const useHsIsMobile = defineStore("HsIsMobile", () => {
     isMobile.value = isOldIPad || isIpad || isiOS || isAndroid;
   };
   checkIsMobile();
-  console.log("isMobile", isMobile.value);
+  // console.log("isMobile", isMobile.value);
   return { isMobile };
 });
