@@ -2,6 +2,18 @@
 
 
 <<<<<<< HEAD
+## v2.12.7
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.12.6...v2.12.7)
+
+### 🏡 Chore
+
+- Remove debug comments ([ea121af](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/ea121af))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](http://github.com/hare-systems-ryo))
+
 ## v2.12.6
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v2.12.5...v2.12.6)
