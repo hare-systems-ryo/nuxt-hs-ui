@@ -1,20 +1,21 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="IdType extends string|number">
 /* ----------------------------------------------------------------------------
-// src\runtime\components\form\text-box.vue
+// src\runtime\components\form\combo-box.vue
 // ----------------------------------------------------------------------------
-// TextBox
-// TextBoxTextBox
+// ComboBox
+// ComboBoxComboBox
 ---------------------------------------------------------------------------- */
 
 // [ tailwind ]
 import { twMerge } from 'tailwind-merge';
 
 // [ NUXT ]
-import { reactive, ref, watch, computed, nextTick, useId } from '#imports';
+import { reactive, ref, watch, computed, nextTick, useId, watchEffect } from '#imports';
 
 // [ utils ]
 import type { ClassType } from '../../utils/class-style';
 import type { MultiLang } from '../../utils/multi-lang';
+import type { SelectItem } from '../../utils/select-item';
 // [ composables ]
 import { useHsFocus } from '../../composables/use-hs-focus';
 import { useHsPinia } from '../../composables/use-pinia';
@@ -32,7 +33,7 @@ type Enterkeyhint = 'done' | 'search' | 'enter' | 'go' | 'next' | 'previous' | '
 type Props = {
   // ----------------------------------------------------------------------------
   // Input 種類別
-  type?: 'email' | 'number' | 'password' | 'tel' | 'text' | 'url';
+  type?: 'email' | 'number' | 'tel' | 'text' | 'url';
   textAlign?: 'left' | 'center' | 'right';
   maxLen?: number;
   autocomplete?: string;
@@ -43,6 +44,10 @@ type Props = {
   placeholder?: MultiLang;
   pattern?: string;
   lang?: string;
+  list: SelectItem<IdType>[];
+  listLoading?: boolean;
+  activeId: IdType | null;
+  freeTextId: IdType | null;
   // ----------------------------------------------------------------------------
   data: string | null;
   diff?: string | null | undefined;
@@ -53,9 +58,7 @@ type Props = {
   classInput?: ClassType;
   // ----------------------------------------------------------------------------
   // 状態
-  //   focus?: boolean;
   focusColor?: string;
-  //   change?: boolean;
   changeColor?: string;
   error?: boolean;
   errorColor?: string;
@@ -63,7 +66,6 @@ type Props = {
   disabledColor?: string;
   readonly?: boolean;
   headerless?: boolean;
-  // size: string | number;
   // ----------------------------------------------------------------------------
   // 表示
   label?: MultiLang;
@@ -90,6 +92,7 @@ const props = withDefaults(defineProps<Props>(), {
   placeholder: '',
   pattern: undefined,
   lang: undefined,
+  listLoading: false,
   // ----------------------------------------------------------------------------
   diff: undefined,
   tabindex: undefined,
@@ -99,9 +102,7 @@ const props = withDefaults(defineProps<Props>(), {
   classInput: '',
   // ----------------------------------------------------------------------------
   // 状態
-  //   focus: false,
   focusColor: 'shadow-[inset_0px_0px_1px_2px_#0d8ee4]',
-  //   change: false,
   changeColor: 'shadow-[inset_0px_0px_1px_2px_#fd9831be]',
   error: false,
   errorColor: 'shadow-[inset_0px_0px_1px_2px_#d80000dc]',
@@ -112,7 +113,6 @@ const props = withDefaults(defineProps<Props>(), {
   // ----------------------------------------------------------------------------
   // 表示
   label: '',
-  // 表示-副情報
   require: false,
   requireText: () => ({ ja: '必須', en: 'Required' }),
   warn: '',
@@ -129,6 +129,7 @@ type Emits = {
   blur: [elm: HTMLElement];
   // ----------------------------
   'update:data': [value: string];
+  'update:activeId': [id: IdType | null];
   'value-change': [after: string, before: string | null];
   // ----------------------------
   keydown: [event: KeyboardEvent];
@@ -151,6 +152,16 @@ const slots = defineSlots<{
 const uid = useId();
 const multiLang = useHsMultiLang(useHsPinia());
 const tx = multiLang.tx;
+const gt = multiLang.gt;
+watch(
+  () => multiLang.lang,
+  () => {
+    if (!props.activeId) return;
+    const data = props.list.find((row) => row.id === props.activeId);
+    if (!data) return;
+    updateValue(gt(data.text), props.activeId);
+  }
+);
 // ----------------------------------------------------------------------------
 
 // [ reactive ]
@@ -169,7 +180,8 @@ watch(
 );
 
 // 更新を親コンポーネントに伝える
-const updateValue = async (text: string | null) => {
+// forceId: リスト選択時はrow.idを直接指定、自由入力時はundefined（リスト照合を行う）
+const updateValue = async (text: string | null, forceId?: IdType | null) => {
   const before = props.data;
   let setText = '';
   if (text === null) {
@@ -186,6 +198,20 @@ const updateValue = async (text: string | null) => {
   }
   state.value = setText;
   emit('update:data', setText);
+
+  if (!setText) {
+    emit('update:activeId', null);
+  } else if (forceId !== undefined) {
+    if (props.activeId !== forceId) {
+      // リスト選択: 渡されたIDをそのまま使う
+      emit('update:activeId', forceId);
+    }
+  } else {
+    // 自由入力: テキストがリストと完全一致するか照合
+    const matched = props.list.find((row) => tx(row.text).value === setText);
+    emit('update:activeId', matched ? matched.id : props.freeTextId ?? null);
+  }
+
   await nextTick();
   emit('value-change', setText, before);
 };
@@ -303,118 +329,151 @@ const lenLabelClass = computed(() => {
 const dataListId = ref(`textbox-list-${uid}`);
 const placeholder = computed(() => tx(props.placeholder).value);
 
+const filteredList = computed(() => {
+  if (!props.data || props.data.length === 0) return props.list;
+  const query = props.data.toLowerCase();
+  return props.list.filter((row) => tx(row.text).value.toLowerCase().includes(query));
+});
+
+const open = ref(false);
+watchEffect(() => {
+  if (computedActivate.value && (filteredList.value.length !== 0 || props.listLoading)) {
+    open.value = computedActivate.value;
+  } else if (!computedActivate.value) {
+    open.value = false; // フォーカスが外れたら閉じる
+  }
+});
 // ----------------------------------------------------------------------------
 </script>
 
 <template>
-  <InputFrame
-    :class="props.class"
-    :class-header="props.classHeader"
-    :class-input="[props.classInput]"
-    :focus="computedActivate"
-    :focus-color="props.focusColor"
-    :change="isChangeData"
-    :change-color="props.changeColor"
-    :error="props.error"
-    :error-color="props.errorColor"
-    :disabled="props.disabled"
-    :disabled-color="props.disabledColor"
-    :readonly="props.readonly"
-    :label="props.label"
-    :require="props.require"
-    :require-text="props.requireText"
-    :warn="props.warn"
-    :warn-time-out="props.warnTimeOut"
-    :size="props.size"
-    :headerless="props.headerless"
-  >
-    <template #overlay="{ focus, change }">
-      <div
-        v-if="props.diff !== undefined && change"
-        class="absolute inset-0 bg-red/30 transition-opacity flex items-center p-1 bg-dark/20"
-        :class="!focus && hsMisc.capsLockState ? 'opacity-100' : 'opacity-0 pointer-events-none select-none'"
-      >
-        <div class="flex">
-          <Btn
-            variant="outlined"
-            theme="error"
-            tabindex="-1"
-            size="xs"
-            class="bg-white flex-none"
-            @click="updateValue(props.diff)"
-          >
-            <i class="fa-solid fa-rotate-right"></i>
-          </Btn>
-          <div v-if="props.diff" class="px-1 truncate bg-white mx-1 flex items-center">{{ props.diff }}</div>
+  <UPopover :open="open" :ui="{ content: 'w-(--reka-popper-anchor-width) p-0 overflow-hidden' }">
+    <InputFrame
+      :class="props.class"
+      :class-header="props.classHeader"
+      :class-input="[props.classInput]"
+      :focus="computedActivate"
+      :focus-color="props.focusColor"
+      :change="isChangeData"
+      :change-color="props.changeColor"
+      :error="props.error"
+      :error-color="props.errorColor"
+      :disabled="props.disabled"
+      :disabled-color="props.disabledColor"
+      :readonly="props.readonly"
+      :label="props.label"
+      :require="props.require"
+      :require-text="props.requireText"
+      :warn="props.warn"
+      :warn-time-out="props.warnTimeOut"
+      :size="props.size"
+      :headerless="props.headerless"
+    >
+      <template #overlay="{ focus, change }">
+        <div
+          v-if="props.diff !== undefined && change"
+          class="absolute inset-0 bg-red/30 transition-opacity flex items-center p-1 bg-dark/20"
+          :class="!focus && hsMisc.capsLockState ? 'opacity-100' : 'opacity-0 pointer-events-none select-none'"
+        >
+          <div class="flex">
+            <Btn
+              variant="outlined"
+              theme="error"
+              tabindex="-1"
+              size="xs"
+              class="bg-white flex-none"
+              @click="updateValue(props.diff)"
+            >
+              <i class="fa-solid fa-rotate-right"></i>
+            </Btn>
+            <div v-if="props.diff" class="px-1 truncate bg-white mx-1 flex items-center">{{ props.diff }}</div>
+          </div>
         </div>
-      </div>
-      <template v-if="slots.overlay">
-        <slot name="overlay" :focus="focus" :change="change"></slot>
-      </template>
-    </template>
-    <template v-if="slots['left-icons']" #left-icons>
-      <slot name="left-icons" :disabled="disabled" />
-    </template>
-    <template v-if="slots['right-icons']" #right-icons>
-      <slot name="right-icons" :disabled="disabled" />
-    </template>
-    <template v-if="slots['label-prepend']" #label-prepend>
-      <slot name="label-prepend" />
-    </template>
-    <template v-if="slots['label-append']" #label-append>
-      <slot name="label-append" />
-    </template>
-    <template v-if="props.maxLen > 0 || slots['header-right']" #header-right="{ defaultClass }">
-      <slot name="header-right" />
-      <div v-if="props.maxLen > 0 && lastLen < 15" :class="[defaultClass, lenLabelClass]">
-        {{ state.value.length }} / {{ props.maxLen }}
-      </div>
-    </template>
-    <template #default="{ focus }">
-      <span
-        v-if="placeholder"
-        class="text-black/50 pointer-events-none select-none px-1 absolute inset-0 items-center transition-opacity truncate"
-        :class="focus || !!state.value ? 'opacity-0' : ''"
-      >
-        <div class="truncate w-full" :style="`text-align:${props.textAlign};`">
-          {{ placeholder }}
-        </div>
-      </span>
-      <div v-if="props.disabled" class="input-d" :style="`text-align:${props.textAlign};`">
-        {{ state.value }}
-      </div>
-      <input
-        v-else
-        :ref="(e) => setRef(e)"
-        v-model="state.value"
-        :list="props.datalist.length > 0 ? dataListId : undefined"
-        :type="props.type"
-        :autocomplete="props.autocomplete"
-        style="ime-mode: active"
-        :style="`text-align:${props.textAlign};`"
-        class="w-full"
-        :disabled="props.disabled"
-        :readonly="props.readonly"
-        :tabindex="tabindex"
-        :enterkeyhint="props.enterkeyhint"
-        :inputmode="props.inputmode"
-        :size="props.inputSize"
-        :lang="props.lang"
-        :pattern="props.pattern"
-        @blur="onBlur()"
-        @focus="onFocus()"
-        @input="updateValue(state.value)"
-        @keydown="(e: KeyboardEvent) => emit('keydown', e)"
-        @keyup="(e: KeyboardEvent) => emit('keyup', e)"
-        @click.stop=""
-      />
-      <datalist v-if="props.datalist.length !== 0" :id="dataListId">
-        <template v-for="(row, index) in props.datalist" :key="index">
-          <option :value="row" />
+        <template v-if="slots.overlay">
+          <slot name="overlay" :focus="focus" :change="change"></slot>
         </template>
-      </datalist>
+      </template>
+      <template v-if="slots['left-icons']" #left-icons>
+        <slot name="left-icons" :disabled="disabled" />
+      </template>
+      <template v-if="slots['right-icons']" #right-icons>
+        <slot name="right-icons" :disabled="disabled" />
+      </template>
+      <template v-if="slots['label-prepend']" #label-prepend>
+        <slot name="label-prepend" />
+      </template>
+      <template v-if="slots['label-append']" #label-append>
+        <slot name="label-append" />
+      </template>
+      <template v-if="props.maxLen > 0 || slots['header-right']" #header-right="{ defaultClass }">
+        <slot name="header-right" />
+        <div v-if="props.maxLen > 0 && lastLen < 15" :class="[defaultClass, lenLabelClass]">
+          {{ state.value.length }} / {{ props.maxLen }}
+        </div>
+      </template>
+      <template #default="{ focus }">
+        <span
+          v-if="placeholder"
+          class="text-black/50 pointer-events-none select-none px-1 absolute inset-0 items-center transition-opacity truncate"
+          :class="focus || !!state.value ? 'opacity-0' : ''"
+        >
+          <div class="truncate w-full" :style="`text-align:${props.textAlign};`">
+            {{ placeholder }}
+          </div>
+        </span>
+
+        <div v-if="props.disabled" class="input-d" :style="`text-align:${props.textAlign};`">
+          {{ state.value }}
+        </div>
+
+        <input
+          v-else
+          :ref="(e) => setRef(e)"
+          v-model="state.value"
+          :list="props.datalist.length > 0 ? dataListId : undefined"
+          :type="props.type"
+          :autocomplete="props.autocomplete"
+          style="ime-mode: active"
+          :style="`text-align:${props.textAlign};`"
+          class="w-full"
+          :disabled="props.disabled"
+          :readonly="props.readonly"
+          :tabindex="tabindex"
+          :enterkeyhint="props.enterkeyhint"
+          :inputmode="props.inputmode"
+          :size="props.inputSize"
+          :lang="props.lang"
+          :pattern="props.pattern"
+          @blur="onBlur()"
+          @focus="onFocus()"
+          @input="updateValue(state.value)"
+          @keydown="(e: KeyboardEvent) => emit('keydown', e)"
+          @keyup="(e: KeyboardEvent) => emit('keyup', e)"
+          @click.stop=""
+        />
+        <datalist v-if="props.datalist.length !== 0" :id="dataListId">
+          <template v-for="(row, index) in props.datalist" :key="index">
+            <option :value="row" />
+          </template>
+        </datalist>
+      </template>
+    </InputFrame>
+    <template #content>
+      <div class="grid gap-1 bg-white max-h-60 overflow-y-auto p-2 select-none min-h-30">
+        <BlockLoading :show="props.listLoading" />
+        <template v-for="(row, index) in filteredList" :key="index">
+          <div
+            class="relative border border-dark hover:border-accent1 cursor-pointer hover:bg-accent1/5 rounded p-2"
+            :class="props.activeId === row.id ? 'pointer-events-none' : ''"
+            @click="updateValue(tx(row.text).value, row.id)"
+          >
+            {{ tx(row.text) }}
+            <div v-if="props.activeId === row.id" class="absolute inset-px border-2 border-accent1 rounded"></div>
+          </div>
+        </template>
+      </div>
     </template>
-  </InputFrame>
+  </UPopover>
 </template>
 
 <style lang="scss" scoped>

@@ -40,6 +40,7 @@ const list = [
   'TextBox',
   'Textarea',
   'ValueBox',
+  'ComboBox',
 ] as const;
 // ----------------------------------------------------------------------------
 </script>
@@ -86,6 +87,7 @@ const list = [
       <TestFormItemRadio v-if="item === '' || item === 'Radio'" class="mt-5" />
       <TestFormItemSelect v-if="item === '' || item === 'Select'" class="mt-5" />
       <TestFormItemCheckList v-if="item === '' || item === 'CheckList'" class="mt-5" />
+      <TestFormItemComboBox v-if="item === '' || item === 'ComboBox'" class="mt-5" />
     </div>
   </div>
 </template>

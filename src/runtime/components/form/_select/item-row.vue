@@ -1,9 +1,9 @@
 <script setup lang="ts" generic="IdType extends string|number">
 /* ----------------------------------------------------------------------------
-// src\runtime\components\form\select-img-icon.vue
+// src\runtime\components\form\_select\item-row.vue
 // ----------------------------------------------------------------------------
-// SelectImgIcon
-// SelectImgIconSelectImgIcon
+// _selectItemRow
+// _selectItemRow_selectItemRow
 ---------------------------------------------------------------------------- */
 
 // [ utils ]
@@ -52,7 +52,7 @@ const groupLabel = tx(props.item.groupLabel ?? '');
 </script>
 
 <template>
-  <div class="w-full">
+  <div class="w-full px-1">
     <div
       v-if="
         props.item.groupId !== undefined && (props.index === 0 || props.list[index - 1]?.groupId !== props.item.groupId)
@@ -61,28 +61,30 @@ const groupLabel = tx(props.item.groupLabel ?? '');
     >
       {{ groupLabel }}
     </div>
-    <div
-      :key="props.item.id"
-      class="HsSelectItem cursor-pointer flex items-center w-full p-2 rounded border mb-px "
-      :class="[
-        props.item.id === props.activeId ? ' border-accent1' : 'border-transparent',
-        props.hasLabel ? 'ml-2' : '',
-      ]"
-      :style="`--color-bg: ${activeColorCode}10;`"
-      @click="emit('update:selectOpen', false)"
-    >
-      <SelectItemContainer
-        :item="props.item"
-        :value="props.activeId"
-        :img="props.img"
-        :activated="props.img"
-        :class-img="props.classImg"
-        :class-img-tag="props.classImgTag"
-        :img-mode="props.imgMode"
-        :disabled="props.disabled"
-        :readonly="props.readonly"
-        type="item"
-      />
+    <div :class="[props.item.id !== null && props.hasLabel ? 'pl-2' : '']">
+      <div
+        :key="props.item.id"
+        class="HsSelectItem cursor-pointer flex items-center w-full p-2 rounded border mb-px"
+        :class="[
+          props.item.id === props.activeId ? ' border-accent1' : 'border-transparent',
+          // props.item.id !== null && props.hasLabel ? 'ml-2' : '',
+        ]"
+        :style="`--color-bg: ${activeColorCode}10;`"
+        @click="emit('update:selectOpen', false)"
+      >
+        <SelectItemContainer
+          :item="props.item"
+          :value="props.activeId"
+          :img="props.img"
+          :activated="props.img"
+          :class-img="props.classImg"
+          :class-img-tag="props.classImgTag"
+          :img-mode="props.imgMode"
+          :disabled="props.disabled"
+          :readonly="props.readonly"
+          type="item"
+        />
+      </div>
     </div>
   </div>
 </template>

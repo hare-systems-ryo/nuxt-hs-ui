@@ -81,6 +81,7 @@ type Emits = {
   // ----------------------------
   'header-label-click': [];
   ref: [elm: HTMLElement];
+  focus: [flag: boolean];
   // ----------------------------
 };
 const emit = defineEmits<Emits>();
