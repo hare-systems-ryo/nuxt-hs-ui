@@ -9,87 +9,40 @@
 import type { SelectItem } from '../../../../../../src/runtime/utils/select-item';
 
 const state = ref<{
-  testStringA: {
-    data: string | null;
-    diff: string | null;
-    label: string;
-    list: SelectItem<string>[];
-  };
-  testStringB: {
-    data: string | null;
-    diff: string | null;
-    label: string;
-    list: SelectItem<string>[];
-  };
-  testNumber: {
-    data: number | null;
-    diff: number | null;
-    list: SelectItem<number>[];
-  };
+  data: string | null;
+  diff: string | null;
+  label: string;
+  list: SelectItem<string>[];
 }>({
-  testStringA: {
-    data: null,
-    diff: null,
-    list: [
-      {
-        id: `beige`,
-        text: 'beige',
-        imgUrl: '/assets/code-color-group/beige.png',
-        appendIcon: 'fa-solid fa-arrow-down-short-wide w-[1em] text-center',
-      },
-      {
-        id: `gold`,
-        text: 'gold',
-        imgUrl: '/assets/code-color-group/gold.png',
-        appendIcon: 'fa-solid fa-arrow-down-short-wide w-[1em] text-center',
-      },
-      // { id: `pink`, text: 'pink', imgUrl: '/assets/code-color-group/pink.png' },
-    ],
-    label: 'Select',
-  },
-  testStringB: {
-    data: null,
-    diff: null,
-    list: [
-      {
-        id: `beige`,
-        text: 'beige',
-        imgUrl: '/assets/code-color-group/beige.png',
-        hidden: true,
-        appendIcon: 'fa-solid fa-arrow-down-short-wide w-[1em] text-center',
-      },
-      {
-        id: `gold`,
-        text: 'gold',
-        imgUrl: '/assets/code-color-group/gold.png',
-        // appendIcon: 'fa-solid fa-arrow-down-short-wide w-[1em] text-center',
-      },
-      {
-        id: `pink`,
-        text: 'pink',
-        imgUrl: '/assets/code-color-group/pink.png',
-        appendIcon: 'fa-solid fa-arrow-down-short-wide w-[1em] text-center',
-      },
-    ],
-    label: 'Select',
-  },
-  testNumber: {
-    data: 1,
-    diff: null,
-    list: Array.from({ length: 30 })
-      .fill(null)
-      .map((r, i) => ({
-        id: i,
-        text: `id:${i}`,
-        hidden: i == 2,
-        appendIcon: 'fa-solid fa-arrow-down-short-wide w-[1em] text-center',
-      })),
-    // [
-    //   { id: 1, text: 'id:1' },
-    //   { id: 2, text: 'id:2' },
-    //   { id: 3, text: 'id:3' },
-    // ],
-  },
+  data: null,
+  diff: null,
+  list: [
+    {
+      id: `1`,
+      text: 'TOYOTA',
+      groupId: 'JPN',
+      groupLabel: { ja: '日本', en: 'Japan' },
+    },
+    {
+      id: `2`,
+      text: 'NISSAN',
+      groupId: 'JPN',
+      groupLabel: { ja: '日本', en: 'Japan' },
+    },
+    {
+      id: `3`,
+      text: 'Ford',
+      groupId: 'USA',
+      groupLabel: { ja: 'アメリカ', en: 'USA' },
+    },
+    {
+      id: `4`,
+      text: 'CHEVROLET',
+      groupId: 'USA',
+      groupLabel: { ja: 'アメリカ', en: 'USA' },
+    },
+  ],
+  label: 'Select',
 });
 // const disabled = ref(false);
 // const readonly = ref(false);
@@ -97,17 +50,17 @@ const state = ref<{
 const dataChange = (v: string | null) => {
   console.log('dataChange', v);
 };
-onMounted(() => {
-  for (let i = 0; i < 20; i++) {
-    state.value.testStringA.list.push({
-      id: `${i}`,
-      text: `${i}`,
-      appendIcon: 'fa-solid fa-arrow-down-short-wide w-[1em] text-center',
-    });
-  }
-});
+// // onMounted(() => {
+// //   for (let i = 0; i < 20; i++) {
+// //     state.value.list.push({
+// //       id: `${i}`,
+// //       text: `${i}`,
+// //       // appendIcon: 'fa-solid fa-arrow-down-short-wide w-[1em] text-center',
+// //     });
+// //   }
+// // });
 const selectedText = computed(() => {
-  const ret = state.value.testStringB.list.find((row) => row.id === state.value.testStringA.data);
+  const ret = state.value.list.find((row) => row.id === state.value.data);
   if (!ret) return '';
   return ret.text;
 });
@@ -116,10 +69,28 @@ const selectedText = computed(() => {
   <Card class="mt-4">
     <CardItem class="" variant="header"> Select </CardItem>
     <CardItem class="grid gap-4" variant="body">
+      <div class="grid grid-cols-1 gap-2">
+        <Select
+          v-model:data="state.data"
+          :diff="state.diff"
+          :list="state.list"
+          :unknown-text="selectedText"
+          nullable
+          @value-change="(v:any) => dataChange(v)"
+        />
+        <Select
+          v-model:data="state.diff"
+          :diff="state.data"
+          :list="state.list"
+          :unknown-text="selectedText"
+          searchable
+          @value-change="(v:any) => dataChange(v)"
+        />
+      </div>
       <!-- ------------------------------------------------
        
-      
-      <div class="">
+
+            <div class="">
         <CheckBox v-model:data="disabled" label="disabled" placeholder="placeholderplaceholder" />
         <CheckBox v-model:data="readonly" label="readonly" placeholder="placeholderplaceholder" />
         <CheckBox v-model:data="nullable" label="nullable" placeholder="placeholderplaceholder" />
@@ -139,30 +110,6 @@ const selectedText = computed(() => {
         </div>
         <Select v-model:data="state.testStringA.data" :list="state.testStringB.list" nullable searchable />
       </div>
-   ------------------------------------------------   -->
-
-      <div class="grid grid-cols-1 gap-2">
-        <Select
-          v-model:data="state.testStringA.data"
-          :diff="state.testStringB.data"
-          :list="state.testStringA.list"
-          :unknown-text="selectedText"
-          nullable
-          searchable
-          @value-change="(v:any) => dataChange(v)"
-        />
-        <Select
-          v-model:data="state.testStringB.data"
-          :diff="state.testStringA.data"
-          :list="state.testStringA.list"
-          :unknown-text="selectedText"
-          nullable
-          @value-change="(v:any) => dataChange(v)"
-        />
-      </div>
-
-      <!-- updateData(item.id); -->
-      <!-- 
 
       <div class="grid grid-cols-4 gap-2">
         <TextBox :data="'選択してください'" label="text" readonly />

@@ -25,7 +25,6 @@ import type { ClassType } from '../../utils/class-style';
 import type { MultiLang } from '../../utils/multi-lang';
 import type { SelectItem } from '../../utils/select-item';
 import { ObjectCopy } from '../../utils/object';
-import { Theme, GetColorCode } from '../../utils/theme';
 import { type ModalControl, InitModalControl, InitModals } from '../../utils/modal';
 
 // [ composables ]
@@ -42,6 +41,7 @@ import SelectHiddenItemToggle from './_select/hidden-item-toggle.vue';
 import { useHsIsMobile } from '../../composables/use-hs-is-mobile';
 import TextBox from '../form/text-box.vue';
 import SelectItemContainer from './_select/item-container.vue';
+import ViewSelectItemRow from './_select/item-row.vue';
 
 // ----------------------------------------------------------------------------
 
@@ -175,7 +175,6 @@ onMounted(() => {
 const uid = useId();
 const inputFrameElm = ref();
 const searchWord = ref('');
-const activeColorCode = GetColorCode(Theme.accent1);
 // ----------------------------------------------------------------------------
 const selectOpen = ref(false);
 const openToggle = () => {
@@ -198,7 +197,7 @@ const lock = computed(() => {
   return props.disabled || props.readonly;
 });
 
-const activeValue = ref<IdType | null>(props.data);
+const activeValue = ref<any | null>(props.data);
 watch(
   () => props.data,
   () => {
@@ -225,6 +224,9 @@ const listBase = computed<ListRow[]>(() => {
     ret.unshift(nullItem.value);
   }
   return ret;
+});
+const hasLabel = computed(() => {
+  return !!props.list.find((row) => !!row.groupId);
 });
 
 const activeRow = computed(() => {
@@ -261,24 +263,24 @@ const updateData = (value: IdType | null) => {
   emit('update:data', value as IdType);
   emit('value-change', value, before);
 };
+
 const displayList = computed(() => {
-  return ObjectCopy(
-    listBase.value
-      .filter((row) => {
-        if (row.id === props.data) return true;
-        if (row.deleted) return false;
-        if (!hiddenItemVisible.value && row.hidden) {
-          return false;
-        }
-        return true;
-      })
-      .sort((a, b) => {
-        if (a.order === undefined || b.order === undefined) return 0;
-        if (a.order < b.order) return -1;
-        if (a.order > b.order) return 1;
-        return 0;
-      })
-  );
+  const ret = listBase.value
+    .filter((row) => {
+      if (row.id === props.data) return true;
+      if (row.deleted) return false;
+      if (!hiddenItemVisible.value && row.hidden) {
+        return false;
+      }
+      return true;
+    })
+    .sort((a, b) => {
+      if (a.order === undefined || b.order === undefined) return 0;
+      if (a.order < b.order) return -1;
+      if (a.order > b.order) return 1;
+      return 0;
+    });
+  return ret;
 });
 
 // ----------------------------------------------------------------------------
@@ -563,7 +565,7 @@ watch(computedActivate, (value) => {
       <template v-if="!props.searchable">
         <USelect
           v-model:open="selectOpen"
-          :model-value="activeValue as any"
+          :model-value="activeValue"
           :items="displayList"
           value-key="id"
           label-key="text"
@@ -621,27 +623,20 @@ watch(computedActivate, (value) => {
           <template #trailing>
             <div></div>
           </template>
-          <template #item="{ item }">
-            <div
-              :key="item.id"
-              class="HsSelectItem cursor-pointer flex items-center w-full p-2 rounded border mb-px"
-              :class="[item.id === activeValue ? ' border-accent1' : 'border-transparent']"
-              :style="`--color-bg: ${activeColorCode}10;`"
-              @click="selectOpen = false"
-            >
-              <SelectItemContainer
-                :item="item"
-                :value="activeValue"
-                :img="props.img"
-                :activated="props.img"
-                :class-img="props.classImg"
-                :class-img-tag="props.classImgTag"
-                :img-mode="props.imgMode"
-                :disabled="props.disabled"
-                :readonly="props.readonly"
-                type="item"
-              />
-            </div>
+          <template #item="{ item, index }">
+            <ViewSelectItemRow
+              :list="displayList"
+              :item="item"
+              :index="index"
+              :active-id="activeValue"
+              :has-label="hasLabel"
+              :img="props.img"
+              :class-img="props.classImg"
+              :class-img-tag="props.classImgTag"
+              :img-mode="props.imgMode"
+              :disabled="props.disabled"
+              :readonly="props.readonly"
+            />
           </template>
           <template v-if="hasHiddenItem" #content-bottom>
             <div class="p-1">
@@ -713,27 +708,21 @@ watch(computedActivate, (value) => {
           <template #trailing>
             <div></div>
           </template>
-          <template #item="{ item }">
-            <div
+          <template #item="{ item, index }">
+            <ViewSelectItemRow
               :key="item.id"
-              class="HsSelectItem cursor-pointer flex items-center w-full p-2 rounded border mb-px"
-              :class="[item.id === activeValue ? ' border-accent1' : 'border-transparent']"
-              :style="`--color-bg: ${activeColorCode}10;`"
-              @click="selectOpen = false"
-            >
-              <SelectItemContainer
-                :item="item"
-                :value="activeValue"
-                :img="props.img"
-                :activated="props.img"
-                :class-img="props.classImg"
-                :class-img-tag="props.classImgTag"
-                :img-mode="props.imgMode"
-                :disabled="props.disabled"
-                :readonly="props.readonly"
-                type="item"
-              />
-            </div>
+              :list="displayList"
+              :item="item"
+              :index="index"
+              :active-id="activeValue"
+              :has-label="hasLabel"
+              :img="props.img"
+              :class-img="props.classImg"
+              :class-img-tag="props.classImgTag"
+              :img-mode="props.imgMode"
+              :disabled="props.disabled"
+              :readonly="props.readonly"
+            />
           </template>
           <template v-if="hasHiddenItem" #content-bottom>
             <div class="p-1">
@@ -801,32 +790,44 @@ watch(computedActivate, (value) => {
             </CardItem>
             <CardItem variant="body" scroll>
               <div ref="modalSpScrollTopTarget" class="grid gap-1">
-                <div
-                  v-for="(row, index) in spFilterList"
-                  :ref="(e:any) => (row.html = e)"
-                  :key="index"
-                  class="cursor-pointerw-full text-neutral-900 border rounded bg-white overflow-hidden"
-                  :class="[row.id === activeValue ? 'border-accent1' : 'border-black/20']"
-                  @click="
-                    updateData(row.id);
-                    modal.sp.close();
-                  "
-                >
-                  <div class="flex items-center active:bg-accent1/10 p-3">
-                    <SelectItemContainer
-                      :item="row"
-                      :value="activeValue"
-                      :img="props.img"
-                      :activated="props.img"
-                      :class-img="props.classImg"
-                      :class-img-tag="props.classImgTag"
-                      :img-mode="props.imgMode"
-                      :disabled="props.disabled"
-                      :readonly="props.readonly"
-                      type="item"
-                    />
+                <template v-for="(row, index) in spFilterList" :key="index">
+                  <div
+                    v-if="
+                      row.groupId !== undefined && (index === 0 || spFilterList[index - 1]?.groupId !== row.groupId)
+                    "
+                    class="mt-1 py-1 px-2 font-semibold bg-dark/5 border-dark/40 border"
+                    :class="index !== 0 ? 'mt-2' : ''"
+                  >
+                    {{ tx(row.groupLabel ?? '') }}
                   </div>
-                </div>
+                  <div
+                    :ref="(e:any) => (row.html = e)"
+                    class="cursor-pointerw-full text-neutral-900 border rounded bg-white overflow-hidden"
+                    :class="[
+                      row.id === activeValue ? 'border-accent1' : 'border-black/20',
+                      row.id !== null && hasLabel ? 'ml-2' : '',
+                    ]"
+                    @click="
+                      updateData(row.id);
+                      modal.sp.close();
+                    "
+                  >
+                    <div class="flex items-center active:bg-accent1/10 p-3">
+                      <SelectItemContainer
+                        :item="row"
+                        :value="activeValue"
+                        :img="props.img"
+                        :activated="props.img"
+                        :class-img="props.classImg"
+                        :class-img-tag="props.classImgTag"
+                        :img-mode="props.imgMode"
+                        :disabled="props.disabled"
+                        :readonly="props.readonly"
+                        type="item"
+                      />
+                    </div>
+                  </div>
+                </template>
                 <div
                   v-if="listBase.length !== 0 && spFilterList.length === 0"
                   class="text-error whitespace-pre-line text-center"

@@ -5,7 +5,7 @@
 import {} from '~/src/runtime/utils/select-item';
 ----------------------------------------------------------------------------- */
 
-import type { MultiLang } from "./multi-lang";
+import type { MultiLang } from './multi-lang';
 
 export interface SelectItem<IdType extends number | string = number> {
   readonly id: IdType;
@@ -28,6 +28,8 @@ export interface SelectItem<IdType extends number | string = number> {
    *
    */
   hidden?: boolean;
+  groupId?: string;
+  groupLabel?: MultiLang;
   /**
    * 削除非表示 : true = 非表示。
    * ただし選択要素は表示する
