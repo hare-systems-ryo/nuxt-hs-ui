@@ -192,7 +192,7 @@ All composables are auto-imported.
 
 ## Utils
 
-Available via `nuxt-hs-ui-next/utils/*` named exports.
+Available via `nuxt-hs-ui/utils/*` named exports.
 
 | Module | Description |
 |---|---|
