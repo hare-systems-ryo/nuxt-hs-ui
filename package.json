@@ -1,6 +1,6 @@
 {
   "name": "nuxt-hs-ui",
-  "version": "4.0.1",
+  "version": "4.0.2",
   "description": "This repository is dedicated to the ongoing migration of **nuxt-hs-ui** to **Nuxt 4**",
   "repository": "https://github.com/hare-systems-ryo/nuxt-hs-ui-next",
   "license": "MIT",
