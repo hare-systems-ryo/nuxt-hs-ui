@@ -33,6 +33,7 @@ import { useHsFocus } from '../../composables/use-hs-focus';
 import { useHsPinia } from '../../composables/use-pinia';
 import { useHsMultiLang } from '../../composables/use-hs-multi-lang';
 import { useHsScrollLock } from '../../composables/use-hs-scroll-lock';
+import { useHsMisc } from '../../composables/use-hs-misc';
 
 // [ Components ]
 import InputFrame from './input-frame.vue';
@@ -166,6 +167,7 @@ const tx = multiLang.tx;
 const gt = multiLang.gt;
 const hsFocus = useHsFocus(useHsPinia());
 const hsIsMobile = useHsIsMobile(useHsPinia());
+const hsMisc = useHsMisc(useHsPinia());
 onMounted(() => {
   hsIsMobile.init();
 });
@@ -228,6 +230,13 @@ const listBase = computed<ListRow[]>(() => {
 const activeRow = computed(() => {
   return listBase.value.find((row) => row.id === activeValue.value) || null;
 });
+const diffDisplayText = computed(() => {
+  if (!props.diff) return '';
+  const data = listBase.value.find((row) => row.id === props.diff) || null;
+  if (!data) return props.nullText;
+  return tx(data.text).value;
+});
+
 const hiddenItemVisible = ref(false);
 const hasHiddenItem = computed(() => {
   return (
@@ -489,8 +498,31 @@ watch(computedActivate, (value) => {
     @ref="(e) => (inputFrameElm = e)"
     @click="openToggle()"
   >
-    <template v-if="slots.overlay" #overlay="{ focus, change }">
-      <slot name="overlay" :focus="focus" :change="change"></slot>
+    <template #overlay="{ focus, change }">
+      <div
+        v-if="props.diff !== undefined && change"
+        class="absolute inset-0 bg-red/30 transition-opacity flex items-center p-1 bg-dark/20"
+        :class="!focus && hsMisc.capsLockState ? 'opacity-100' : 'opacity-0 pointer-events-none select-none'"
+      >
+        <div class="flex" @mousedown.prevent @click.prevent>
+          <Btn
+            variant="outlined"
+            theme="error"
+            tabindex="-1"
+            size="xs"
+            class="bg-white flex-none"
+            @click.stop="updateData(props.diff)"
+          >
+            <i class="fa-solid fa-rotate-right"></i>
+          </Btn>
+          <div v-if="props.diff" class="px-1 truncate bg-white mx-1 flex items-center select-none" @click.stop>
+            {{ diffDisplayText }}
+          </div>
+        </div>
+      </div>
+      <template v-if="slots.overlay">
+        <slot name="overlay" :focus="focus" :change="change"></slot>
+      </template>
     </template>
     <template v-if="slots['left-icons']" #left-icons>
       <slot name="left-icons" :disabled="disabled" />

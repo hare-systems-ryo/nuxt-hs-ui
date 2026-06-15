@@ -14,7 +14,7 @@ const valueB = ref<boolean | null>(null);
     <CardItem class="" variant="body">
       <div class="grid grid-cols-2 gap-1 my-1">
         <div class="grid grid-cols-1 gap-1 my-1">
-          <CheckBox v-model:data="valueA" :diff="valueB" class="" label="ge" />
+          <CheckBox v-model:data="valueA" :diff="valueB" class="" label="gegegegegege gegegegegegege" />
           <CheckBox v-model:data="valueB" class="">
             <i class="fa-solid fa-circle-down"></i>
             hoge

@@ -5,14 +5,14 @@
 // TestFormItemDatepicker
 // TestFormItemDatepickerTestFormItemDatepicker
 ---------------------------------------------------------------------------- */
-const dateValue = ref<string | null>('2024-12-16');
+// const dateValue = ref<string | null>('2024-12-16');
 const valueA = ref<string | null>(null);
 const valueB = ref<string | null>(null);
-const modeAll = ref<string | null>(null);
+// const modeAll = ref<string | null>(null);
 // const modeMonth = ref<string | null>(null);
-const modeTime1 = ref<string | null>(null);
-const modeTime2 = ref<string | null>(null);
-const disabled = ref(false);
+// const modeTime1 = ref<string | null>(null);
+// const modeTime2 = ref<string | null>(null);
+// const disabled = ref(false);
 </script>
 <template>
   <Card class="mt-4">
@@ -22,16 +22,28 @@ const disabled = ref(false);
       <div class="grid sm:grid-cols-1 gap-1 my-1">
         <div class="grid grid-cols-1 gap-1 my-1">
           <Datepicker
-            v-model:data="dateValue"
-            mode="all"
+            v-model:data="valueA"
             :diff="valueB"
+            mode="all"
+            show-format="YYYY-MM-DD(ddd) a H:mm "
+            class=""
+            label="ge"
+          />
+          <div class="">Value : {{ valueA }}</div>
+        </div>
+        <div class="grid grid-cols-1 gap-1 my-1">
+          <Datepicker
+            v-model:data="valueB"
+            :diff="valueA"
+            mode="all"
             show-format="YYYY-MM-DD(ddd) HH:mm"
             class=""
             label="ge"
           />
-          <div class="">Value : {{ dateValue }}</div>
+          <div class="">Value : {{ valueB }}</div>
         </div>
       </div>
+      <!-- 
       <div class="grid sm:grid-cols-1 gap-1 my-1">
         <Datepicker
           v-model:data="valueA"
@@ -67,15 +79,7 @@ const disabled = ref(false);
           class=""
           label="ge"
         />
-        <!-- <Datepicker
-          v-model:data="valueB"
-          :diff="valueA"
-          show-format="YYYY-MM-DD(ddd)"
-          :disabled="disabled"
-          label="ge"
-        /> -->
       </div>
-      <!--  -->
       <div class="grid grid-cols-2 gap-1 my-1">
         <div class="grid grid-cols-1 gap-1 my-1">
           <Datepicker v-model:data="valueB" :diff="valueA" show-format="YYYY-MM-DD(ddd)" label="readonly" readonly />
@@ -91,14 +95,6 @@ const disabled = ref(false);
             label="mode:all"
           />
           <div class="">modeAll : {{ modeAll }}</div>
-          <!-- <Datepicker
-            v-model:data="modeMonth"
-            mode="month"
-            data-format="YYYY-MM-DD "
-            show-format="YYYY-MM"
-            label="mode:month"
-          /> -->
-          <!-- <div class="">modeMonth : {{ modeMonth }}</div> -->
           <Datepicker v-model:data="modeTime1" mode="time" label="mode:time" />
           <Datepicker v-model:data="modeTime2" mode="time" label="mode:time" />
           <div class="">modeTime1 : {{ modeTime1 }}</div>
@@ -106,12 +102,13 @@ const disabled = ref(false);
         </div>
         <div class="grid grid-cols-1 gap-1 my-1"></div>
       </div>
-      <!--  -->
+ 
       <Datepicker v-model:data="modeTime1" mode="time" label="mode:time">
         <template #label-prepend> prepend </template>
         <template #label-append> append </template>
         <template #header-right> <span class="text-main0">aaa</span> </template>
       </Datepicker>
+       -->
       <!-- ------------------------------------------------ -->
     </CardItem>
   </Card>

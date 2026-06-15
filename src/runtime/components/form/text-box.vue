@@ -328,17 +328,25 @@ const placeholder = computed(() => tx(props.placeholder).value);
     :size="props.size"
     :headerless="props.headerless"
   >
-    <!-- @click="elmFocus" -->
     <template #overlay="{ focus, change }">
       <div
         v-if="props.diff !== undefined && change"
-        class="absolute inset-0 bg-red/30 transition-opacity flex items-center px-2 bg-dark/20"
+        class="absolute inset-0 bg-red/30 transition-opacity flex items-center p-1 bg-dark/20"
         :class="!focus && hsMisc.capsLockState ? 'opacity-100' : 'opacity-0 pointer-events-none select-none'"
       >
-        <Btn variant="outlined" theme="error" tabindex="-1" size="xs" class="bg-white" @click="updateValue(props.diff)">
-          <i class="fa-solid fa-rotate-right"></i>
-          Redo
-        </Btn>
+        <div class="flex">
+          <Btn
+            variant="outlined"
+            theme="error"
+            tabindex="-1"
+            size="xs"
+            class="bg-white flex-none"
+            @click="updateValue(props.diff)"
+          >
+            <i class="fa-solid fa-rotate-right"></i>
+          </Btn>
+          <div v-if="props.diff" class="px-1 truncate bg-white mx-1 flex items-center">{{ props.diff }}</div>
+        </div>
       </div>
       <template v-if="slots.overlay">
         <slot name="overlay" :focus="focus" :change="change"></slot>
@@ -422,7 +430,6 @@ input {
   outline: none;
   line-height: 1.4em;
   color: inherit;
-  // height: 20px;
 }
 input::-webkit-calendar-picker-indicator {
   opacity: 0;

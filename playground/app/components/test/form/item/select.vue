@@ -9,7 +9,7 @@
 import type { SelectItem } from '../../../../../../src/runtime/utils/select-item';
 
 const state = ref<{
-  testString: {
+  testStringA: {
     data: string | null;
     diff: string | null;
     label: string;
@@ -27,7 +27,7 @@ const state = ref<{
     list: SelectItem<number>[];
   };
 }>({
-  testString: {
+  testStringA: {
     data: null,
     diff: null,
     list: [
@@ -91,15 +91,15 @@ const state = ref<{
     // ],
   },
 });
-const disabled = ref(false);
-const readonly = ref(false);
-const nullable = ref(false);
+// const disabled = ref(false);
+// const readonly = ref(false);
+// const nullable = ref(false);
 const dataChange = (v: string | null) => {
   console.log('dataChange', v);
 };
 onMounted(() => {
   for (let i = 0; i < 20; i++) {
-    state.value.testString.list.push({
+    state.value.testStringA.list.push({
       id: `${i}`,
       text: `${i}`,
       appendIcon: 'fa-solid fa-arrow-down-short-wide w-[1em] text-center',
@@ -107,7 +107,7 @@ onMounted(() => {
   }
 });
 const selectedText = computed(() => {
-  const ret = state.value.testStringB.list.find((row) => row.id === state.value.testString.data);
+  const ret = state.value.testStringB.list.find((row) => row.id === state.value.testStringA.data);
   if (!ret) return '';
   return ret.text;
 });
@@ -116,7 +116,9 @@ const selectedText = computed(() => {
   <Card class="mt-4">
     <CardItem class="" variant="header"> Select </CardItem>
     <CardItem class="grid gap-4" variant="body">
-      <!-- ------------------------------------------------ -->
+      <!-- ------------------------------------------------
+       
+      
       <div class="">
         <CheckBox v-model:data="disabled" label="disabled" placeholder="placeholderplaceholder" />
         <CheckBox v-model:data="readonly" label="readonly" placeholder="placeholderplaceholder" />
@@ -125,46 +127,40 @@ const selectedText = computed(() => {
 
       <div class="grid grid-cols-1 gap-2">
         <Select
-          v-model:data="state.testString.data"
-          :list="state.testString.list"
-          :unknown-text="selectedText"
-          nullable
-          searchable
-          @value-change="(v:any) => dataChange(v)"
-        />
-        <Select
-          v-model:data="state.testString.data"
-          :list="state.testString.list"
-          :unknown-text="selectedText"
-          nullable
-          @value-change="(v:any) => dataChange(v)"
-        />
-        <Select
-          v-model:data="state.testString.data"
-          :list="state.testString.list"
-          :unknown-text="selectedText"
-          @value-change="(v:any) => dataChange(v)"
-        />
-        <div class="">
-          {{ { data: state.testString.data } }}
-        </div>
-        <Select v-model:data="state.testString.data" :list="state.testStringB.list" nullable />
-      </div>
-
-      <div class="grid grid-cols-1 gap-2">
-        <Select
-          v-model:data="state.testString.data"
-          :list="state.testString.list"
+          v-model:data="state.testStringA.data"
+          :list="state.testStringA.list"
           :unknown-text="selectedText"
           nullable
           searchable
           @update:data="(v:any) => dataChange(v)"
         />
         <div class="">
-          {{ { data: state.testString.data } }}
+          {{ { data: state.testStringA.data } }}
         </div>
-        <Select v-model:data="state.testString.data" :list="state.testStringB.list" nullable searchable />
+        <Select v-model:data="state.testStringA.data" :list="state.testStringB.list" nullable searchable />
       </div>
+   ------------------------------------------------   -->
+
+      <div class="grid grid-cols-1 gap-2">
+        <Select
+          v-model:data="state.testStringA.data"
+          :diff="state.testStringB.data"
+          :list="state.testStringA.list"
+          :unknown-text="selectedText"
+          nullable
+          searchable
+          @value-change="(v:any) => dataChange(v)"
+        />
+        <Select
+          v-model:data="state.testStringB.data"
+          :diff="state.testStringA.data"
+          :list="state.testStringA.list"
+          :unknown-text="selectedText"
+          nullable
+          @value-change="(v:any) => dataChange(v)"
+        />
+      </div>
+
       <!-- updateData(item.id); -->
       <!-- 
 

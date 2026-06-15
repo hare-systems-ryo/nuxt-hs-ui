@@ -6,13 +6,13 @@
 // TestFormItemValueBoxTestFormItemValueBox
 ---------------------------------------------------------------------------- */
 
-// const valueA = ref<number | null>(null);
-// const valueB = ref<number | null>(0.1);
+const valueA = ref<number | null>(null);
+const valueB = ref<number | null>(1);
 // const valueC = ref<number | null>(0);
 // const valueD = ref<number | null>(10);
 // const valueE = ref<number | null>(10);
-const digits = ref<number | null>(3);
-const test = ref<number | null>(0);
+// const digits = ref<number | null>(3);
+// const test = ref<number | null>(0);
 </script>
 <template>
   <Card class="mt-4">
@@ -22,28 +22,8 @@ const test = ref<number | null>(0);
       <div>Test</div>
       <div class="flex flex-col">
         <!-- <ValueBox v-model:data="test" size="s" label="" unit="円" digits-auto digits-point-small :digits="digits" /> -->
-        <ValueBox
-          v-model:data="test"
-          label=""
-          unit="円"
-          :min="0"
-          :max="100000"
-          digits-point-small
-          digits-auto
-          :digits="digits"
-          placeholder="0"
-        />
-        <ValueBox
-          v-model:data="test"
-          label=""
-          unit="円"
-          :min="0"
-          :max="100000"
-          digits-point-small
-          digits-auto
-          :digits="digits"
-          placeholder=""
-        />
+        <ValueBox v-model:data="valueA" :diff="valueB" label="" unit="円" :min="0" :max="100000" placeholder="0" />
+        <ValueBox v-model:data="valueB" :diff="valueA" label="" unit="円" :min="0" :max="100000" placeholder="" />
         <!--
          <ValueBox v-model:data="test" size="s" label="" unit="円" :digits="digits" digits-auto /> -->
         <!-- <ValueBox v-model:data="digits" size="s" unit="円" :min="0" is-show-btn-control /> -->
@@ -98,7 +78,7 @@ const test = ref<number | null>(0);
         <template #label-prepend> prepend </template>
         <template #label-append> append </template>
         <template #header-right> <span class="text-main0">aaa</span> </template>
-      </ValueBox> 
+      </ValueBox>
       -->
 
       <!-- ------------------------------------------------ -->

@@ -297,7 +297,7 @@ const labelClass = computed(() => {
         :class-img="props.classImg"
         :class-img-tag="props.classImgTag"
       />
-      <div class="flex-1 min-w-[0] whitespace-pre-wrap break-words">
+      <div class="flex-1 min-w-0 whitespace-pre-wrap wrap-break-word">
         {{ tx(label) }}
         <slot />
       </div>

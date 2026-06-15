@@ -105,29 +105,34 @@ onMounted(() => {
       <div class="grid grid-cols-1 gap-2">
         <!-- --------------- -->
         <div class="">
-          <div class="">IDキー:文字列</div>
           <Radio
             v-model:data="state.testString.data"
+            :diff="state.testString.diff"
             :list="state.testString.list"
             size="s"
-            label="listA:valueA"
             :null-text="{
               ja: '全て',
               en: 'All',
             }"
             nullable
           />
-          <div class="flex gap-1" @click="state.testString.data = null">
-            <div class="">
-              state.testString.data:{{ state.testString.data === null ? 'null' : state.testString.data }}
-            </div>
-            <div class="border border-accent1 text-accent1 bg-white px-2 rounded" @click="state.testString.data = null">
-              reset
-            </div>
-          </div>
+          <Radio
+            v-model:data="state.testString.diff"
+            :diff="state.testString.data"
+            :list="state.testString.list"
+            size="s"
+            :null-text="{
+              ja: '全て',
+              en: 'All',
+            }"
+            nullable
+          />
         </div>
-        <!-- --------------- -->
-        <div class="">
+
+        <!--  ------------------------------------------------
+        
+        
+          <div class="">
           <div class="">IDキー:数値</div>
           <Radio v-model:data="state.testNumber.data" :list="state.testNumber.list" size="s" label="listA:valueA" />
           <div class="flex gap-1" @click="state.testNumber.data = null">
@@ -140,7 +145,10 @@ onMounted(() => {
           </div>
         </div>
 
-        <!--  -->
+        
+        
+        
+       ------------------------------------------------ -->
         <Radio v-model:data="state.testNumber.data" label="label" :list="state.testNumber.list">
           <template #label-prepend> prepend </template>
           <template #label-append> append </template>

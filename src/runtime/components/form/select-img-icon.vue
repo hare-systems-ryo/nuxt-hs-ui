@@ -47,7 +47,7 @@ const imgTagClass = computed(() => {
 </script>
 
 <template>
-  <div class="flex items-center justify-center border border-gray-300 me-[4px]" :class="imgClass">
+  <div class="flex items-center justify-center border border-gray-300 me-1" :class="imgClass">
     <img v-if="props.imgUrl" :src="props.imgUrl" alt="" :class="imgTagClass" />
     <div v-else class="text-center leading-[1em]" style="transform: scale(0.5)">
       <div>NO</div>

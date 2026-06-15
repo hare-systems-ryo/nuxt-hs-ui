@@ -20,10 +20,12 @@ import { useHsFocus } from '../../composables/use-hs-focus';
 import { useHsMultiLang } from '../../composables/use-hs-multi-lang';
 import { useHsPinia } from '../../composables/use-pinia';
 import { useHsIsMobile } from '../../composables/use-hs-is-mobile';
+import { useHsMisc } from '../../composables/use-hs-misc';
 // [ Components ]
 import InputFrame from './input-frame.vue';
 // ----------------------------------------------------------------------------
 const hsFocus = useHsFocus(useHsPinia());
+const hsMisc = useHsMisc(useHsPinia());
 const hsIsMobile = useHsIsMobile(useHsPinia());
 onMounted(() => {
   hsIsMobile.init();
@@ -406,8 +408,29 @@ const placeholder = computed(() => tx(props.placeholder).value);
     :headerless="props.headerless"
     @click="elmFocus"
   >
-    <template v-if="slots.overlay" #overlay="{ focus, change }">
-      <slot name="overlay" :focus="focus" :change="change"></slot>
+    <template #overlay="{ focus, change }">
+      <div
+        v-if="props.diff !== undefined && change"
+        class="absolute inset-0 bg-red/30 transition-opacity flex items-start p-1 bg-dark/20"
+        :class="!focus && hsMisc.capsLockState ? 'opacity-100' : 'opacity-0 pointer-events-none select-none'"
+      >
+        <div class="flex">
+          <Btn
+            variant="outlined"
+            theme="error"
+            tabindex="-1"
+            size="xs"
+            class="bg-white flex-none"
+            @click="updateValue(props.diff)"
+          >
+            <i class="fa-solid fa-rotate-right"></i>
+          </Btn>
+          <div v-if="props.diff" class="px-1 truncate bg-white mx-1 flex items-center">{{ props.diff }}</div>
+        </div>
+      </div>
+      <template v-if="slots.overlay">
+        <slot name="overlay" :focus="focus" :change="change"></slot>
+      </template>
     </template>
     <template v-if="slots['left-icons']" #left-icons>
       <slot name="left-icons" :disabled="disabled" />

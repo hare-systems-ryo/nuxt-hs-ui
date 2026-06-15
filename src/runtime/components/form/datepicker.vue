@@ -24,6 +24,7 @@ import { useHsToast } from '../../composables/use-hs-toast';
 import { useHsMultiLang } from '../../composables/use-hs-multi-lang';
 import { useHsPinia } from '../../composables/use-pinia';
 import { useHsIsMobile } from '../../composables/use-hs-is-mobile';
+import { useHsMisc } from '../../composables/use-hs-misc';
 // [ Components ]
 import InputFrame from './input-frame.vue';
 // ----------------------------------------------------------------------------
@@ -34,6 +35,7 @@ const Toast = useHsToast(useHsPinia());
 const multiLang = useHsMultiLang(useHsPinia());
 const tx = multiLang.tx;
 const hsIsMobile = useHsIsMobile(useHsPinia());
+const hsMisc = useHsMisc(useHsPinia());
 onMounted(() => {
   hsIsMobile.init();
 });
@@ -240,6 +242,18 @@ const maxDayjs = computed(() => {
     return getShiftDayjs(props.maxDate);
   }
 });
+
+const diffDasyjs = computed(() => {
+  const lang = multiLang.lang;
+  dayjs.locale(lang);
+  if (!props.diff) {
+    return null;
+  } else if (props.mode === 'time') {
+    return getShiftDayjs(dayjs().format('YYYY-MM-DD ') + props.diff);
+  } else {
+    return getShiftDayjs(props.diff);
+  }
+});
 // ----------------------------------------------------------------------------
 
 const displayText = computed(() => {
@@ -249,6 +263,16 @@ const displayText = computed(() => {
     return dataDasyjs.value.format(timeShowDateFormat);
   } else {
     return dataDasyjs.value.format(props.showFormat);
+  }
+});
+
+const displayDiffText = computed(() => {
+  if (diffDasyjs.value === null) {
+    return '';
+  } else if (props.mode === 'time') {
+    return diffDasyjs.value.format(timeShowDateFormat);
+  } else {
+    return diffDasyjs.value.format(props.showFormat);
   }
 });
 
@@ -665,8 +689,29 @@ const posTarget = shallowRef<HTMLElement | null>(null);
     :headerless="props.headerless"
     @ref="(e) => (posTarget = e)"
   >
-    <template v-if="slots.overlay" #overlay="{ focus, change }">
-      <slot name="overlay" :focus="focus" :change="change"></slot>
+    <template #overlay="{ focus, change }">
+      <div
+        v-if="props.diff !== undefined && change"
+        class="absolute inset-0 bg-red/30 transition-opacity flex items-center p-1 bg-dark/20"
+        :class="!focus && hsMisc.capsLockState ? 'opacity-100' : 'opacity-0 pointer-events-none select-none'"
+      >
+        <div class="flex">
+          <Btn
+            variant="outlined"
+            theme="error"
+            tabindex="-1"
+            size="xs"
+            class="bg-white flex-none"
+            @click="updateValue(props.diff)"
+          >
+            <i class="fa-solid fa-rotate-right"></i>
+          </Btn>
+          <div v-if="props.diff" class="px-1 truncate bg-white mx-1 flex items-center">{{ displayDiffText }}</div>
+        </div>
+      </div>
+      <template v-if="slots.overlay">
+        <slot name="overlay" :focus="focus" :change="change"></slot>
+      </template>
     </template>
     <template v-if="!props.readonly || slots['left-icons']" #left-icons>
       <slot name="left-icons" :disabled="disabled" />

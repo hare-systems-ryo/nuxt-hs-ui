@@ -21,11 +21,13 @@ import { useHsToast } from '../../composables/use-hs-toast';
 import { useHsMultiLang } from '../../composables/use-hs-multi-lang';
 import { useHsIsMobile } from '../../composables/use-hs-is-mobile';
 import { useHsPinia } from '../../composables/use-pinia';
+import { useHsMisc } from '../../composables/use-hs-misc';
 // [ Components ]
 import InputFrame from './input-frame.vue';
 // ----------------------------------------------------------------------------
 // [ com > lib > * ]
 // import { FloatNullable } from '~/com/lib/float';
+const hsMisc = useHsMisc(useHsPinia());
 // ----------------------------------------------------------------------------
 const hsIsMobile = useHsIsMobile(useHsPinia());
 const hsFocus = useHsFocus(useHsPinia());
@@ -239,6 +241,15 @@ const displayText = computed(() => {
 });
 
 /**
+ * 表示（カンマ表示）
+ */
+const displayDiffText = computed(() => {
+  if (!props.diff) return '';
+  const ret = InsertComma(props.diff, props.digits, '0', props.comma);
+  return convertText(ret);
+});
+
+/**
  * 値が適正かチェックする
  */
 const validCheck = (val: number | null): { result: boolean; message: string; value: number | null } => {
@@ -439,13 +450,6 @@ const setRef = (elm: any) => {
   emit('ref', elm as HTMLInputElement);
 };
 
-// /**
-//  * 強制focus
-//  */
-// const elmFocus = () => {
-//   inputElement.value.focus();
-// };
-
 // [ focus, blur ]
 
 interface FocusState {
@@ -600,8 +604,29 @@ const pHolder = computed(() => {
     :size="props.size"
     :headerless="props.headerless"
   >
-    <template v-if="slots.overlay" #overlay="{ focus, change }">
-      <slot name="overlay" :focus="focus" :change="change"></slot>
+    <template #overlay="{ focus, change }">
+      <div
+        v-if="props.diff !== undefined && change"
+        class="absolute inset-0 bg-red/30 transition-opacity flex items-center p-1 bg-dark/20"
+        :class="!focus && hsMisc.capsLockState ? 'opacity-100' : 'opacity-0 pointer-events-none select-none'"
+      >
+        <div class="flex">
+          <Btn
+            variant="outlined"
+            theme="error"
+            tabindex="-1"
+            size="xs"
+            class="bg-white flex-none"
+            @click="updateData(props.diff)"
+          >
+            <i class="fa-solid fa-rotate-right"></i>
+          </Btn>
+          <div v-if="props.diff" class="px-1 truncate bg-white mx-1 flex items-center">{{ displayDiffText }}</div>
+        </div>
+      </div>
+      <template v-if="slots.overlay">
+        <slot name="overlay" :focus="focus" :change="change"></slot>
+      </template>
     </template>
     <template v-if="slots['left-icons']" #left-icons>
       <slot name="left-icons" :disabled="disabled" />
