@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v4.0.3
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v4.0.2...v4.0.3)
+
+### 🏡 Chore
+
+- Adjust GitHub configuration for module ([fda4b38](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/fda4b38))
+
+### 🤖 CI
+
+- Adjust GitHub Actions environment ([aa526cd](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/aa526cd))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](https://github.com/hare-systems-ryo))
+
 ## v4.0.2
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui-next/compare/v4.0.1...v4.0.2)
