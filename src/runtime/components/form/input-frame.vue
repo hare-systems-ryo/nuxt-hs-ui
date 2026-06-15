@@ -197,7 +197,7 @@ const setRef = (e: HTMLElement) => {
     <div class="flex-1 flex flex-col overflow-hidden justify-start relative">
       <div v-if="hasHeader && !props.headerless" class="flex-none flex items-end relative" :class="headerClass">
         <div
-          class="hc-input-label grow-0 shrink-1 truncate leading-[1.5em] relative"
+          class="hc-input-label grow-0 shrink truncate leading-[1.5em] relative"
           :title="label"
           @click="emit('header-label-click')"
         >

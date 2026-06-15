@@ -362,7 +362,7 @@ const isChangeData = computed(() => {
 // カレンダーモーダル制御
 const open = ref(false);
 // Popupの表示位置のターゲット
-const openBtn = ref<HTMLElement | null>();
+const openBtn = shallowRef<HTMLElement | null>(null);
 // 表示中カレンダーの値
 const calendarValue = shallowRef<DateValue | null>(null);
 const displayLocale = computed(() => {
@@ -385,13 +385,13 @@ const MM = shallowRef<number | null>(null);
 const pad2 = (n: number) => String(n).padStart(2, '0');
 const listHH = Array.from({ length: 24 })
   .fill(null)
-  .map((row, index) => {
+  .map((_, index) => {
     return { id: index, label: pad2(index) };
   });
 
 const listMM = Array.from({ length: 60 })
   .fill(null)
-  .map((row, index) => {
+  .map((_, index) => {
     return { id: index, label: pad2(index) };
   });
 //  -------------------------------------------------
@@ -549,7 +549,7 @@ const openBtnFocus = () => {
   focusState.openBtn = true;
 };
 //  ---------------------------------------------------------------------------------
-const manualElm = ref<HTMLInputElement | null>();
+const manualElm = ref<HTMLInputElement | null>(null);
 const manualData = ref('');
 const manualInput = ref(false);
 const manualInputClick = () => {
@@ -635,9 +635,9 @@ const content = {
     // console.log('onFocusOutside', t);
     if (t.closest(KEEP_OPEN_SELECTOR)) e.preventDefault();
   },
-};
+} as const;
 
-const posTarget = ref();
+const posTarget = shallowRef<HTMLElement | null>(null);
 //  ---------------------------------------------------------------------------------
 </script>
 
@@ -680,14 +680,14 @@ const posTarget = ref();
         :tabindex="tabindex"
         :disabled="disabled"
         class="open-btn"
-        :class="!disabled ? 'cursor-pointer hover:bg-accent1/[0.1] active:bg-accent1/[0.2]' : ''"
+        :class="!disabled ? 'cursor-pointer hover:bg-accent1/10 active:bg-accent1/20' : ''"
         data-keep-popover-open
         @focus="openBtnFocus"
         @blur="focusState.openBtn = false"
         @click.stop="toggleModal"
       >
         <div
-          class="absolute inset-[4px] border-main2 border pointer-events-none transition-all rounded-sm"
+          class="absolute inset-1 border-main2 border pointer-events-none transition-all rounded-sm"
           :class="computedIsFocusOpenBtn ? 'opacity-100' : 'opacity-0'"
         ></div>
         <i :class="props.mode === 'time' ? 'fa-regular fa-clock' : 'fa-solid fa-calendar-days'"></i>
@@ -696,7 +696,7 @@ const posTarget = ref();
     <template #right-icons>
       <template v-if="!props.hideDeleteBtn && !props.readonly">
         <button
-          :class="!disabled ? 'text-error cursor-pointer hover:bg-error/[0.1] active:bg-error/[0.2]' : ''"
+          :class="!disabled ? 'text-error cursor-pointer hover:bg-error/10 active:bg-error/20' : ''"
           tabindex="-1"
           @click.stop="iconEventDelete()"
         >
@@ -716,7 +716,7 @@ const posTarget = ref();
     </template>
 
     <div
-      class="nac-c-input-p relative min-h-[20px]"
+      class="nac-c-input-p relative min-h-5"
       :class="[{ disabled: props.disabled, readonly: props.readonly }, inputBoxClass]"
       @click.stop="manualInputClick"
     >
@@ -748,7 +748,7 @@ const posTarget = ref();
     <UPopover
       v-model:open="open"
       arrow
-      :reference="openBtn"
+      :reference="openBtn || undefined"
       :portal="props.portal"
       :open-delay="10"
       :same-width="false"
@@ -757,7 +757,7 @@ const posTarget = ref();
     >
       <template #content>
         <div
-          class="calender-modal min-w-[200px]"
+          class="calender-modal min-w-50"
           :style="{
             '--selected-color': themeColor,
             '--error-color': themeErrorColor,
@@ -770,8 +770,8 @@ const posTarget = ref();
             :model-value="calendarValue"
             class="p-2"
             :locale="displayLocale"
-            :min-value="calendarMinValue"
-            :max-value="calendarMaxValue"
+            :min-value="calendarMinValue || undefined"
+            :max-value="calendarMaxValue || undefined"
             color="secondary"
             :ui="{}"
             @update:model-value="(v:any) => changeCalender(v)"
@@ -779,7 +779,7 @@ const posTarget = ref();
           <div v-if="props.mode === 'all' || props.mode === 'time'" class="grid grid-cols-2 gap-1 p-1">
             <template v-if="hsIsMobile.isMobile">
               <USelect
-                :model-value="HH"
+                :model-value="HH || undefined"
                 :items="listHH"
                 class=""
                 value-key="id"
@@ -791,7 +791,7 @@ const posTarget = ref();
                 @update:model-value="(v:any) => hhValueChange(v)"
               />
               <USelect
-                :model-value="MM"
+                :model-value="MM || undefined"
                 :items="listMM"
                 class=""
                 value-key="id"
@@ -805,7 +805,7 @@ const posTarget = ref();
             </template>
             <template v-else>
               <USelectMenu
-                :model-value="HH"
+                :model-value="HH || undefined"
                 :items="listHH"
                 class=""
                 value-key="id"
@@ -817,7 +817,7 @@ const posTarget = ref();
                 @update:model-value="(v:any) => hhValueChange(v)"
               />
               <USelectMenu
-                :model-value="MM"
+                :model-value="MM || undefined"
                 :items="listMM"
                 class=""
                 value-key="id"
@@ -909,9 +909,7 @@ const posTarget = ref();
   }
   [data-reka-calendar-cell-trigger]:hover:not([data-selected]):not([data-disabled]) {
     @media (hover: hover) {
-      // @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--selected-color) 20%, transparent);
-      // }
     }
   }
   [data-reka-calendar-cell-trigger]:hover:not([data-selected])[data-disabled] {

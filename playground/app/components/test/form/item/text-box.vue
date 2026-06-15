@@ -35,7 +35,7 @@ const list = ['a', 'b', 'c'];
         <TextBox v-model:data="textA" :diff="textB" size="s" label="" :disabled="disabled" />
         <TextBox v-model:data="textA" :diff="textB" size="s" label="ラベル付き" :disabled="disabled" />
         <TextBox v-model:data="textA" :diff="textB" size="s" label="文字数制限" :max-len="20" :disabled="disabled" />
-        <div class="h-[44px] w-4 bg-red-600 flex items-center justify-center text-white"></div>
+        <div class="h-11 w-4 bg-red-600 flex items-center justify-center text-white"></div>
       </div>
       <div>特殊制限</div>
       <div class="flex items-start gap-2">
