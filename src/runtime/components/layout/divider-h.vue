@@ -4,42 +4,52 @@
 // ----------------------------------------------------------------------------
 // DividerH
 // DividerHDividerH
------------------------------------------------------------------------------ */
+---------------------------------------------------------------------------- */
 // [ tailwind ]
-import { twMerge } from "tailwind-merge";
+import { twMerge } from 'tailwind-merge';
 // [ NUXT ]
-import { computed } from "#imports";
+import { computed } from '#imports';
 // [ utils ]
-import { type ClassType, ClassTypeToString } from "../../utils/class-style";
-import { Theme, GetGolorCode } from "../../utils/theme";
+import { type ClassType, ClassTypeToString } from '../../utils/class-style';
+
+import { Theme, type ThemeColor, GetColorCode } from '../../utils/theme';
 // ----------------------------------------------------------------------------
+type Theme = keyof {
+  main0: '#183C5E';
+  main1: '#2C5A85';
+  main2: '#487CB4';
+  main3: '#A7CDED';
+};
+
+// type ThemeK = Record<Theme, Theme>;
 
 // [ Props ]
 interface Props {
-  theme?: Theme;
+  theme?: ThemeColor;
   size?: number;
   span1?: number;
   span2?: number;
   class?: ClassType;
 }
 const props = withDefaults(defineProps<Props>(), {
-  theme: Theme.main2,
+  // theme: '',
+  theme: Theme.main0,
   size: 2,
   span1: 4,
   span2: 8,
-  class: "",
+  class: '',
 });
 
 const style = computed(() => {
   return [
-    `--main-color:${GetGolorCode(props.theme)};`,
+    `--main-color:${GetColorCode(props.theme)};`,
     `--size:${props.size}px;`,
     `--span1:${props.span1}px;`,
     `--span2:${props.span2}px;`,
   ];
 });
 const classStyle = computed(() => {
-  return twMerge("h-[var(--size)] w-full", ClassTypeToString(props.class));
+  return twMerge('h-[var(--size)] w-full', ClassTypeToString(props.class));
 });
 </script>
 

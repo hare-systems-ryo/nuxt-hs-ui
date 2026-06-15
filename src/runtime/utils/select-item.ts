@@ -2,6 +2,7 @@
 // src\runtime\utils\select-item.ts
 // ----------------------------------------------------------------------------
 // [ src > runtime > utils > * ]
+import {} from '~/src/runtime/utils/select-item';
 ----------------------------------------------------------------------------- */
 
 import type { MultiLang } from "./multi-lang";

@@ -1,32 +1,47 @@
-import twConfig from "../tailwind.config";
+// import { defaultTwConfig } from '../src/tailwind-config';
 export default defineNuxtConfig({
-  experimental: {
-    appManifest: false,
+  colorMode: {
+    preference: 'light', // デフォルトをlightに固定
+    fallback: 'light', // SSR時のフォールバック
+    classSuffix: '', // 'dark-mode'ではなく'dark'クラスを使う
+    storageKey: 'nuxt-color-mode',
   },
   modules: [
-    "@pinia/nuxt",
-    "pinia-plugin-persistedstate/nuxt",
-    //
+    '@nuxtjs/color-mode',
+    '@nuxt/ui',
+    '@vueuse/nuxt',
+    '@pinia/nuxt',
+    'pinia-plugin-persistedstate/nuxt',
     [
-      "../src/module",
+      '../src/module',
       {
-        tailwind: twConfig,
-        prefix: {
-          nuxtUi: "",
-          form: "",
-          interactive: "",
-          layout: "",
+        theme: {
+          //
+          main0: '#183C5E',
+          main1: '#2C5A85',
+          main2: '#487CB4',
+          main3: '#A7CDED',
+          main4: '#C4E1FF',
+          accent1: '#FF6600',
+          accent2: '#FFAC7C',
+          info: '#2BABB5',
+          link: '#6200EE',
+          download: '#11691F',
+          success: '#2BB60C',
+          warn: '#EAB000',
+          error: '#D80329',
+          dark: '#224466',
+          back: '#EDF2F7',
+          back2: '#AABED1',
+          white: '#FFFFFF',
         },
       },
     ],
-    // ["@nuxtjs/tailwindcss", { config: twConfig, exposeConfig: true }],
   ],
-  // myModule: {},
+  css: ['../main.css'],
   devServer: {
-    port: 8888, // デフォルト: 3000
-    host: "0.0.0.0", // デフォルト: localhost,
+    host: '0.0.0.0',
+    port: 8888,
   },
-  css: ["./assets/main.scss"],
   devtools: { enabled: true },
-  compatibilityDate: "2025-01-16",
 });

@@ -1,0 +1,98 @@
+{
+  "name": "nuxt-hs-ui-next",
+  "version": "3.2.13",
+  "description": "This repository is dedicated to the ongoing migration of **nuxt-hs-ui** to **Nuxt 4**",
+  "repository": "https://github.com/hare-systems-ryo/nuxt-hs-ui-next",
+  "license": "MIT",
+  "author": {
+    "name": "Ryo@Hare-Systems",
+    "email": "admin@hare-systems.net"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/types.d.mts",
+      "import": "./dist/module.mjs"
+    },
+    "./utils/tailwindcss": {
+      "types": "./dist/runtime/assets/tailwind.config.d.ts",
+      "import": "./dist/runtime/assets/tailwind.config.js",
+      "require": "./dist/runtime/assets/tailwind.config.js"
+    },
+    "./utils/*": {
+      "types": "./dist/runtime/utils/*.d.ts",
+      "import": "./dist/runtime/utils/*.js",
+      "default": "./dist/runtime/utils/*.js"
+    }
+  },
+  "main": "./dist/module.mjs",
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types.d.mts"
+      ]
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "volta": {
+    "node": "22.12.0",
+    "npm": "10.5.2"
+  },
+  "scripts": {
+    "prepack": "nuxt-module-build build --failOnWarn=false",
+    "dev": "npm run dev:prepare && nuxi dev playground",
+    "dev:build": "nuxi build playground",
+    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
+    "release": "npm run lint && npm run test && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@vueuse/nuxt": "^13.6.0",
+    "sass-embedded": "^1.89.2"
+  },
+  "dependencies": {
+    "@nuxt/kit": "^4.1.0",
+    "@pinia/nuxt": "^0.11.2",
+    "@vueuse/core": "^13.9.0",
+    "@vueuse/integrations": "^13.9.0",
+    "bignumber.js": "^9.3.1",
+    "body-scroll-lock": "^4.0.0-beta.0",
+    "dayjs": "^1.11.18",
+    "flatpickr": "^4.6.13",
+    "focus-trap": "^7.6.5",
+    "pinia": "^3.0.3",
+    "pinia-plugin-persistedstate": "^4.5.0",
+    "tabulator-tables": "^6.3.1",
+    "tailwind-merge": "^3.3.1",
+    "tailwind-variants": "^3.1.0",
+    "tailwindcss": "^4.1.12",
+    "vue-select": "^4.0.0-beta.6"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "^2.6.3",
+    "@nuxt/eslint": "^1.9.0",
+    "@nuxt/eslint-config": "^1.9.0",
+    "@nuxt/image": "^1.11.0",
+    "@nuxt/module-builder": "^1.0.2",
+    "@nuxt/schema": "^4.1.0",
+    "@nuxt/test-utils": "^3.19.2",
+    "@nuxt/ui": "^3.3.3",
+    "@types/body-scroll-lock": "^3.1.2",
+    "@types/node": "latest",
+    "@types/tabulator-tables": "^6.2.10",
+    "@types/vue-select": "^3.16.8",
+    "changelogen": "^0.6.2",
+    "eslint": "^9.34.0",
+    "npm": "^11.5.2",
+    "nuxt": "^4.1.0",
+    "sass": "^1.92.0",
+    "typescript": "~5.9.2",
+    "vitest": "^3.2.4",
+    "vue-tsc": "^3.0.6"
+  }
+}

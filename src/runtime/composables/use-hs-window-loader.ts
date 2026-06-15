@@ -1,12 +1,12 @@
 /* ----------------------------------------------------------------------------
 // src\runtime\composables\use-hs-window-loader.ts
 // ----------------------------------------------------------------------------
-// [ composables ]
-copnst hsDialog = useHsDialog()
+// [ src > runtime > composables > * ]
+import {} from '~/src/runtime/composables/use-hs-window-loader';
 ----------------------------------------------------------------------------- */
 
 // [ node_modules ]
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia';
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 interface State {
@@ -16,7 +16,7 @@ interface State {
   };
 }
 // ----------------------------------------------------------------------------
-export const useHsWindowLoader = defineStore("HsWindowLoader", {
+export const useHsWindowLoader = defineStore('HsWindowLoader', {
   state: (): State => {
     return {
       state: {

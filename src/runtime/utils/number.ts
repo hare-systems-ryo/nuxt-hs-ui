@@ -2,6 +2,7 @@
 // src\runtime\utils\number.ts
 // ----------------------------------------------------------------------------
 // [ src > runtime > utils > * ]
+import {} from '~/src/runtime/utils/number';
 ----------------------------------------------------------------------------- */
 
 export const Int = (i: any): number => {

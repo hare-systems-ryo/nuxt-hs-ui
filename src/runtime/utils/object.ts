@@ -2,12 +2,10 @@
 // src\runtime\utils\object.ts
 // ----------------------------------------------------------------------------
 // [ src > runtime > utils > * ]
+import {} from '~/src/runtime/utils/object';
 ----------------------------------------------------------------------------- */
 
-export const GetMapValue = <T>(
-  obj: T,
-  key: keyof T | null
-): T[keyof T] | null => {
+export const GetMapValue = <T>(obj: T, key: keyof T | null): T[keyof T] | null => {
   if (key === null) return null;
   return obj[key];
 };
@@ -43,17 +41,14 @@ export const ObjectEntries = <T>(obj: T): [keyof T, T[keyof T]][] =>
  * オブジェクトのキーを再利用して
  * Value値をinitDataにした新しいオブジェクトを生成します
  */
-export const ObjectKeyToMap = <T, T2>(
-  obj: T,
-  initData: T2
-): { [x in keyof T]: T2 } => {
+export const ObjectKeyToMap = <T, T2>(obj: T, initData: T2): { [x in keyof T]: T2 } => {
   const valueType = typeOf(initData);
-  const ngObje = ["set", "map", "symbol"].includes(valueType);
+  const ngObje = ['set', 'map', 'symbol'].includes(valueType);
   if (ngObje) {
-    throw new Error("Set and Map are not supported");
+    throw new Error('Set and Map are not supported');
   }
   // console.log("ObjectKeyToMap", valueType, initData);
-  const isObje = ["array", "object"].includes(valueType);
+  const isObje = ['array', 'object'].includes(valueType);
   const isUndefined = valueType === undefined;
   return ObjectKeys(obj).reduce((ret, key) => {
     if (isUndefined) {
@@ -70,10 +65,7 @@ export const ObjectKeyToMap = <T, T2>(
 /**
  * オブジェクトのキー配列を返します
  */
-export const ObjectListKeyMap = <T>(
-  obj: T[],
-  key: string
-): { [x: string]: T } => {
+export const ObjectListKeyMap = <T>(obj: T[], key: string): { [x: string]: T } => {
   return obj.reduce((ret, row) => {
     ret[String((row as any)[key])] = row;
     return ret;
@@ -96,9 +88,9 @@ export const ObjectCompare = (a: any, b: any): boolean => {
     // ソートする
     const sorted = Object.entries(obj).sort();
     for (const i in sorted) {
-      const val = sorted[i][1];
-      if (typeof val === "object") {
-        sorted[i][1] = objectSort(val);
+      const val = (sorted as any)?.[i]?.[1] || undefined;
+      if (typeof val === 'object') {
+        (sorted as any)[i][1] = objectSort(val);
       }
     }
     return sorted;
@@ -114,10 +106,7 @@ export const ObjectCompare = (a: any, b: any): boolean => {
  * @param idList 並び替えの基準となるリスト
  * @returns 並び替え結果
  */
-export const ListIdSort = (
-  baseList: { id: number; [key: string]: any }[],
-  idList: number[]
-): number[] => {
+export const ListIdSort = (baseList: { id: number; [key: string]: any }[], idList: number[]): number[] => {
   const listOk: number[] = [];
   const listNg: number[] = [];
   const tList: number[] = [];
@@ -147,35 +136,26 @@ const typeOf = (obj: any) => {
 /**
  * オブジェクトの階層をフラットにします。
  */
-export const FlatObj = (
-  obj: any,
-  flatObj: any = {},
-  prefix = ""
-): { [key: string]: any } => {
+export const FlatObj = (obj: any, flatObj: any = {}, prefix = ''): { [key: string]: any } => {
   const valueType = typeOf(obj);
   // console.log(prefix, obj, flatObj);
-  if (valueType === "undefined") {
+  if (valueType === 'undefined') {
     return flatObj;
-  } else if (
-    valueType === "null" ||
-    valueType === "number" ||
-    valueType === "string" ||
-    valueType === "boolean"
-  ) {
+  } else if (valueType === 'null' || valueType === 'number' || valueType === 'string' || valueType === 'boolean') {
     flatObj[prefix] = obj;
     return flatObj;
-  } else if (valueType === "array") {
+  } else if (valueType === 'array') {
     flatObj[`${prefix}`] = [];
     (obj as any[]).forEach((row, index) => {
       const newKey = `${prefix}[${index}]`;
       FlatObj(row, flatObj, newKey);
     });
     return flatObj;
-  } else if (valueType === "object") {
+  } else if (valueType === 'object') {
     flatObj[`${prefix}`] = {};
     Object.keys(obj).forEach((key) => {
       const value = obj[key];
-      const newKey = prefix === "" ? key : prefix + "." + key;
+      const newKey = prefix === '' ? key : prefix + '.' + key;
       FlatObj(value, flatObj, newKey);
     });
     return flatObj;

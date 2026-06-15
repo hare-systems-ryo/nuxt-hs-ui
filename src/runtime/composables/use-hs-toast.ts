@@ -1,18 +1,19 @@
 /* ----------------------------------------------------------------------------
 // src\runtime\composables\use-hs-toast.ts
 // ----------------------------------------------------------------------------
-// [ composables ]
-copnst hsToast = useHsToast()
+// [ src > runtime > composables > * ]
+import {} from '~/src/runtime/composables/use-hs-toast';
 ----------------------------------------------------------------------------- */
 
 // [ node_modules ]
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia';
 // ----------------------------------------------------------------------------
 // [ utils ]
-import { GenerateUniqeKey } from "../utils/com";
-import type { MultiLang } from "../utils/multi-lang";
+import { GenerateUniqeKey } from '../utils/com';
+import type { MultiLang } from '../utils/multi-lang';
 // [ types ]
-import { type Message, Theme } from "../types/toast";
+import { type Message, Theme } from '../types/toast';
+import { useHsPinia } from '../composables/use-pinia';
 // ----------------------------------------------------------------------------
 interface State {
   state: {
@@ -22,26 +23,28 @@ interface State {
   };
 }
 // ----------------------------------------------------------------------------
-const toastShow = (
-  message: MultiLang,
-  title: MultiLang,
-  hideAfter: number,
-  theme: Theme
-) => {
-  const toast = useHsToast();
+const toastShow = (message: MultiLang, title: MultiLang, hideAfter: number, theme: Theme) => {
+  const toast = useHsToast(useHsPinia());
+  const key = GenerateUniqeKey();
   const newToast: Message = {
-    key: GenerateUniqeKey(),
-    isShow: true,
+    key: key,
+    // isShow: true,
     title: title,
     message: message,
     hideAfter: hideAfter,
     barWidth: 0,
     theme: theme,
+    setEvent: false,
   };
   toast.state.pendingList.push(newToast);
+  if (newToast.hideAfter !== 0) {
+    setTimeout(() => {
+      toast.state.pendingList = toast.state.pendingList.filter((row) => row.key !== key);
+    }, newToast.hideAfter);
+  }
 };
 // ----------------------------------------------------------------------------
-export const useHsToast = defineStore("HsUiToast", {
+export const useHsToast = defineStore('HsUiToast', {
   state: (): State => {
     return {
       state: {

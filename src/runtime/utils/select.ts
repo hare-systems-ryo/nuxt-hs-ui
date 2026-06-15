@@ -2,6 +2,7 @@
 // src\runtime\utils\select.ts
 // ----------------------------------------------------------------------------
 // [ src > runtime > utils > * ]
+import {} from '~/src/runtime/utils/select';
 ----------------------------------------------------------------------------- */
 
 import type { SelectItem } from "./select-item";

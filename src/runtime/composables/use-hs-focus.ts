@@ -1,14 +1,14 @@
 /* ----------------------------------------------------------------------------
 // src\runtime\composables\use-hs-focus.ts
 // ----------------------------------------------------------------------------
-// [ composables ]
-copnst hsFocus = useHsFocus()
+// [ src > runtime > composables > * ]
+import {} from '~/src/runtime/composables/use-hs-focus';
 ----------------------------------------------------------------------------- */
 
 // [ node_modules ]
-import { watch } from "vue";
-import { defineStore } from "pinia";
-import { useRoute } from "#app";
+import { watch } from 'vue';
+import { defineStore } from 'pinia';
+import { useRoute } from '#app';
 // ----------------------------------------------------------------------------
 interface State {
   state: {
@@ -17,12 +17,12 @@ interface State {
   };
 }
 // ----------------------------------------------------------------------------
-export const useHsFocus = defineStore("HsFocus", {
+export const useHsFocus = defineStore('HsFocus', {
   state: (): State => {
     return {
       state: {
         isInit: false,
-        id: "",
+        id: '',
       },
     };
   },
@@ -34,7 +34,7 @@ export const useHsFocus = defineStore("HsFocus", {
       watch(
         () => route.fullPath,
         () => {
-          state.id = "";
+          state.id = '';
         }
       );
     },

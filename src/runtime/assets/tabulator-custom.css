@@ -47,11 +47,11 @@
 }
 
 .tabulator>.tabulator-header .v-cell-container .border-bottom {
-    border-bottom: solid 1px #9dafec !important
+    border-bottom: solid 1px #9dafec
 }
 
 .tabulator>.tabulator-header .v-cell-container .border-right {
-    border-right: solid 1px #9dafec !important
+    border-right: solid 1px #9dafec
 }
 
 .tabulator>.tabulator-tableholder .v-cell-container {
@@ -59,11 +59,11 @@
 }
 
 .tabulator>.tabulator-tableholder .v-cell-container .border-bottom {
-    border-bottom: solid 1px #cdd3e6 !important
+    border-bottom: solid 1px #cdd3e6
 }
 
 .tabulator>.tabulator-tableholder .v-cell-container .border-right {
-    border-right: solid 1px #cdd3e6 !important
+    border-right: solid 1px #cdd3e6
 }
 
 .tabulator .v-cell-row {

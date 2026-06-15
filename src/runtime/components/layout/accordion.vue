@@ -4,14 +4,14 @@
 // ----------------------------------------------------------------------------
 // Accordion
 // AccordionAccordion
------------------------------------------------------------------------------ */
+---------------------------------------------------------------------------- */
 
 // [ NUXT ]
-import { computed, ref, watch, nextTick } from "#imports";
+import { computed, ref, watch, nextTick } from '#imports';
 // [ tailwind ]
-import { twMerge } from "tailwind-merge";
+import { twMerge } from 'tailwind-merge';
 // [ utils ]
-import { type ClassType, ClassTypeToString } from "../../utils/class-style";
+import { type ClassType, ClassTypeToString } from '../../utils/class-style';
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 // [ Props ]
@@ -21,7 +21,7 @@ type Props = {
   span?: number;
 };
 const props = withDefaults(defineProps<Props>(), {
-  class: "",
+  class: '',
   span: 300,
 });
 
@@ -44,21 +44,12 @@ watch(
   }
 );
 
-const baseClass = [
-  //
-  "w-full",
-];
-
 const classStyle = computed(() => {
-  return twMerge(baseClass, ClassTypeToString(props.class));
+  return twMerge([props.open ? 'open' : ''], ClassTypeToString(props.class));
 });
-const classOverflow = [
-  //
-  "overflow-y-hidden",
-];
+
 const overflowClass = computed(() => {
-  if (innerHidden.value) return classOverflow;
-  return "";
+  return [innerHidden.value ? 'overflow-y-hidden' : ''];
 });
 // ----------------------------------------------------------------------------
 </script>
@@ -66,11 +57,11 @@ const overflowClass = computed(() => {
 <template>
   <div
     class="Accordion"
-    :class="[{ open: open }, classStyle]"
+    :class="classStyle"
     :style="`--hsui-accordion-span:${props.span}ms`"
+    :inert="!props.open"
   >
-    <!-- :aria-hidden="!props.open" -->
-    <div :class="overflowClass"><slot /></div>
+    <div :class="overflowClass" class="overflow-y-hidden"><slot /></div>
   </div>
 </template>
 
@@ -78,7 +69,7 @@ const overflowClass = computed(() => {
 .Accordion {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows var(--hsui-accordion-span);
+  transition: grid-template-rows var(--hsui-accordion-span) ease-in-out;
   &.open {
     grid-template-rows: 1fr;
   }

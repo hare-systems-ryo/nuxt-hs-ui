@@ -1,18 +1,18 @@
 /* ----------------------------------------------------------------------------
 // src\runtime\composables\use-hs-modal.ts
 // ----------------------------------------------------------------------------
-// [ composables ]
-copnst hsModal = useHsModal()
+// [ src > runtime > composables > * ]
+import {} from '~/src/runtime/composables/use-hs-modal';
 ----------------------------------------------------------------------------- */
 
 // [ node_modules ]
-import { defineStore } from "pinia";
-import { clearAllBodyScrollLocks } from "body-scroll-lock";
+import { defineStore } from 'pinia';
+import { clearAllBodyScrollLocks } from 'body-scroll-lock';
 // [ NUXT ]
-import { computed, watch } from "vue";
-import { useRoute } from "#app";
+import { computed, watch } from 'vue';
+import { useRoute } from '#app';
 // [ composables ]
-import { useHsToast } from "../composables/use-hs-toast";
+import { useHsToast } from '../composables/use-hs-toast';
 
 // ----------------------------------------------------------------------------
 interface State {
@@ -27,7 +27,7 @@ interface State {
   };
 }
 // ----------------------------------------------------------------------------
-export const useHsModal = defineStore("HsModal", {
+export const useHsModal = defineStore('HsModal', {
   state: (): State => {
     return {
       state: {
@@ -50,12 +50,10 @@ export const useHsModal = defineStore("HsModal", {
   actions: {
     watch() {
       const state = this.state;
-      // console.log('useVUiModal init', state.init);
       if (import.meta.server) return;
       if (state.init) return;
       state.init = true;
       const route = useRoute();
-      // console.log(route);
       watch(
         () => route.path,
         () => {
@@ -73,20 +71,13 @@ export const useHsModal = defineStore("HsModal", {
         return target.zIndex;
       });
     },
-    add(
-      id: string,
-      closeable: boolean = false,
-      _zIndex: undefined | number = undefined
-    ) {
+    add(id: string, closeable: boolean = false, _zIndex: undefined | number = undefined) {
       const getIndex = () => {
         if (_zIndex !== undefined) return _zIndex;
         if (this.state.activeList.length === 0) return this.state.baseIndex;
         return Math.max(...this.state.activeList.map((row) => row.zIndex)) + 2;
       };
       const zIndex = getIndex();
-      // this.state.activeList.length === 0
-      // ? this.state.baseIndex
-      // : Math.max(...this.state.activeList.map((row) => row.zIndex)) + 2;
       this.state.activeList.push({
         id: id,
         zIndex: zIndex,
@@ -99,9 +90,7 @@ export const useHsModal = defineStore("HsModal", {
       return zIndex;
     },
     remove(id: string) {
-      this.state.activeList = this.state.activeList.filter(
-        (row) => row.id !== id
-      );
+      this.state.activeList = this.state.activeList.filter((row) => row.id !== id);
       if (this.state.activeList.length === 0) {
         clearAllBodyScrollLocks();
       }

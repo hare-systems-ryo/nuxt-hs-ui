@@ -4,204 +4,198 @@
 // ----------------------------------------------------------------------------
 // Btn
 // BtnBtn
------------------------------------------------------------------------------ */
+---------------------------------------------------------------------------- */
 
 // [ utils ]
-import { tv } from "../../utils/tv";
-import { Theme } from "../../utils/theme";
-import { ObjectKeyToMap } from "../../utils/object";
+import { tv } from '../../utils/tv';
+import { Theme } from '../../utils/theme';
+import { ObjectKeyToMap } from '../../utils/object';
 // ----------------------------------------------------------------------------
 const buttonTv = tv({
   slots: {
     base: [
       //
+      'relative',
       `inline-flex items-center`,
       `rounded`,
-      "touch-manipulation	",
+      'touch-manipulation	',
       `min-w-0 overflow-hidden`,
     ],
     indicator: [
-      "pointer-events-none",
+      'pointer-events-none',
       `absolute transition-all`,
       `border rounded`,
       `hover:opacity-60`,
-      "border-[1px] inset-[-2px] rounded",
+      'border-[1px] inset-[-2px] rounded',
     ],
     overlay: [
-      "pointer-events-none",
-      "will-change-transform",
+      'pointer-events-none',
+      'will-change-transform',
       `absolute inset-0`,
-      "bg-white",
-      "transition-[opacity_100ms_ease]",
+      'bg-white',
+      'transition-[opacity_100ms_ease]',
       // "z-10",
-      "opacity-0",
+      'opacity-0',
     ],
     body: [
       //
-      "min-w-0 flex-1",
-      "pointer-events-none",
-      "select-none",
+      'min-w-0 flex-1',
+      'pointer-events-none',
+      'select-none',
     ],
   },
   variants: {
     size: {
-      xs: { base: ["text-[14px] leading-[1.4em] min-h-[32px]"] },
-      s: { base: ["text-[14px] leading-[1.5em]  min-h-[44px]"] },
-      m: { base: ["text-[16px] leading-[1.5em]  min-h-[48px]"] },
-      l: { base: ["text-[1.2rem] leading-[1.6em]  min-h-[60px]"] },
-      xl: { base: ["text-[1.4rem]  leading-[1.6em]  min-h-[70px]"] },
+      xs: { base: ['text-[14px] leading-[1.4em] min-h-[32px]'] },
+      s: { base: ['text-[14px] leading-[1.5em]  min-h-[44px]'] },
+      m: { base: ['text-[16px] leading-[1.5em]  min-h-[48px]'] },
+      l: { base: ['text-[1.2rem] leading-[1.6em]  min-h-[60px]'] },
+      xl: { base: ['text-[1.4rem]  leading-[1.6em]  min-h-[70px]'] },
     },
     textAlign: {
       left: {
-        base: "justify-start",
-        body: "text-left	",
+        base: 'justify-start',
+        body: 'text-left	',
       },
       center: {
-        base: "justify-center",
-        body: "text-center",
+        base: 'justify-center',
+        body: 'text-center',
       },
       right: {
-        base: "justify-end",
-        body: "text-end",
+        base: 'justify-end',
+        body: 'text-end',
       },
     },
     wrap: {
       true: {
-        body: "text-wrap whitespace-pre-wrap	text-ellipsis overflow-hidden",
+        body: 'text-wrap whitespace-pre-wrap	text-ellipsis overflow-hidden',
       },
-      false: { body: "truncate" },
+      false: { body: 'truncate' },
     },
     disabled: {
       true: {
-        base: "cursor-default",
+        base: 'cursor-default',
         // overlay: "opacity-40",
       },
       false: {
-        base: "cursor-pointer",
+        base: 'cursor-pointer',
       },
     },
     flash: {
-      true: "",
-      false: "",
+      true: '',
+      false: '',
     },
     focus: {
-      true: "",
-      false: "",
+      true: '',
+      false: '',
     },
     hover: {
-      true: "",
-      false: "",
+      true: '',
+      false: '',
     },
     variant: {
       outlined: {
-        base: "py-1 px-2 border-[2px]",
-        indicator: "hover:border-[2px] ",
+        base: 'py-1 px-2 border-[2px]',
+        indicator: 'hover:border-[2px] ',
       },
       flat: {
-        base: "py-1 px-2 border",
-        indicator: "hover:border-[2px] ",
+        base: 'py-1 px-2 border',
+        indicator: 'hover:border-[2px] ',
       },
       text: {
-        base: "border-0 min-h-0 h-auto no-underline",
-        indicator: "border-0",
+        base: 'border-0 min-h-0 h-auto no-underline',
+        indicator: 'border-0',
       },
     },
-    theme: ObjectKeyToMap(Theme, ""),
+    theme: ObjectKeyToMap(Theme, ''),
   },
   defaultVariants: {
-    size: "m",
-    variant: "outlined",
-    theme: "accent1",
-    textAlign: "center",
+    size: 'm',
+    variant: 'outlined',
+    theme: 'accent1',
+    textAlign: 'center',
   },
   compoundVariants: [
     {
       flash: true,
       disabled: false,
       class: {
-        overlay: "opacity-40",
+        overlay: 'opacity-40',
       },
     },
     {
       flash: false,
       disabled: false,
       class: {
-        overlay: "opacity-0",
+        overlay: 'opacity-0',
       },
     },
 
     {
-      variant: "text",
+      variant: 'text',
       disabled: false,
       class: {
-        base: "hover:underline",
+        base: 'hover:underline',
       },
     },
     {
-      variant: ["outlined", "flat"],
+      variant: ['outlined', 'flat'],
       focus: true,
       hover: [true, false],
       disabled: false,
       class: {
-        indicator: " border-[3px] inset-[2px] rounded opacity-50",
+        indicator: ' border-[3px] inset-[2px] rounded opacity-50',
       },
     },
     {
-      variant: ["outlined", "flat"],
+      variant: ['outlined', 'flat'],
       focus: false,
       hover: true,
       disabled: false,
       class: {
-        indicator: "border-[2px] inset-[2px] rounded",
+        indicator: 'border-[2px] inset-[2px] rounded',
       },
     },
     {
-      variant: ["text"],
+      variant: ['text'],
       focus: true,
       hover: [false],
       disabled: false,
       class: {
-        base: "underline decoration-dotted",
-        indicator: "",
-        overlay: "opacity-0",
+        base: 'underline decoration-dotted',
+        indicator: '',
+        overlay: 'opacity-0',
       },
     },
     ...Object.keys(Theme).map((theme) => {
       return {
         theme: theme,
-        variant: "flat",
+        variant: 'flat',
         class: {
           base: [
             `bg-[var(--main-color)] border-[var(--main-color)]`,
-            ["back", "white", "warn"].includes(theme)
-              ? `text-black `
-              : "text-white ",
+            ['back', 'white', 'warn'].includes(theme) ? `text-black ` : 'text-white ',
           ],
-          indicator: ["back", "white"].includes(theme)
-            ? `border-gray-500`
-            : "border-white",
+          indicator: ['back', 'white'].includes(theme) ? `border-gray-500` : 'border-white',
         },
       } as any;
     }),
     ...Object.keys(Theme).map((theme) => {
       return {
         theme: theme,
-        variant: "outlined",
+        variant: 'outlined',
         class: {
-          base: [
-            "bg-transparent",
-            `text-[var(--main-color)] border-[var(--main-color)]`,
-          ],
-          indicator: ["border-current"],
+          base: ['bg-transparent', `text-[var(--main-color)] border-[var(--main-color)]`],
+          indicator: ['border-current'],
         },
       } as any;
     }),
     ...Object.keys(Theme).map((theme) => {
       return {
         theme: theme,
-        variant: "text",
+        variant: 'text',
         class: {
-          base: ["bg-transparent", `text-[var(--main-color)]`],
+          base: ['bg-transparent', `text-[var(--main-color)]`],
           indicator: [],
         },
       } as any;
@@ -209,31 +203,28 @@ const buttonTv = tv({
     // disable
     {
       flash: [false, true],
-      variant: ["flat"],
+      variant: ['flat'],
       disabled: true,
       class: {
-        base: "",
-        overlay: "opacity-50 ",
+        base: '',
+        overlay: 'opacity-50 ',
       },
     },
     {
       flash: [false, true],
-      variant: ["outlined"],
+      variant: ['outlined'],
       disabled: true,
       class: {
-        base: [
-          "bg-transparent",
-          `text-[var(--main-color)] border-[var(--main-color-opacity-50)]`,
-        ],
-        overlay: "opacity-50 ",
+        base: ['bg-transparent', `text-[var(--main-color)] border-[var(--main-color-opacity-50)]`],
+        overlay: 'opacity-50 ',
       },
     },
     {
       flash: [false, true],
-      variant: ["text"],
+      variant: ['text'],
       disabled: true,
       class: {
-        base: "text-[var(--main-color-opacity-50)] ",
+        base: 'text-[var(--main-color-opacity-50)] ',
       },
     },
   ],
@@ -242,18 +233,20 @@ const buttonTv = tv({
 <script setup lang="ts">
 // ----------------------------------------------------------------------------
 // [ vueuse ]
-import { useElementHover } from "@vueuse/core";
+import { useElementHover } from '@vueuse/core';
 // [ NUXT ]
-import { ref, computed, useId } from "#imports";
+import { ref, computed, useId } from '#imports';
 // [ utils ]
-import { Dayjs } from "../../utils/dayjs";
-import { type ClassType, ClassTypeToString } from "../../utils/class-style";
-import { GetGolorCode } from "../../utils/theme";
-import { Sleep } from "../../utils/com";
+import { Dayjs } from '../../utils/dayjs';
+import { type ClassType, ClassTypeToString } from '../../utils/class-style';
+// import { GetGolorCode } from '../../utils/theme';
+import { Sleep } from '../../utils/com';
+import { type ThemeColor, GetColorCode } from '../../utils/theme';
 // [ composables ]
-import { useHsFocus } from "../../composables/use-hs-focus";
+import { useHsFocus } from '../../composables/use-hs-focus';
+import { useHsPinia } from '../../composables/use-pinia';
 
-import BtnLineLoading from "./btn-line-loading.vue";
+import BtnLineLoading from './btn-line-loading.vue';
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 interface Props {
@@ -262,34 +255,34 @@ interface Props {
   classOverlay?: ClassType;
   disabled?: boolean;
   to?: string;
-  theme?: Theme;
-  variant?: "outlined" | "flat" | "text";
+  theme?: ThemeColor;
+  variant?: 'outlined' | 'flat' | 'text';
   textWrap?: boolean;
-  textAlign?: "left" | "center" | "right";
+  textAlign?: 'left' | 'center' | 'right';
   loading?: boolean;
   noneFocusLine?: boolean;
   wrap?: boolean;
   // ----------------------------------------------------------------------------
   // 設定
-  size?: "xs" | "s" | "m" | "l" | "xl";
+  size?: 'xs' | 's' | 'm' | 'l' | 'xl';
 }
 const props = withDefaults(defineProps<Props>(), {
-  class: "",
-  classInner: "",
-  classOverlay: "",
+  class: '',
+  classInner: '',
+  classOverlay: '',
   to: undefined,
-  theme: "accent1",
-  variant: "outlined",
+  theme: 'accent1',
+  variant: 'outlined',
   disabled: false,
   textWrap: false,
-  align: "center",
+  align: 'center',
   loading: false,
-  textAlign: "center",
+  textAlign: 'center',
   noneFocusLine: false,
   wrap: false,
   // ----------------------------------------------------------------------------
   // 設定
-  size: "m",
+  size: 'm',
 });
 
 type InputFocusEventArg = {
@@ -301,22 +294,27 @@ type Emits = {
   ref: [element: HTMLElement];
   focus: [e: InputFocusEventArg];
   blur: [e: InputFocusEventArg];
+  click: [e: Event];
+};
+const onClick = (e: Event) => {
+  if (disabled.value) return;
+  emit('click', e);
 };
 const emit = defineEmits<Emits>();
 // ----------------------------------------------------------------------------
-const fcFocus = useHsFocus();
+const fcFocus = useHsFocus(useHsPinia());
 
 const uid = useId();
-emit("id", uid);
+emit('id', uid);
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 
 const styleMain = computed(() => {
   return [
     //
-    `--main-color:${GetGolorCode(props.theme)};`,
-    `--main-color-opacity-50:${GetGolorCode(props.theme)}88;`,
-    `--sub-color:${GetGolorCode(props.theme)};`,
+    `--main-color:${GetColorCode(props.theme)};`,
+    `--main-color-opacity-50:${GetColorCode(props.theme)}88;`,
+    `--sub-color:${GetColorCode(props.theme)};`,
   ];
 });
 
@@ -348,9 +346,10 @@ const computedActivate = computed(() => {
 
 //  focus, blur Event
 const imputElm = ref<HTMLElement | null>(null);
+defineExpose({ el: imputElm });
 const setRef = (e: any) => {
   imputElm.value = e;
-  emit("ref", e);
+  emit('ref', e);
 };
 const onFocus = () => {
   // console.log("onFocus");
@@ -359,18 +358,18 @@ const onFocus = () => {
   fcFocus.state.id = uid;
   const elm = imputElm.value;
   if (elm === null) return;
-  emit("focus", { elm: elm, id: uid });
+  emit('focus', { elm: elm, id: uid });
 };
 const onBlur = () => {
   // console.log("onBlur");
   isActivate.value = false;
   if (fcFocus.state.id === uid) {
-    fcFocus.state.id = "";
+    fcFocus.state.id = '';
   }
   if (disabled.value) return;
   const elm = imputElm.value;
   if (elm === null) return;
-  emit("blur", { elm: elm, id: uid });
+  emit('blur', { elm: elm, id: uid });
 };
 
 // ----------------------------------------------------------------------------
@@ -379,11 +378,11 @@ const isHovered = useElementHover(imputElm);
 
 // ----------------------------------------------------------------------------
 const flash = ref(false);
-const pushOnTs = ref("");
+const pushOnTs = ref('');
 const pushOn = async (e: any) => {
   if (imputElm.value === null) return;
   if (disabled.value) return;
-  const ts = Dayjs().format("");
+  const ts = Dayjs().format('');
   pushOnTs.value = ts;
   flash.value = true;
   await Sleep(10000);
@@ -457,6 +456,8 @@ const btnTvOverlay = computed(() => {
     @touchcancel="pushOff"
     @keydown.enter="pushOn"
     @keyup.enter="pushOff"
+    @click="onClick"
+    @keydown.enter.prevent.stop="onClick"
   >
     <div :class="btnTvIndicator"></div>
     <div :class="btnTvBody">
@@ -483,6 +484,8 @@ const btnTvOverlay = computed(() => {
     @touchcancel="pushOff"
     @keydown.enter="pushOn"
     @keyup.enter="pushOff"
+    @click="onClick"
+    @keydown.enter.prevent.stop="onClick"
   >
     <div :class="btnTvIndicator"></div>
     <div :class="btnTvOverlay"></div>

@@ -2,12 +2,13 @@
 // src\runtime\utils\wareki.ts
 // ----------------------------------------------------------------------------
 // [ src > runtime > utils > * ]
+import {} from '~/src/runtime/utils/wareki';
 ----------------------------------------------------------------------------- */
 
-import { Int } from "./number";
-import { PaddingLeft } from "./string";
+import { Int } from './number';
+import { PaddingLeft } from './string';
 
-export const WarekiShort = (yyyy: any, nullText = ""): string => {
+export const WarekiShort = (yyyy: any, nullText = ''): string => {
   try {
     if (yyyy === undefined || yyyy == null) return nullText;
     yyyy = Int(yyyy);
@@ -32,12 +33,12 @@ export const WarekiShort = (yyyy: any, nullText = ""): string => {
 export const Wareki = (
   yyyy: any,
   withoutUnit = false,
-  nullText = "",
+  nullText = '',
   len: number | undefined = undefined,
-  lang = "ja"
+  lang = 'ja'
 ): string => {
   try {
-    const unit = lang === "ja" ? "年" : "y";
+    const unit = lang === 'ja' ? '年' : 'y';
     if (yyyy === undefined || yyyy == null) return nullText;
     yyyy = Int(yyyy);
     if (yyyy > 2019) {
@@ -45,7 +46,7 @@ export const Wareki = (
         if (len === undefined) {
           return `R${String(yyyy - 2018)}`;
         } else {
-          return `R${PaddingLeft(String(yyyy - 2018), len, "0")}`;
+          return `R${PaddingLeft(String(yyyy - 2018), len, '0')}`;
         }
       } else {
         return `R${String(yyyy - 2018)} (${String(yyyy)}${unit})`;
@@ -63,7 +64,7 @@ export const Wareki = (
         if (len === undefined) {
           return `H${String(yyyy - 1988)}`;
         } else {
-          return `H${PaddingLeft(String(yyyy - 1988), len, "0")}`;
+          return `H${PaddingLeft(String(yyyy - 1988), len, '0')}`;
         }
       } else {
         return `H${String(yyyy - 1988)} (${String(yyyy)}${unit})`;
@@ -81,7 +82,7 @@ export const Wareki = (
         if (len === undefined) {
           return `S${String(yyyy - 1925)}`;
         } else {
-          return `S${PaddingLeft(String(yyyy - 1925), len, "0")}`;
+          return `S${PaddingLeft(String(yyyy - 1925), len, '0')}`;
         }
       } else {
         return `S${String(yyyy - 1925)} (${String(yyyy)}${unit})`;
@@ -96,32 +97,28 @@ export const Wareki = (
 
 export const WarekiToYYYYMMDD = (wareki: string | null): number => {
   try {
-    let YYYYMMDD = "";
-    if (wareki === null || wareki === "") return 0;
+    let YYYYMMDD = '';
+    if (wareki === null || wareki === '') return 0;
     // 和暦→YYYY変換
-    const arr = wareki
-      .replace(/日/g, "")
-      .replace(/月/g, "-")
-      .replace(/年/g, "-")
-      .split("-");
+    const arr = wareki.replace(/日/g, '').replace(/月/g, '-').replace(/年/g, '-').split('-') as any;
     if (arr.length > 0) {
       if (/令和/.test(arr[0]) === true) {
-        YYYYMMDD += String(Int(arr[0].replace(/令和/g, "")) + 2018);
+        YYYYMMDD += String(Int(arr[0].replace(/令和/g, '')) + 2018);
       } else if (/平成/.test(arr[0]) === true) {
-        YYYYMMDD += String(Int(arr[0].replace(/平成/g, "")) + 1988);
+        YYYYMMDD += String(Int(arr[0].replace(/平成/g, '')) + 1988);
       } else if (/昭和/.test(arr[0]) === true) {
-        YYYYMMDD += String(Int(arr[0].replace(/昭和/g, "")) + 1925);
+        YYYYMMDD += String(Int(arr[0].replace(/昭和/g, '')) + 1925);
       }
     }
     if (YYYYMMDD.length === 0) return 0;
     // 念の為桁数を揃える
-    YYYYMMDD = ("0000" + YYYYMMDD).slice(-4);
+    YYYYMMDD = ('0000' + YYYYMMDD).slice(-4);
     // 月日の変換
     for (let i = 1; i <= 2; i++) {
-      if (arr.length > i && arr[i] !== "") {
-        YYYYMMDD += ("00" + arr[i]).slice(-2);
+      if (arr.length > i && arr[i] !== '') {
+        YYYYMMDD += ('00' + arr[i]).slice(-2);
       } else {
-        YYYYMMDD += "00";
+        YYYYMMDD += '00';
       }
     }
     // console.log('arr', arr);

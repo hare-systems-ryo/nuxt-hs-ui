@@ -4,38 +4,31 @@
 // ----------------------------------------------------------------------------
 // Radio
 // RadioRadio
------------------------------------------------------------------------------ */
+---------------------------------------------------------------------------- */
 
 // [ tailwind ]
-import { twMerge } from "tailwind-merge";
+import { twMerge } from 'tailwind-merge';
 // [ NUXT ]
-import {
-  reactive,
-  ref,
-  watch,
-  computed,
-  useId,
-  nextTick,
-  type Ref,
-} from "#imports";
+import { reactive, ref, watch, computed, useId, nextTick, type Ref } from '#imports';
 // [ utils ]
-import { type ClassType, ClassTypeToString } from "../../utils/class-style";
-import type { SelectItem } from "../../utils/select-item";
-import { useDisplayList, type DisplaySelectItem } from "../../utils/select";
-import type { MultiLang } from "../../utils/multi-lang";
-import { ObjectCopy } from "../../utils/object";
+import { type ClassType, ClassTypeToString } from '../../utils/class-style';
+import type { SelectItem } from '../../utils/select-item';
+import { useDisplayList, type DisplaySelectItem } from '../../utils/select';
+import type { MultiLang } from '../../utils/multi-lang';
+import { ObjectCopy } from '../../utils/object';
 
 // [ composables ]
-import { useHsFocus } from "../../composables/use-hs-focus";
-import { useHsMultiLang } from "../../composables/use-hs-multi-lang";
+import { useHsFocus } from '../../composables/use-hs-focus';
+import { useHsMultiLang } from '../../composables/use-hs-multi-lang';
+import { useHsPinia } from '../../composables/use-pinia';
 // [ Components ]
-import InputFrame from "./input-frame.vue";
-import SelectImgIcon from "./select-img-icon.vue";
-import Btn from "../form/btn.vue";
+import InputFrame from './input-frame.vue';
+import SelectImgIcon from './select-img-icon.vue';
+import Btn from '../form/btn.vue';
 
 // ----------------------------------------------------------------------------
-const hsFocus = useHsFocus();
-const multiLang = useHsMultiLang();
+const hsFocus = useHsFocus(useHsPinia());
+const multiLang = useHsMultiLang(useHsPinia());
 const tx = multiLang.tx;
 const gt = multiLang.gt;
 // ----------------------------------------------------------------------------
@@ -83,7 +76,7 @@ type Props = {
   warnTimeOut?: number;
   // ----------------------------------------------------------------------------
   // 設定
-  size?: "s" | "m" | "l";
+  size?: 's' | 'm' | 'l';
 };
 
 const props = withDefaults(defineProps<Props>(), {
@@ -92,42 +85,42 @@ const props = withDefaults(defineProps<Props>(), {
   order: false,
   image: false,
   loading: false,
-  nullText: () => ({ ja: "選択してください", en: "Select..." }),
+  nullText: () => ({ ja: '選択してください', en: 'Select...' }),
   nullable: false,
-  classCol: "",
-  classRow: "",
-  classImg: "",
-  classImgTag: "",
+  classCol: '',
+  classRow: '',
+  classImg: '',
+  classImgTag: '',
   // ----------------------------------------------------------------------------
   diff: undefined,
   tabindex: undefined,
   // ----------------------------------------------------------------------------
-  class: "",
-  classHeader: "",
-  classInput: "",
+  class: '',
+  classHeader: '',
+  classInput: '',
   // ----------------------------------------------------------------------------
   // 状態
   //   focus: false,
-  focusColor: "shadow-[inset_0px_0px_1px_2px_#0d8ee4]",
+  focusColor: 'shadow-[inset_0px_0px_1px_2px_#0d8ee4]',
   //   change: false,
-  changeColor: "shadow-[inset_0px_0px_1px_2px_#fd9831be]",
+  changeColor: 'shadow-[inset_0px_0px_1px_2px_#fd9831be]',
   error: false,
-  errorColor: "shadow-[inset_0px_0px_1px_2px_#d80000dc]",
+  errorColor: 'shadow-[inset_0px_0px_1px_2px_#d80000dc]',
   disabled: false,
-  disabledColor: "",
+  disabledColor: '',
   readonly: false,
   headerless: false,
   // ----------------------------------------------------------------------------
   // 表示
-  label: "",
+  label: '',
   // 表示-副情報
   require: false,
-  requireText: () => ({ ja: "必須", en: "Required" }),
-  warn: "",
+  requireText: () => ({ ja: '必須', en: 'Required' }),
+  warn: '',
   warnTimeOut: 3000,
   // ----------------------------------------------------------------------------
   // 設定
-  size: "m",
+  size: 'm',
 });
 type EmitIdType = IdType extends string ? string : number;
 // ----------------------------------------------------------------------------
@@ -137,8 +130,8 @@ type Emits = {
   focus: [elm: HTMLElement];
   blur: [elm: HTMLElement];
   // ----------------------------
-  "update:data": [value: EmitIdType | null];
-  "value-change": [after: EmitIdType | null, before: EmitIdType | null];
+  'update:data': [value: EmitIdType | null];
+  'value-change': [after: EmitIdType | null, before: EmitIdType | null];
   // ----------------------------
   keydown: [event: KeyboardEvent];
   keyup: [event: KeyboardEvent];
@@ -149,8 +142,11 @@ const emit = defineEmits<Emits>();
 const slots = defineSlots<{
   default(props: { msg: string }): any;
   overlay?(): any;
-  "right-icons"?(): any;
-  "left-icons"?(): any;
+  'right-icons'?(): any;
+  'left-icons'?(): any;
+  'label-prepend'?(): any;
+  'label-append'?(): any;
+  'header-right'?(): any;
 }>();
 // ----------------------------------------------------------------------------
 // [ getCurrentInstance ]
@@ -169,20 +165,16 @@ const displayData = ref<DisplaySelectItem<IdType> | null>(null);
 watch(displayData, (v) => {
   const before = props.data;
   if (v === null) {
-    emit("update:data", null);
-    emit("value-change", null, before as any as EmitIdType | null);
+    emit('update:data', null);
+    emit('value-change', null, before as any as EmitIdType | null);
     return;
   }
   if (v.id === null) {
     displayData.value = null;
     return;
   }
-  emit("update:data", v.id as any as EmitIdType | null);
-  emit(
-    "value-change",
-    v.id as any as EmitIdType | null,
-    before as any as EmitIdType | null
-  );
+  emit('update:data', v.id as any as EmitIdType | null);
+  emit('value-change', v.id as any as EmitIdType | null, before as any as EmitIdType | null);
 });
 const selectedId = computed(() => {
   // console.log("selectedId", displayData.value);
@@ -264,6 +256,7 @@ watch(
     props.nullText,
     unKnownSelected.value,
     displayData.value,
+    multiLang.lang,
   ],
   () => {
     nextTick(() => {
@@ -325,8 +318,7 @@ const computedActivate = computed(() => {
   if (focusState.isMmousedownItem) return true;
   if (focusState.isNullActivate) return true;
   if (focusState.isKeyDown) return true;
-  if (displayList.value.filter((row) => row.activate === true).length === 1)
-    return true;
+  if (displayList.value.filter((row) => row.activate === true).length === 1) return true;
   return false;
 });
 
@@ -339,7 +331,7 @@ const onFocus = (index: null | number) => {
   focusState.isActivate = true;
   if (index === null) {
     focusState.isNullActivate = true;
-  } else {
+  } else if (index in displayList.value && displayList.value[index]) {
     displayList.value[index].activate = true;
   }
   hsFocus.state.id = uid;
@@ -350,7 +342,7 @@ const onBlur = (index: null | number) => {
   if (props.readonly) return;
   if (index === null) {
     focusState.isNullActivate = false;
-  } else if (index in displayList.value) {
+  } else if (index in displayList.value && displayList.value[index]) {
     displayList.value[index].activate = false;
   }
   setTimeout(() => {
@@ -361,7 +353,7 @@ const onBlur = (index: null | number) => {
 const colClass = computed(() => {
   return twMerge(
     //
-    "col-auto",
+    'col-auto',
     ClassTypeToString(props.classCol)
   );
 });
@@ -411,10 +403,10 @@ const baseClass = computed(() => {
   return [
     twMerge(
       //
-      "h-auto",
-      props.size === "s" ? "min-h-[44px] " : "",
-      props.size === "m" ? "min-h-[48px]" : "",
-      props.size === "l" ? "min-h-[60px]" : "",
+      'h-auto',
+      props.size === 's' ? 'min-h-[44px] ' : '',
+      props.size === 'm' ? 'min-h-[48px]' : '',
+      props.size === 'l' ? 'min-h-[60px]' : '',
       ClassTypeToString(props.class)
     ),
   ];
@@ -424,7 +416,7 @@ const inputClass = computed(() => {
   return [
     twMerge(
       //
-      "px-2",
+      'px-2',
       ClassTypeToString(props.classInput)
     ),
   ];
@@ -455,15 +447,25 @@ const inputClass = computed(() => {
     :size="props.size"
     :headerless="props.headerless"
   >
+    <template v-if="slots.overlay" #overlay="{ focus, change }">
+      <slot name="overlay" :focus="focus" :change="change"></slot>
+    </template>
     <template v-if="slots['left-icons']" #left-icons>
       <slot name="left-icons" :disabled="disabled" />
     </template>
     <template v-if="slots['right-icons']" #right-icons>
       <slot name="right-icons" :disabled="disabled" />
     </template>
-    <template v-if="slots.overlay" #overlay>
-      <slot name="overlay"></slot>
+    <template v-if="slots['label-prepend']" #label-prepend>
+      <slot name="label-prepend" />
     </template>
+    <template v-if="slots['label-append']" #label-append>
+      <slot name="label-append" />
+    </template>
+    <template v-if="slots['header-right']" #header-right>
+      <slot name="header-right" />
+    </template>
+
     <div class="nac-input">
       <div
         class="radio-row"
@@ -478,11 +480,7 @@ const inputClass = computed(() => {
         @keydown.right="onKeydown"
       >
         <!-- null -->
-        <div
-          v-if="!props.require && props.nullable"
-          class="radio-col"
-          :class="colClass"
-        >
+        <div v-if="!props.require && props.nullable" class="radio-col" :class="colClass">
           <div
             class="nac-radio"
             :class="[{ disabled: props.disabled, readonly: props.readonly }]"
@@ -502,10 +500,7 @@ const inputClass = computed(() => {
               @focus="onFocus(null)"
               @blur="onBlur(null)"
             />
-            <div
-              class="radio-mark"
-              :class="[{ checked: selectedId === null }]"
-            ></div>
+            <div class="radio-mark" :class="[{ checked: selectedId === null }]"></div>
             <div class="radio-label">
               <SelectImgIcon
                 v-if="props.image"
@@ -528,10 +523,7 @@ const inputClass = computed(() => {
             @mouseup="onMouseupItem(row.elm)"
             @click="setValue(row)"
           >
-            <div
-              class="nac-radio"
-              :class="[{ disabled: props.disabled, readonly: props.readonly }]"
-            >
+            <div class="nac-radio" :class="[{ disabled: props.disabled, readonly: props.readonly }]">
               <input
                 :id="`radio${uid}-${row.id}`"
                 :ref="(e:any) => (row.elm = e)"
@@ -545,10 +537,7 @@ const inputClass = computed(() => {
                 @focus="onFocus(index)"
                 @blur="onBlur(index)"
               />
-              <div
-                class="radio-mark"
-                :class="[{ checked: selectedId === row.id }]"
-              ></div>
+              <div class="radio-mark" :class="[{ checked: selectedId === row.id }]"></div>
               <div
                 class="radio-label"
                 :class="{
@@ -565,17 +554,11 @@ const inputClass = computed(() => {
                 />
                 <div class="radio-text truncate">
                   {{ tx(row.text) }}
-                  <span
-                    v-if="row.deleted"
-                    class="text-error text-[0.7em] leading-[1em]"
-                  >
-                    {{ tx({ ja: "削除済", en: "Deleted" }) }}
+                  <span v-if="row.deleted" class="text-error text-[0.7em] leading-[1em]">
+                    {{ tx({ ja: '削除済', en: 'Deleted' }) }}
                   </span>
-                  <span
-                    v-if="row.hidden"
-                    class="text-error text-[0.7em] leading-[1em]"
-                  >
-                    {{ tx({ ja: "非表示", en: "Hidden" }) }}
+                  <span v-if="row.hidden" class="text-error text-[0.7em] leading-[1em]">
+                    {{ tx({ ja: '非表示', en: 'Hidden' }) }}
                   </span>
                 </div>
               </div>
@@ -584,27 +567,11 @@ const inputClass = computed(() => {
         </template>
       </div>
       <template v-if="includeHidden">
-        <Btn
-          theme="accent1"
-          variant="outlined"
-          class="w-full mb-1"
-          size="xs"
-          @click="isShowHidden = !isShowHidden"
-        >
+        <Btn theme="accent1" variant="outlined" class="w-full mb-1" size="xs" @click="isShowHidden = !isShowHidden">
           <span class="me-1">Hidden options</span>
-          <i
-            class="fas"
-            :class="[
-              !isShowHidden ? 'fa-eye-slash text-error' : 'fa-eye text-success',
-            ]"
-          ></i>
+          <i class="fas" :class="[!isShowHidden ? 'fa-eye-slash text-error' : 'fa-eye text-success']"></i>
           <i class="fas fa-caret-right mx-1"></i>
-          <i
-            class="fas"
-            :class="[
-              isShowHidden ? 'fa-eye-slash text-error' : 'fa-eye text-success',
-            ]"
-          ></i>
+          <i class="fas" :class="[isShowHidden ? 'fa-eye-slash text-error' : 'fa-eye text-success']"></i>
         </Btn>
       </template>
     </div>
@@ -676,7 +643,7 @@ $control-line-color: #112288 !default;
       transition: all 300ms;
 
       &::after {
-        content: "";
+        content: '';
         width: 9px;
         height: 9px;
         position: relative;

@@ -4,44 +4,39 @@
 // ----------------------------------------------------------------------------
 // ValueBox
 // ValueBoxValueBox
------------------------------------------------------------------------------ */
+---------------------------------------------------------------------------- */
 
 // [ node_modules ]
-import BigNumber from "bignumber.js";
+import BigNumber from 'bignumber.js';
 // [ NUXT ]
-import {
-  reactive,
-  ref,
-  watch,
-  computed,
-  useId,
-  onMounted,
-  nextTick,
-} from "#imports";
+import { reactive, ref, watch, computed, useId, onMounted, nextTick } from '#imports';
 // [ utils ]
-import type { ClassType } from "../../utils/class-style";
-import { InsertComma } from "../../utils/number";
-import { FloatNullable } from "../../utils/float";
-import type { MultiLang } from "../../utils/multi-lang";
+import type { ClassType } from '../../utils/class-style';
+import { InsertComma } from '../../utils/number';
+import { FloatNullable } from '../../utils/float';
+import type { MultiLang } from '../../utils/multi-lang';
 // [ composables ]
-import { useHsFocus } from "../../composables/use-hs-focus";
-import { useHsToast } from "../../composables/use-hs-toast";
-import { useHsMisc } from "../../composables/use-hs-misc";
-import { useHsMultiLang } from "../../composables/use-hs-multi-lang";
+import { useHsFocus } from '../../composables/use-hs-focus';
+import { useHsToast } from '../../composables/use-hs-toast';
+import { useHsMultiLang } from '../../composables/use-hs-multi-lang';
+import { useHsIsMobile } from '../../composables/use-hs-is-mobile';
+import { useHsPinia } from '../../composables/use-pinia';
 // [ Components ]
-import InputFrame from "./input-frame.vue";
+import InputFrame from './input-frame.vue';
 // ----------------------------------------------------------------------------
 // [ com > lib > * ]
 // import { FloatNullable } from '~/com/lib/float';
 // ----------------------------------------------------------------------------
-const hsFocus = useHsFocus();
-const hsMisc = useHsMisc();
-const Toast = useHsToast();
-const multiLang = useHsMultiLang();
+const hsIsMobile = useHsIsMobile(useHsPinia());
+const hsFocus = useHsFocus(useHsPinia());
+const Toast = useHsToast(useHsPinia());
+const multiLang = useHsMultiLang(useHsPinia());
+const tx = multiLang.tx;
 const gt = multiLang.gt;
 
 // ----------------------------------------------------------------------------
 // [ Props ]
+type Enterkeyhint = 'done' | 'search' | 'enter' | 'go' | 'next' | 'previous' | 'send';
 type Props = {
   // ----------------------------------------------------------------------------
   // Input 種類別
@@ -51,9 +46,15 @@ type Props = {
   min?: number;
   max?: number;
   digits?: number;
+  /** 小数点以下で末端のゼロを非表示 */
+  digitsAuto?: boolean;
   isShowBtnControl?: boolean;
   comma?: string;
-  enterkeyhint?: string;
+  enterkeyhint?: Enterkeyhint | undefined;
+  inputSize?: string | number;
+  placeholder?: MultiLang;
+  textAlign?: 'left' | 'center' | 'right';
+  digitsPointSmall?: boolean;
   // ----------------------------------------------------------------------------
   data: number | null;
   diff?: number | null | undefined;
@@ -84,7 +85,7 @@ type Props = {
   warnTimeOut?: number;
   // ----------------------------------------------------------------------------
   // 設定
-  size?: "s" | "m" | "l";
+  size?: 's' | 'm' | 'l';
   // ----------------------------------------------------------------------------
   uiText?: {
     validError: {
@@ -99,61 +100,65 @@ const props = withDefaults(defineProps<Props>(), {
   // ----------------------------------------------------------------------------
   // Input 種類別
   nullable: true,
-  unit: "",
+  unit: '',
   step: 1,
   min: -9999999999,
   max: 9999999999,
   digits: 0,
+  digitsAuto: false,
   isShowBtnControl: false,
-  comma: ",",
+  comma: ',',
   enterkeyhint: undefined,
-
+  inputSize: 10,
+  placeholder: '',
+  textAlign: 'right',
+  digitsPointSmall: false,
   // ----------------------------------------------------------------------------
   diff: undefined,
   tabindex: undefined,
   // ----------------------------------------------------------------------------
-  class: "",
-  classHeader: "",
-  classInput: "",
+  class: '',
+  classHeader: '',
+  classInput: '',
   // ----------------------------------------------------------------------------
   // 状態
   //   focus: false,
-  focusColor: "shadow-[inset_0px_0px_1px_2px_#0d8ee4]",
+  focusColor: 'shadow-[inset_0px_0px_1px_2px_#0d8ee4]',
   //   change: false,
-  changeColor: "shadow-[inset_0px_0px_1px_2px_#fd9831be]",
+  changeColor: 'shadow-[inset_0px_0px_1px_2px_#fd9831be]',
   error: false,
-  errorColor: "shadow-[inset_0px_0px_1px_2px_#d80000dc]",
+  errorColor: 'shadow-[inset_0px_0px_1px_2px_#d80000dc]',
   disabled: false,
-  disabledColor: "",
+  disabledColor: '',
   readonly: false,
   headerless: false,
   // ----------------------------------------------------------------------------
   // 表示
-  label: "",
+  label: '',
   // 表示-副情報
   require: false,
-  requireText: () => ({ ja: "必須", en: "Required" }),
-  warn: "",
+  requireText: () => ({ ja: '必須', en: 'Required' }),
+  warn: '',
   warnTimeOut: 3000,
   // ----------------------------------------------------------------------------
   // 設定
-  size: "m",
+  size: 'm',
   // ----------------------------------------------------------------------------
   uiText: () => {
     return {
       validError: {
-        title: { ja: "入力値の警告", en: "Input Value Warning" },
+        title: { ja: '入力値の警告', en: 'Input Value Warning' },
         nullValue: {
-          ja: "数値以外は許可されていません。",
-          en: "Non-numeric values are not allowed.",
+          ja: '数値以外は許可されていません。',
+          en: 'Non-numeric values are not allowed.',
         },
         minValue: {
-          ja: "[{value}]以下の数値は入力できません",
-          en: "You cannot enter a number below {value}.",
+          ja: '[{value}]以下の数値は入力できません',
+          en: 'You cannot enter a number below {value}.',
         },
         maxValue: {
-          ja: "[{value}]以上の数値は入力できません",
-          en: "You cannot enter a number greater than {value}.",
+          ja: '[{value}]以上の数値は入力できません',
+          en: 'You cannot enter a number greater than {value}.',
         },
       },
     };
@@ -167,8 +172,8 @@ type Emits = {
   focus: [elm: HTMLElement];
   blur: [elm: HTMLElement];
   // ----------------------------
-  "update:data": [value: number | null];
-  "value-change": [after: number | null, before: number | null];
+  'update:data': [value: number | null];
+  'value-change': [after: number | null, before: number | null];
   // ----------------------------
   keydown: [event: KeyboardEvent];
   keyup: [event: KeyboardEvent];
@@ -179,8 +184,11 @@ const emit = defineEmits<Emits>();
 const slots = defineSlots<{
   default(props: { msg: string }): any;
   overlay?(): any;
-  "right-icons"?(): any;
-  "left-icons"?(): any;
+  'right-icons'?(): any;
+  'left-icons'?(): any;
+  'label-prepend'?(): any;
+  'label-append'?(): any;
+  'header-right'?(): any;
 }>();
 // ----------------------------------------------------------------------------
 // [ getCurrentInstance ]
@@ -193,35 +201,47 @@ interface State {
   inputMode: string;
 }
 const state = reactive<State>({
-  value: "",
-  inputMode: "text",
+  value: '',
+  inputMode: 'text',
 });
 // ----------------------------------------------------------------------------
 onMounted(() => {
-  state.inputMode = hsMisc.state.isMobile === true ? "numeric" : "text";
+  state.inputMode = hsIsMobile.isMobile === true ? 'numeric' : 'text';
 });
 watch(
-  () => hsMisc.state.isMobile,
+  () => hsIsMobile.isMobile,
   () => {
-    state.inputMode = hsMisc.state.isMobile === true ? "numeric" : "text";
+    state.inputMode = hsIsMobile.isMobile === true ? 'numeric' : 'text';
   }
 );
 
+/** 小数点以下を設定に従って省略する市内を判定、文字列を返却する */
+const convertText = (str: string) => {
+  // console.log('convertText', str);
+  if (props.digitsAuto) {
+    if (/\./.test(str)) {
+      return str.replace(/0*$/g, '').replace(/\.$/g, '');
+    }
+    return str;
+  } else {
+    return str;
+  }
+};
 // ----------------------------------------------------------------------------
 /**
  * 表示（カンマ表示）
  */
 const displayText = computed(() => {
-  if (props.data === null) return "";
-  return InsertComma(props.data, props.digits, "0", props.comma);
+  if (props.data === null) return '';
+  const ret = InsertComma(props.data, props.digits, '0', props.comma);
+  // console.log('displayText', ret, convertText(ret));
+  return convertText(ret);
 });
 
 /**
  * 値が適正かチェックする
  */
-const validCheck = (
-  val: number | null
-): { result: boolean; message: string; value: number | null } => {
+const validCheck = (val: number | null): { result: boolean; message: string; value: number | null } => {
   if (val === null) {
     if (props.nullable === false) {
       return {
@@ -230,31 +250,25 @@ const validCheck = (
         message: gt(props.uiText.validError.nullValue),
       };
     } else {
-      return { result: true, value: null, message: "" };
+      return { result: true, value: null, message: '' };
     }
   }
   if (val < props.min) {
     return {
       result: false,
       value: props.min,
-      message: gt(props.uiText.validError.minValue).replace(
-        /\{value\}/g,
-        String(props.min)
-      ),
+      message: gt(props.uiText.validError.minValue).replace(/\{value\}/g, String(props.min)),
       // `[${props.min}]以下の数値は入力できません`,
     };
   } else if (props.max < val) {
     return {
       result: false,
       value: props.max,
-      message: gt(props.uiText.validError.maxValue).replace(
-        /\{value\}/g,
-        String(props.max)
-      ),
+      message: gt(props.uiText.validError.maxValue).replace(/\{value\}/g, String(props.max)),
       // message: `[${props.max}]以上の数値は入力できません`,
     };
   }
-  return { result: true, value: val, message: "" };
+  return { result: true, value: val, message: '' };
 };
 
 /**
@@ -272,9 +286,14 @@ const updateData = async (val: number | null, f = true) => {
   } else {
     updateValue = null;
   }
-  emit("update:data", updateValue);
+  emit('update:data', updateValue);
   await nextTick();
-  if (f) emit("value-change", updateValue, before);
+  if (f) emit('value-change', updateValue, before);
+  await nextTick();
+  if (props.data !== val) {
+    setValueByPropsData();
+    // state.value = String(before ?? '');
+  }
 };
 
 /**
@@ -328,7 +347,7 @@ const isArrowDown = computed(() => {
  * 全角数値を半角数値へ変換する
  */
 const hankakuToZenkaku = (str: string) => {
-  return (str + "").replace(/[０-９]/g, (s) => {
+  return (str + '').replace(/[０-９]/g, (s) => {
     return String.fromCharCode(s.charCodeAt(0) - 0xfee0);
   });
 };
@@ -338,26 +357,23 @@ const hankakuToZenkaku = (str: string) => {
  */
 const checkValueByInput = () => {
   const inputText = hankakuToZenkaku(state.value)
-    .replace(/ー/g, "-")
-    .replace(/[^(0-9)|.\-+]+/g, "");
+    .replace(/[ー―－–—]/g, '-')
+    .replace(/[^(0-9)|.\-+]+/g, '');
   const inputValue = FloatNullable(inputText, props.digits);
   const validCheckResult = validCheck(inputValue);
 
   // console.log(uid, { moto: state.value, inputText, inputValue, validCheckResult });
   if (validCheckResult.value === null) {
-    state.value = "";
+    state.value = '';
   } else {
-    state.value = validCheckResult.value.toFixed(props.digits);
+    // console.log(validCheckResult.value.toFixed(props.digits));
+    state.value = convertText(validCheckResult.value.toFixed(props.digits));
   }
   if (props.data !== validCheckResult.value) {
     updateData(validCheckResult.value);
   }
   if (validCheckResult.result === false) {
-    Toast.Warning(
-      validCheckResult.message,
-      props.uiText.validError.title,
-      props.warnTimeOut
-    );
+    Toast.Warning(validCheckResult.message, props.uiText.validError.title, props.warnTimeOut);
   }
 };
 
@@ -374,17 +390,13 @@ const setValueByPropsData = () => {
   const validCheckResult = validCheck(val);
   if (validCheckResult.result === true) {
     if (validCheckResult.value === null) {
-      state.value = "";
+      state.value = '';
     } else {
-      state.value = validCheckResult.value.toFixed(props.digits);
+      state.value = convertText(validCheckResult.value.toFixed(props.digits));
     }
   } else {
     updateData(validCheckResult.value, false);
-    Toast.Warning(
-      validCheckResult.message,
-      props.uiText.validError.title,
-      props.warnTimeOut
-    );
+    Toast.Warning(validCheckResult.message, props.uiText.validError.title, props.warnTimeOut);
   }
 };
 
@@ -392,17 +404,14 @@ const setValueByPropsData = () => {
  * 要素のイベント keydown
  */
 const keydown = (e: KeyboardEvent) => {
-  emit("keydown", e);
-  if (
-    !props.isShowBtnControl &&
-    (e.key === "ArrowUp" || e.key === "ArrowDown")
-  ) {
+  emit('keydown', e);
+  if (!props.isShowBtnControl && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
     e.preventDefault();
     return;
   }
-  if (e.key === "ArrowUp") {
+  if (e.key === 'ArrowUp') {
     stepValue(true);
-  } else if (e.key === "ArrowDown") {
+  } else if (e.key === 'ArrowDown') {
     stepValue(false);
   }
 };
@@ -424,17 +433,18 @@ const onWheel = (e: WheelEvent) => {
 
 // [ ref ]
 const inputElement = ref();
+defineExpose({ el: inputElement });
 const setRef = (elm: any) => {
   inputElement.value = elm;
-  emit("ref", elm as HTMLInputElement);
+  emit('ref', elm as HTMLInputElement);
 };
 
-/**
- * 強制focus
- */
-const elmFocus = () => {
-  inputElement.value.focus();
-};
+// /**
+//  * 強制focus
+//  */
+// const elmFocus = () => {
+//   inputElement.value.focus();
+// };
 
 // [ focus, blur ]
 
@@ -468,10 +478,10 @@ watch(computedActivate, (value) => {
     // クリックでの遷移の場合に
     // 一つ前のコントロールのblurイベントよりも早くfocusが発生しないようにする対策で10ミリ秒処理をずらす
     setTimeout(() => {
-      emit("focus", inputElement.value);
+      emit('focus', inputElement.value);
     }, 10);
   } else {
-    emit("blur", inputElement.value);
+    emit('blur', inputElement.value);
   }
 });
 
@@ -480,13 +490,15 @@ const onFocus = () => {
   zeroFlag.value = false;
   if (props.disabled === true) return;
   if (props.readonly === true) return;
-  hsFocus.state.id = uid;
+  if (hsFocus.state.id !== uid) {
+    hsFocus.state.id = uid;
+  }
   focusState.isActivate = true;
-  if (state.inputMode === "text") {
+  if (state.inputMode === 'text') {
     // inputElement.value.select();
-  } else if (state.value === "0") {
+  } else if (state.value === '0') {
     zeroFlag.value = true;
-    state.value = "";
+    state.value = '';
   }
 };
 // const instance = getCurrentInstance(); // コンポーネント固有のUIDを取得する
@@ -496,8 +508,8 @@ const onBlur = () => {
   try {
     if (props.disabled === true) return;
     if (props.readonly === true) return;
-    if (zeroFlag.value && state.value === "") {
-      state.value = "0";
+    if (zeroFlag.value && state.value === '') {
+      state.value = '0';
     }
     focusState.isActivate = false;
     focusState.isMmousedown = false;
@@ -542,6 +554,27 @@ watch(
     setValueByPropsData();
   }
 );
+const placeholder = computed(() => tx(props.placeholder).value);
+
+const displayTextArr = computed(() => {
+  const text = displayText.value;
+  if (props.digits === 0) return [text, ''];
+  if (!text) return [text, ''];
+  if (!/\./.test(text)) return [text, ''];
+  const top = text.replace(/(\.\d*)$/, '');
+  const bottom = text.replace(/.*(\.\d*)$/, '$1');
+  return [top ?? '', bottom ?? ''];
+});
+
+const pHolder = computed(() => {
+  const text = placeholder.value;
+  if (props.digits === 0) return [text, ''];
+  if (!text) return [text, ''];
+  if (!/\./.test(text)) return [text, ''];
+  const top = text.replace(/(\.\d*)$/, '');
+  const bottom = text.replace(/.*(\.\d*)$/, '$1');
+  return [top ?? '', bottom ?? ''];
+});
 // ----------------------------------------------------------------------------
 </script>
 
@@ -566,72 +599,97 @@ watch(
     :warn-time-out="props.warnTimeOut"
     :size="props.size"
     :headerless="props.headerless"
-    @click="elmFocus"
   >
+    <template v-if="slots.overlay" #overlay="{ focus, change }">
+      <slot name="overlay" :focus="focus" :change="change"></slot>
+    </template>
     <template v-if="slots['left-icons']" #left-icons>
       <slot name="left-icons" :disabled="disabled" />
     </template>
-    <template v-if="slots.overlay" #overlay>
-      <slot name="overlay"></slot>
-    </template>
-    <div class="flex items-end justify-end">
-      <div class="flex-1">
-        <input
-          :ref="(e) => setRef(e)"
-          v-model="state.value"
-          type="text"
-          :inputmode="hsMisc.state.isMobile ? 'numeric' : 'text'"
-          class="pe-[4px] w-full"
-          :class="[
-            //
-            computedActivate ? 'opacity-100' : 'opacity-0',
-            // { isShow: computedActivate },
-          ]"
-          maxlength="20"
-          :enterkeyhint="props.enterkeyhint"
-          :disabled="props.disabled"
-          :readonly="props.readonly"
-          :tabindex="tabindex"
-          @wheel="onWheel"
-          @keydown="keydown"
-          @keyup="(e) => emit('keyup', e)"
-          @blur="onBlur()"
-          @focus="onFocus()"
-        />
-        <input
-          type="text"
-          class="displayText pe-[4px] w-full"
-          :class="[
-            //
-            computedActivate ? 'opacity-0' : 'opacity-100',
-            { readonly: props.readonly },
-          ]"
-          :value="displayText"
-          :disabled="props.disabled"
-          :tabindex="-1"
-          readonly
-        />
-      </div>
-      <div v-if="props.unit.length !== 0" class="flex-none unit">
-        {{ props.unit }}
-      </div>
-    </div>
     <template #right-icons>
       <div v-if="props.isShowBtnControl === true" class="u-d-icon" @click.stop>
-        <div
-          :class="[{ activate: isArrowUp && !locked }]"
-          @click="stepValue(true)"
-        >
+        <div :class="[{ activate: isArrowUp && !locked }]" @click="stepValue(true)">
           <i class="fas fa-caret-up"></i>
         </div>
-        <div
-          :class="[{ activate: isArrowDown && !locked }]"
-          @click="stepValue(false)"
-        >
+        <div :class="[{ activate: isArrowDown && !locked }]" @click="stepValue(false)">
           <i class="fas fa-caret-down"></i>
         </div>
       </div>
       <slot name="right-icons" :disabled="disabled" />
+    </template>
+    <template v-if="slots['label-prepend']" #label-prepend>
+      <slot name="label-prepend" />
+    </template>
+    <template v-if="slots['label-append']" #label-append>
+      <slot name="label-append" />
+    </template>
+    <template v-if="slots['header-right']" #header-right>
+      <slot name="header-right" />
+    </template>
+    <template #default="{ focus }">
+      <div class="flex items-end justify-end w-full relative">
+        <div class="flex-1 relative">
+          <span
+            v-if="placeholder"
+            class="text-black/50 pointer-events-none select-none px-1 absolute inset-0 items-center transition-opacity truncate"
+            :class="focus || !!state.value || !!displayText ? 'opacity-0' : ''"
+          >
+            <div class="truncate w-full" :style="`text-align:${props.textAlign};`">
+              <div v-if="props.digitsPointSmall">
+                <span class="font-semibold">{{ pHolder[0] }}</span>
+                <span class="text-[0.8em] text-[#333] font-normal">{{ pHolder[1] }}</span>
+              </div>
+              <template v-else>
+                {{ placeholder }}
+              </template>
+            </div>
+          </span>
+          <input
+            :ref="(e) => setRef(e)"
+            v-model="state.value"
+            type="text"
+            :inputmode="hsIsMobile.isMobile ? 'numeric' : 'text'"
+            class="pe-1 w-full"
+            :class="[computedActivate ? 'opacity-100' : 'opacity-0']"
+            :style="`text-align:${props.textAlign};`"
+            maxlength="20"
+            :enterkeyhint="props.enterkeyhint"
+            :disabled="props.disabled"
+            :readonly="props.readonly"
+            :tabindex="tabindex"
+            :size="props.inputSize"
+            @wheel="onWheel"
+            @keydown="keydown"
+            @keyup="(e) => emit('keyup', e)"
+            @blur="onBlur()"
+            @focus="onFocus()"
+          />
+          <div
+            v-if="props.data !== null"
+            class="displayText pe-1 w-full"
+            :class="[
+              //
+              focus || computedActivate ? 'opacity-0' : 'opacity-100',
+              { readonly: props.readonly },
+            ]"
+            :style="`justify-content:${
+              props.textAlign === 'right' ? 'end' : props.textAlign === 'center' ? 'center' : 'start'
+            };`"
+            readonly
+          >
+            <div v-if="props.digitsPointSmall" class=" ">
+              <span class="font-semibold">{{ displayTextArr[0] }}</span>
+              <span class="text-[0.8em] text-[#333] font-normal">{{ displayTextArr[1] }}</span>
+            </div>
+            <template v-else>
+              {{ displayText }}
+            </template>
+          </div>
+        </div>
+        <div v-if="props.unit.length !== 0" class="flex-none unit">
+          {{ props.unit }}
+        </div>
+      </div>
     </template>
   </InputFrame>
 </template>
@@ -644,10 +702,10 @@ input {
   appearance: none;
   border: 0px;
   outline: none;
-  text-align: right;
+  // text-align: right;
   color: inherit;
-  &[type="number"]::-webkit-outer-spin-button,
-  &[type="number"]::-webkit-inner-spin-button {
+  &[type='number']::-webkit-outer-spin-button,
+  &[type='number']::-webkit-inner-spin-button {
     -webkit-appearance: none !important;
     margin: 0 !important;
   }
@@ -661,9 +719,26 @@ input {
     margin-top: auto;
     margin-bottom: auto;
     pointer-events: none;
+    display: flex;
+    align-items: center;
+
     &.readonly {
       pointer-events: all;
     }
+  }
+}
+
+.displayText {
+  position: absolute;
+  inset: 0 0 0 0;
+  margin-top: auto;
+  margin-bottom: auto;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+
+  &.readonly {
+    pointer-events: all;
   }
 }
 
@@ -671,7 +746,7 @@ input {
   color: #696969;
   align-items: flex-end;
   align-self: flex-end;
-  margin: 0px 0px 2px 4px;
+  margin: 0px 0px 0px 4px;
   font-size: min(0.8em, 1rem);
   -moz-user-select: none;
   -webkit-user-select: none;

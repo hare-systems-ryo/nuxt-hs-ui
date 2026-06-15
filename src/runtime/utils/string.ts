@@ -2,6 +2,7 @@
 // src\runtime\utils\string.ts
 // ----------------------------------------------------------------------------
 // [ src > runtime > utils > * ]
+import {} from '~/src/runtime/utils/string';
 ----------------------------------------------------------------------------- */
 
 /**
@@ -20,7 +21,7 @@ export const CutLen = (text: string, len: number, addWard = '') => {
 export const LenB = (str: string) => {
   let len = 0;
   for (let i = 0; i < str.length; i++) {
-    if (str[i].match(/[ -~]/)) {
+    if (str[i]?.match(/[ -~]/)) {
       len += 1;
     } else {
       len += 2;
@@ -42,7 +43,7 @@ export const CutLenB = (text: string, len: number, w: string | undefined = undef
   w = w === undefined ? '...' : w;
   let tempStr = '';
   for (let i = 0; i < text.length; i++) {
-    if (text[i].match(/[ -~]/)) {
+    if (text[i]?.match(/[ -~]/)) {
       // 半角
       if (LenB(tempStr + w) + 1 > len) {
         break;
@@ -73,7 +74,7 @@ export const PaddingLeft = (text: string | number | null, len: number, w: string
   } else {
     let str = '';
     for (let i = 0; i < text.length; i++) {
-      if (text[text.length - i - 1].match(/[ -~]/)) {
+      if (text[text.length - i - 1]?.match(/[ -~]/)) {
         // 半角
         if (LenB(str) + 1 > len) {
           break;
@@ -105,7 +106,7 @@ export const PaddingRight = (text: string | number | null, len: number, w: strin
   } else {
     let str = '';
     for (let i = 0; i < text.length; i++) {
-      if (text[i].match(/[ -~]/)) {
+      if (text[i]?.match(/[ -~]/)) {
         // 半角
         if (LenB(str) + 1 > len) {
           break;

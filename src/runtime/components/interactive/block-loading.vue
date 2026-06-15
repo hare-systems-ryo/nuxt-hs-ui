@@ -4,14 +4,14 @@
 // ----------------------------------------------------------------------------
 // BlockLoading
 // BlockLoadingBlockLoading
------------------------------------------------------------------------------ */
+---------------------------------------------------------------------------- */
 
 // [ NUXT ]
-import { computed } from "#imports";
+import { computed } from '#imports';
 // [ tailwind ]
-import { twMerge } from "tailwind-merge";
+import { twMerge } from 'tailwind-merge';
 // [ utils ]
-import { type ClassType, ClassTypeToString } from "../../utils/class-style";
+import { type ClassType, ClassTypeToString } from '../../utils/class-style';
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 type Props = {
@@ -20,46 +20,41 @@ type Props = {
   message?: string;
 };
 const props = withDefaults(defineProps<Props>(), {
-  class: "",
-  message: "Loading",
+  class: '',
+  message: 'Loading',
 });
-const baseClass = [
-  //
-  //
-  "z-100",
-  "px-2",
-  "pt-2",
-  "pb-1",
-  "absolute",
-  "inset-0",
-  "h-full",
-  "w-full",
-  "overflow-hidden",
-  "bg-[#13175C]/[0.5]",
-  "flex",
-  "items-center",
-  "justify-center",
-  "transition-opacity",
-];
 
 const variableStyle = computed(() => {
   if (props.show) {
     return [
       //
-      "pointer-events-auto",
-      "opacity-100",
+      'pointer-events-auto',
+      'opacity-100',
     ];
   }
   return [
     //
-    "pointer-events-none",
-    "opacity-0",
+    'pointer-events-none',
+    'opacity-0',
   ];
 });
 
 const classStyle = computed(() => {
   return twMerge(
-    baseClass,
+    'z-100',
+    'px-2',
+    'pt-2',
+    'pb-1',
+    'absolute',
+    'inset-0',
+    'h-full',
+    'w-full',
+    'overflow-hidden',
+    'bg-[#13175C]/[0.5]',
+    'flex',
+    'items-center',
+    'justify-center',
+    'transition-opacity',
     variableStyle.value,
     ClassTypeToString(props.class)
   );
@@ -68,11 +63,11 @@ const classStyle = computed(() => {
 
 <template>
   <div class="HsUiBlockLoading" :class="[classStyle]">
-    <div class="loading-container">
-      <div class="loading-item">
-        <div class="loading-ball" />
-        <div class="loading-ball" />
-        <div class="loading-ball" />
+    <div class="loading-container relative">
+      <div class="loading-item ">
+        <div class="loading-ball relative" />
+        <div class="loading-ball relative" />
+        <div class="loading-ball relative" />
       </div>
       <div class="loading-text">{{ props.message }}<slot /></div>
     </div>
@@ -86,7 +81,7 @@ const classStyle = computed(() => {
   max-height: min(90%, 160px);
 
   &::before {
-    content: "";
+    content: '';
     display: block;
     padding-top: 56.25%;
     padding-top: 40%;
@@ -114,7 +109,7 @@ const classStyle = computed(() => {
   &::after {
     left: 10px;
     position: absolute;
-    content: "";
+    content: '';
     display: block;
     border-radius: 50%;
     background-color: red;

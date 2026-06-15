@@ -1,8 +1,8 @@
 {
   "name": "nuxt-hs-ui",
-  "version": "2.12.7",
-  "description": "My new Nuxt module",
-  "repository": "https://github.com/hare-systems-ryo/nuxt-hs-ui",
+  "version": "3.3.5",
+  "description": "This repository is dedicated to the ongoing migration of **nuxt-hs-ui** to **Nuxt 4**",
+  "repository": "https://github.com/hare-systems-ryo/nuxt-hs-ui-next",
   "license": "MIT",
   "author": {
     "name": "Ryo@Hare-Systems",
@@ -11,146 +11,88 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/types.d.ts",
-      "import": "./dist/module.mjs",
-      "require": "./dist/module.cjs"
+      "types": "./dist/types.d.mts",
+      "import": "./dist/module.mjs"
     },
-    "./utils/class-style": {
-      "types": "./dist/runtime/utils/class-style.d.ts",
-      "import": "./dist/runtime/utils/class-style.js",
-      "require": "./dist/runtime/utils/class-style.js"
+    "./utils/tailwindcss": {
+      "types": "./dist/runtime/assets/tailwind.config.d.ts",
+      "import": "./dist/runtime/assets/tailwind.config.js",
+      "require": "./dist/runtime/assets/tailwind.config.js"
     },
-    "./utils/com": {
-      "types": "./dist/runtime/utils/com.d.ts",
-      "import": "./dist/runtime/utils/com.js",
-      "require": "./dist/runtime/utils/com.js"
-    },
-    "./utils/dayjs": {
-      "types": "./dist/runtime/utils/dayjs.d.ts",
-      "import": "./dist/runtime/utils/dayjs.js",
-      "require": "./dist/runtime/utils/dayjs.js"
-    },
-    "./utils/float": {
-      "types": "./dist/runtime/utils/float.d.ts",
-      "import": "./dist/runtime/utils/float.js",
-      "require": "./dist/runtime/utils/float.js"
-    },
-    "./utils/modal": {
-      "types": "./dist/runtime/utils/modal.d.ts",
-      "import": "./dist/runtime/utils/modal.js",
-      "require": "./dist/runtime/utils/modal.js"
-    },
-    "./utils/multi-lang-object": {
-      "types": "./dist/runtime/utils/multi-lang-object.d.ts",
-      "import": "./dist/runtime/utils/multi-lang-object.js",
-      "require": "./dist/runtime/utils/multi-lang-object.js"
-    },
-    "./utils/multi-lang": {
-      "types": "./dist/runtime/utils/multi-lang.d.ts",
-      "import": "./dist/runtime/utils/multi-lang.js",
-      "require": "./dist/runtime/utils/multi-lang.js"
-    },
-    "./utils/number": {
-      "types": "./dist/runtime/utils/number.d.ts",
-      "import": "./dist/runtime/utils/number.js",
-      "require": "./dist/runtime/utils/number.js"
-    },
-    "./utils/object": {
-      "types": "./dist/runtime/utils/object.d.ts",
-      "import": "./dist/runtime/utils/object.js",
-      "require": "./dist/runtime/utils/object.js"
-    },
-    "./utils/select-item": {
-      "types": "./dist/runtime/utils/select-item.d.ts",
-      "import": "./dist/runtime/utils/select-item.js",
-      "require": "./dist/runtime/utils/select-item.js"
-    },
-    "./utils/stop-watch": {
-      "types": "./dist/runtime/utils/stop-watch.d.ts",
-      "import": "./dist/runtime/utils/stop-watch.js",
-      "require": "./dist/runtime/utils/stop-watch.js"
-    },
-    "./utils/string": {
-      "types": "./dist/runtime/utils/string.d.ts",
-      "import": "./dist/runtime/utils/string.js",
-      "require": "./dist/runtime/utils/string.js"
-    },
-    "./utils/tabulator": {
-      "types": "./dist/runtime/utils/tabulator.d.ts",
-      "import": "./dist/runtime/utils/tabulator.js",
-      "require": "./dist/runtime/utils/tabulator.js"
-    },
-    "./utils/theme": {
-      "types": "./dist/runtime/utils/theme.d.ts",
-      "import": "./dist/runtime/utils/theme.js",
-      "require": "./dist/runtime/utils/theme.js"
-    },
-    "./utils/wareki": {
-      "types": "./dist/runtime/utils/wareki.d.ts",
-      "import": "./dist/runtime/utils/wareki.js",
-      "require": "./dist/runtime/utils/wareki.js"
+    "./utils/*": {
+      "types": "./dist/runtime/utils/*.d.ts",
+      "import": "./dist/runtime/utils/*.js",
+      "default": "./dist/runtime/utils/*.js"
     }
   },
-  "main": "./dist/module.cjs",
-  "types": "./dist/types.d.ts",
+  "main": "./dist/module.mjs",
+  "typesVersions": {
+    "*": {
+      ".": [
+        "./dist/types.d.mts"
+      ]
+    }
+  },
   "files": [
     "dist"
   ],
   "volta": {
-    "node": "20.13.0",
-    "npm": "10.5.2"
+    "node": "22.12.0",
+    "npm": "10.9.3"
   },
   "scripts": {
-    "link": "npm run dev:prepare && npm link",
-    "prepack": "nuxt-module-build build",
-    "dev": "nuxi dev playground",
+    "prepack": "nuxt-module-build build --failOnWarn=false",
+    "dev": "npm run dev:prepare && nuxi dev playground",
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
-    "release": "npm run lint &&  npm run prepack && changelogen --release && npm publish && git push --follow-tags",
+    "release": "npm run lint && npm run test && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest watch",
     "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"
   },
+  "peerDependencies": {
+    "@vueuse/nuxt": "^13.6.0",
+    "sass-embedded": "^1.89.2"
+  },
   "dependencies": {
-    "@nuxt/kit": "^3.15.1",
-    "@nuxt/ui": "^2.21.0",
-    "@nuxtjs/tailwindcss": "^6.13.1",
-    "@pinia/nuxt": "0.11.1",
-    "@popperjs/core": "^2.11.8",
-    "@vueuse/core": "^12.3.0",
-    "@vueuse/integrations": "^12.3.0",
-    "@vueuse/nuxt": "^12.3.0",
-    "bignumber.js": "^9.1.2",
+    "@nuxt/kit": "^4.2.2",
+    "@pinia/nuxt": "^0.11.3",
+    "@vueuse/core": "^14.1.0",
+    "@vueuse/integrations": "^14.1.0",
+    "bignumber.js": "^9.3.1",
     "body-scroll-lock": "^4.0.0-beta.0",
-    "dayjs": "^1.11.13",
-    "defu": "^6.1.4",
+    "dayjs": "^1.11.19",
     "flatpickr": "^4.6.13",
-    "focus-trap": "^7.6.2",
-    "pinia": "^3.0.3",
-    "tabulator-tables": "^6.3.0",
-    "tailwind-merge": "^2.6.0",
-    "tailwind-variants": "^0.3.0",
+    "focus-trap": "^7.6.6",
+    "pinia": "^3.0.4",
+    "pinia-plugin-persistedstate": "^4.7.1",
+    "tabulator-tables": "^6.3.1",
+    "tailwind-merge": "^3.4.0",
+    "tailwind-variants": "^3.2.2",
+    "tailwindcss": "^4.1.18",
     "vue-select": "^4.0.0-beta.6"
   },
   "devDependencies": {
-    "@nuxt/devtools": "^1.7.0",
-    "@nuxt/eslint-config": "^0.7.5",
-    "@nuxt/module-builder": "^0.8.4",
-    "@nuxt/schema": "^3.15.1",
-    "@nuxt/test-utils": "^3.15.4",
+    "@nuxt/devtools": "^3.1.1",
+    "@nuxt/eslint": "^1.9.0",
+    "@nuxt/eslint-config": "^1.9.0",
+    "@nuxt/image": "^2.0.0",
+    "@nuxt/module-builder": "^1.0.2",
+    "@nuxt/schema": "^4.2.2",
+    "@nuxt/test-utils": "^3.21.0",
+    "@nuxt/ui": "^4.2.1",
     "@types/body-scroll-lock": "^3.1.2",
     "@types/node": "latest",
-    "@types/tabulator-tables": "^6.2.3",
+    "@types/tabulator-tables": "^6.3.0",
     "@types/vue-select": "^3.16.8",
-    "changelogen": "^0.5.7",
-    "eslint": "^9.18.0",
-    "nuxt": "^3.15.1",
-    "sass": "^1.83.4",
-    "sass-embedded": "^1.83.4",
-    "tailwindcss": "^3.4.17",
-    "typescript": "~5.7.3",
-    "vitest": "^2.1.8",
-    "vue-tsc": "^2.2.0"
+    "changelogen": "^0.6.2",
+    "eslint": "^9.34.0",
+    "npm": "^11.5.2",
+    "nuxt": "^4.2.2",
+    "sass": "^1.97.0",
+    "typescript": "~5.9.3",
+    "vitest": "^3.2.4",
+    "vue-tsc": "^3.1.8"
   }
 }

@@ -2,11 +2,12 @@
 // src\runtime\utils\multi-lang-object.ts
 // ----------------------------------------------------------------------------
 // [ src > runtime > utils > * ]
+import {} from '~/src/runtime/utils/multi-lang-object';
 ----------------------------------------------------------------------------- */
 
-import type { SelectItem } from "./select-item";
-import { GetTextByMultiLang, type MultiLang } from "./multi-lang";
-import { ObjectValues } from "./object";
+import type { SelectItem } from './select-item';
+import { GetTextByMultiLang, type MultiLang } from './multi-lang';
+import { ObjectValues } from './object';
 
 // ----------------------------------------------------------------------------
 export type KeyNumber = { [key: string]: number };
@@ -30,25 +31,18 @@ export const ValueToTextByMap = <T extends undefined | string>(
   lang?: T,
   fallBackLang?: string | undefined
 ): T extends string ? string : MultiLang => {
-  if (code === null) return "" as string;
+  if (code === null) return '' as string;
   if (code in keyMultilang) {
     if (lang === undefined) {
       return keyMultilang[code] as T extends string ? string : MultiLang;
     } else if (lang in (keyMultilang as any)[code]) {
-      return GetTextByMultiLang(
-        (keyMultilang as any)[code],
-        lang,
-        fallBackLang
-      ) as string;
+      return GetTextByMultiLang((keyMultilang as any)[code], lang, fallBackLang) as string;
     }
   }
-  return "" as string;
+  return '' as string;
 };
 
-export const SplitList = <T extends Array<any>>(arg: {
-  size: number;
-  list: T;
-}): T[] => {
+export const SplitList = <T extends Array<any>>(arg: { size: number; list: T }): T[] => {
   const { list, size } = arg;
   if (size < 1) return [];
   const listCount = list.length;

@@ -4,11 +4,11 @@
 // ----------------------------------------------------------------------------
 // Tabulator
 // TabulatorTabulator
------------------------------------------------------------------------------ */
+---------------------------------------------------------------------------- */
 
 // ----------------------------------------------------------------------------
 // [ node_modules ]
-import { TabulatorFull as Tabulator } from "tabulator-tables";
+import { TabulatorFull as Tabulator } from 'tabulator-tables';
 // [ NUXT ]
 import {
   ref,
@@ -17,15 +17,16 @@ import {
   onMounted,
   // onUnmounted,
   onBeforeUnmount,
-} from "#imports";
+} from '#imports';
 // ----------------------------------------------------------------------------
 // [ utils ]
-import { Option } from "../../utils/tabulator";
+import { Option } from '../../utils/tabulator';
 // [ composables ]
-import { useHsMultiLang } from "../../composables/use-hs-multi-lang";
+import { useHsMultiLang } from '../../composables/use-hs-multi-lang';
+import { useHsPinia } from '../../composables/use-pinia';
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
-const multiLang = useHsMultiLang();
+const multiLang = useHsMultiLang(useHsPinia());
 // ----------------------------------------------------------------------------
 // [ Props ]
 type Props = {
@@ -39,14 +40,14 @@ const props = withDefaults(defineProps<Props>(), {
 });
 // [ emit ]
 type Emits = {
-  "row-click": [data: any];
-  "row-dbl-click": [data: any];
+  'row-click': [data: any];
+  'row-dbl-click': [data: any];
   init: [flag: boolean];
   tabulator: [tabulator: any];
-  "table-rebuild": [func: () => void];
-  "table-redraw": [func: () => void];
-  "table-refresh": [func: () => void];
-  "table-refresh-stop-toggle": [func: (flag: boolean) => void];
+  'table-rebuild': [func: () => void];
+  'table-redraw': [func: () => void];
+  'table-refresh': [func: () => void];
+  'table-refresh-stop-toggle': [func: (flag: boolean) => void];
 };
 const emit = defineEmits<Emits>();
 // [ reactive ]
@@ -72,23 +73,23 @@ watch(
 );
 
 watch(
-  () => multiLang.state.lang,
+  () => multiLang.lang,
   () => {
     // console.log(ct, 'watch multiLang', multiLang.lang);
     if (table.value === null) return;
     // console.log('watch  > prop.lang', tabulator.value);
-    tabulator.value.setLocale(multiLang.state.lang);
+    tabulator.value.setLocale(multiLang.lang);
     // console.log('watch  > prop.lang', tabulator.value.redraw);
     tabulator.value.redraw(true);
   }
 );
 
 // [▼ 初期化 ▼]
-Tabulator.extendModule("localize", "langs", Option().langs);
+Tabulator.extendModule('localize', 'langs', Option().langs);
 const isInit = ref(false);
 
 watch(isInit, (value) => {
-  emit("init", value);
+  emit('init', value);
 });
 
 watch(
@@ -112,18 +113,18 @@ const initTabulator = () => {
     data: data.value,
   };
   tabulator.value = new Tabulator(table.value, option);
-  tabulator.value.on("rowClick", (e: any, row: any) => {
-    emit("row-click", row._row.data);
+  tabulator.value.on('rowClick', (e: any, row: any) => {
+    emit('row-click', row._row.data);
     e.stopPropagation();
   });
-  tabulator.value.on("rowDblClick", (e: any, row: any) => {
-    emit("row-dbl-click", row._row.data);
+  tabulator.value.on('rowDblClick', (e: any, row: any) => {
+    emit('row-dbl-click', row._row.data);
     e.stopPropagation();
   });
-  tabulator.value.on("tableBuilding", () => (isInit.value = false));
+  tabulator.value.on('tableBuilding', () => (isInit.value = false));
   const beforeRows = option.data.length;
   let buildingFlag = true;
-  tabulator.value.on("tableBuilt", () => {
+  tabulator.value.on('tableBuilt', () => {
     // console.log(ct, 'tableBuilt');
     const afterRows = props.rows.length;
     if (buildingFlag && beforeRows !== afterRows) {
@@ -132,10 +133,10 @@ const initTabulator = () => {
     }
     isInit.value = true;
   });
-  tabulator.value.on("tableDestroyed", () => (isInit.value = false));
+  tabulator.value.on('tableDestroyed', () => (isInit.value = false));
 
   // 親コントロールへtableを伝達
-  emit("tabulator", tabulator.value);
+  emit('tabulator', tabulator.value);
   // ----------------------------------------
 
   /** 意図的にテーブルを再描画する */
@@ -146,7 +147,7 @@ const initTabulator = () => {
     tabulator.value = null;
     initTabulator();
   };
-  emit("table-rebuild", reBuild);
+  emit('table-rebuild', reBuild);
   // ----------------------------------------
 
   /** 意図的にテーブルを再描画する   */
@@ -154,21 +155,21 @@ const initTabulator = () => {
     if (tabulator.value === null || isInit.value === false) return;
     tabulator.value.redraw(true);
   };
-  emit("table-redraw", redraw);
+  emit('table-redraw', redraw);
   // ----------------------------------------
 
   const tableRefreshStopToggle = (flag: boolean) => {
     // console.log('tableRefreshStopToggle', flag);
     refreshStopFlag.value = flag;
   };
-  emit("table-refresh-stop-toggle", tableRefreshStopToggle);
+  emit('table-refresh-stop-toggle', tableRefreshStopToggle);
 
   /** 意図的にテーブルデータをリフレッシュする */
   const refresh = async () => {
     if (tabulator.value === null || isInit.value === false) return;
     await tabulator.value.replaceData(data.value as any);
   };
-  emit("table-refresh", refresh);
+  emit('table-refresh', refresh);
 };
 // ----------------------------------------
 

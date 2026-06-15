@@ -1,25 +1,22 @@
 /* ----------------------------------------------------------------------------
 // src\runtime\composables\use-hs-dialog.ts
 // ----------------------------------------------------------------------------
-// [ composables ]
-copnst hsDialog = useHsDialog()
+// [ src > runtime > composables > * ]
+import {} from '~/src/runtime/composables/use-hs-dialog';
 ----------------------------------------------------------------------------- */
 
 // [ node_modules ]
-import dayjs from "dayjs/esm/index";
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia';
+// [ src > runtime > utils > * ]
 // ----------------------------------------------------------------------------
 // [ utils ]
-import { GenerateUniqeKey } from "../utils/com";
-import type { MultiLang } from "../utils/multi-lang";
-import { Theme } from "../utils/theme";
+import { GenerateUniqeKey } from '../utils/com';
+import type { MultiLang } from '../utils/multi-lang';
+import { Theme } from '../utils/theme';
+import { dayjs } from '../utils/dayjs';
+
 // [ types ]
-import {
-  DialogItem,
-  InitDialogOption,
-  DialogResult,
-  type DialogOption,
-} from "../types/dialog";
+import { DialogItem, InitDialogOption, DialogResult, type DialogOption } from '../types/dialog';
 // ----------------------------------------------------------------------------
 interface State {
   state: {
@@ -31,7 +28,7 @@ interface State {
   };
 }
 // ----------------------------------------------------------------------------
-export const useHsDialog = defineStore("HsDialog", {
+export const useHsDialog = defineStore('HsDialog', {
   state: (): State => {
     return {
       state: {
@@ -52,24 +49,18 @@ export const useHsDialog = defineStore("HsDialog", {
     },
   },
   actions: {
-    async Show(
-      message: MultiLang,
-      title: MultiLang,
-      option: DialogOption = InitDialogOption()
-    ) {
+    async Show(message: MultiLang, title: MultiLang, option: DialogOption = InitDialogOption()) {
       if (import.meta.server) return DialogResult.cancel;
       // console.log('useVUiDialog show');
       const item = new DialogItem(message, title, option);
       const pendingList = this.state.pendingList;
-      const ts = GenerateUniqeKey() + dayjs().format("x");
+      const ts = GenerateUniqeKey() + dayjs().format('x');
       pendingList.push({
         ts: ts,
         data: item,
       });
       const ret = await item.show();
-      this.state.pendingList = this.state.pendingList.filter(
-        (row) => row.ts !== ts
-      );
+      this.state.pendingList = this.state.pendingList.filter((row) => row.ts !== ts);
       return ret;
     },
     // ---------------------------------------------------

@@ -1,0 +1,51 @@
+@import "@nuxt/ui";
+
+@import "tailwindcss";
+@source "../node_modules/nuxt-hs-ui/dist";
+@source "../src";
+
+@theme static {
+    /* breakpoint */
+    --breakpoint-400 : 400px;
+    --breakpoint-600 : 600px;
+    --breakpoint-800 : 800px;
+    --breakpoint-1000: 1000px;
+    --breakpoint-1200: 1200px;
+    --breakpoint-1400: 1400px;
+    --breakpoint-1600: 1600px;
+    --breakpoint-1800: 1800px;
+    /* container */
+    --container-400  : 400px;
+    --container-600  : 600px;
+    --container-800  : 800px;
+    --container-1000 : 1000px;
+    --container-1200 : 1200px;
+    --container-1400 : 1400px;
+    --container-1600 : 1600px;
+    --container-1800 : 1800px;
+    /* color */
+    --color-main0    : #183C5E;
+    --color-main1    : #2C5A85;
+    --color-main2    : #487CB4;
+    --color-main3    : #A7CDED;
+    --color-accent1  : #FF6600;
+    --color-accent2  : #ffac7c;
+    --color-info     : #2BABB5;
+    --color-success  : #2BB60C;
+    --color-warn     : #EAB000;
+    --color-error    : #D80329;
+    --color-link     : #6200EE;
+    --color-download : #11691f;
+    --color-dark     : #224466;
+    --color-back     : #EDF2F7;
+    --color-back1    : #EDF2F7;
+    --color-back2    : #D5D9DD;
+    --color-back3    : #BCCCD5;
+}
+
+/* 
+
+#vue-tracer-overlay {
+    background-color: red;
+    opacity         : 50% !important;
+} */

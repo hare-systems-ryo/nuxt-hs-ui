@@ -4,16 +4,17 @@
 // ----------------------------------------------------------------------------
 // Modal
 // ModalModal
------------------------------------------------------------------------------ */
+---------------------------------------------------------------------------- */
 
 // [ tailwind ]
-import { twMerge } from "tailwind-merge";
+import { twMerge } from 'tailwind-merge';
 // [ NUXT ]
-import { useId, computed, watch, onUnmounted, ref, useHead } from "#imports";
+import { useId, computed, watch, onUnmounted, ref } from '#imports';
 // [ utils ]
-import { type ClassType, ClassTypeToString } from "../../utils/class-style";
+import { type ClassType, ClassTypeToString } from '../../utils/class-style';
 // [ composables ]
-import { useHsModal } from "../../composables/use-hs-modal";
+import { useHsModal } from '../../composables/use-hs-modal';
+import { useHsPinia } from '../../composables/use-pinia';
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 interface Props {
@@ -25,23 +26,25 @@ interface Props {
   /** 背景クリックで閉じれる場合に背景色を切り替える機能
    *   - closeイベントとセットで使う */
   closeable?: boolean;
+  target?: string;
 }
 const props = withDefaults(defineProps<Props>(), {
-  class: "",
-  classInner: "",
+  class: '',
+  classInner: '',
   mounted: true,
   zIndex: undefined,
   closeable: false,
+  target: 'body',
 });
 
 type Emits = {
   close: [];
-  "update:show": [bool: boolean];
+  'update:show': [bool: boolean];
 };
 const emit = defineEmits<Emits>();
 
 // ----------------------------------------------------------------------------
-const hsModal = useHsModal();
+const hsModal = useHsModal(useHsPinia());
 hsModal.watch();
 const id = useId();
 
@@ -59,14 +62,7 @@ if (props.show) {
     hsModal.add(id, props.closeable);
   }
 }
-useHead({
-  style: [
-    {
-      // flatpickr が毎回勝てるよう、都度上書き
-      children: `.flatpickr-calendar{z-index:${zOrder.value + 1} !important;}`,
-    },
-  ],
-});
+
 watch(
   () => props.show,
   (show) => {
@@ -95,13 +91,12 @@ const classStyle = computed(() => {
   return twMerge(
     [
       //
-      "p-2",
-      "transition-opacity",
-      "fixed",
-      "inset-0",
-      "flex",
-      "justify-center",
-      props.show ? "pointer-events-all" : "pointer-events-none",
+      'p-2',
+      'fixed',
+      'inset-0',
+      'flex',
+      'justify-center',
+      props.show ? 'pointer-events-all' : 'pointer-events-none',
     ],
     ClassTypeToString(props.class)
   );
@@ -109,24 +104,24 @@ const classStyle = computed(() => {
 
 const classInner = computed(() => {
   return twMerge(
-    "w-full",
-    "h-full",
-    "p-0",
-    "flex",
-    "flex-col",
-    "items-center",
-    "overflow-auto",
-    "transition-opacity",
-    props.closeable ? "cursor-pointer" : "",
-    props.show ? "pointer-events-all" : "pointer-events-none",
+    'w-full',
+    'h-full',
+    'p-0',
+    'flex',
+    'flex-col',
+    'items-center',
+    'overflow-auto',
+    // 'transition-opacity',
+    props.closeable ? 'cursor-pointer' : '',
+    props.show ? 'pointer-events-all' : 'pointer-events-none',
     // "bg-red-600",
     ClassTypeToString(props.classInner)
   );
 });
 const closeOnBackEvent = () => {
   if (props.closeable) {
-    emit("update:show", false);
-    emit("close");
+    emit('update:show', false);
+    emit('close');
   }
 };
 const down = ref(false);
@@ -141,7 +136,7 @@ const downStop = () => {
 
 <template>
   <ClientOnly>
-    <Teleport to="body">
+    <Teleport :to="target">
       <div
         v-if="mounted"
         :id="id"
@@ -150,14 +145,10 @@ const downStop = () => {
         :class="classStyle"
         :style="{ zIndex: zOrder, opacity: props.show ? 1 : 0 }"
       >
-        <div
-          :class="classInner"
-          @mousedown.self="down = true"
-          @mouseup.self="downStop"
-          @mousedown.stop
-          @mouseup.stop
-          @click.stop=""
-        >
+        <div :class="classInner" @mousedown.self="down = true" @mouseup.self="downStop">
+          <!-- @click.stop="" -->
+          <!-- @mousedown.stop @mouseup.stop -->
+
           <slot />
         </div>
       </div>
@@ -166,9 +157,7 @@ const downStop = () => {
 </template>
 
 <style lang="scss">
-.Modal {
-  > * > * {
-    cursor: default;
-  }
+.Modal > div > * {
+  cursor: default;
 }
 </style>

@@ -4,24 +4,25 @@
 // ----------------------------------------------------------------------------
 // CheckBox
 // CheckBoxCheckBox
------------------------------------------------------------------------------ */
+---------------------------------------------------------------------------- */
 
 // [ tailwind ]
-import { twMerge } from "tailwind-merge";
+import { twMerge } from 'tailwind-merge';
 // [ NUXT ]
-import { reactive, ref, watch, computed, useId, nextTick } from "#imports";
+import { reactive, ref, watch, computed, useId, nextTick } from '#imports';
 // [ utils ]
-import { type ClassType, ClassTypeToString } from "../../utils/class-style";
-import type { MultiLang } from "../../utils/multi-lang";
+import { type ClassType, ClassTypeToString } from '../../utils/class-style';
+import type { MultiLang } from '../../utils/multi-lang';
 // [ composables ]
-import { useHsFocus } from "../../composables/use-hs-focus";
-import { useHsToast } from "../../composables/use-hs-toast";
-import { useHsMultiLang } from "../../composables/use-hs-multi-lang";
+import { useHsFocus } from '../../composables/use-hs-focus';
+import { useHsToast } from '../../composables/use-hs-toast';
+import { useHsMultiLang } from '../../composables/use-hs-multi-lang';
+import { useHsPinia } from '../../composables/use-pinia';
 // [ Components ]
-import SelectImgIcon from "./select-img-icon.vue";
+import SelectImgIcon from './select-img-icon.vue';
 // ----------------------------------------------------------------------------
-const hsFocus = useHsFocus();
-const Toast = useHsToast();
+const hsFocus = useHsFocus(useHsPinia());
+const Toast = useHsToast(useHsPinia());
 // ----------------------------------------------------------------------------
 // [ Props ]
 type Props = {
@@ -48,7 +49,7 @@ type Props = {
   warnTimeOut?: number;
   // ----------------------------------------------------------------------------
   // 設定
-  size?: "s" | "m" | "l";
+  size?: 's' | 'm' | 'l';
   // ----------------------------------------------------------------------------
   uiText?: {
     validError: {
@@ -62,9 +63,9 @@ const props = withDefaults(defineProps<Props>(), {
   // imageBorder: 'border-gray'
   image: false,
   imgUrl: null,
-  classImg: "",
-  classImgTag: "",
-  classLabel: "",
+  classImg: '',
+  classImgTag: '',
+  classLabel: '',
   // ----------------------------------------------------------------------------
   diff: undefined,
   tabindex: undefined,
@@ -73,16 +74,16 @@ const props = withDefaults(defineProps<Props>(), {
   disabled: false,
   // ----------------------------------------------------------------------------
   // 表示
-  label: "",
-  warn: "",
+  label: '',
+  warn: '',
   warnTimeOut: 3000,
   // ----------------------------------------------------------------------------
   // 設定
-  size: "m",
+  size: 'm',
   uiText: () => {
     return {
       validError: {
-        title: { ja: "入力値の警告", en: "Input Value Warning" },
+        title: { ja: '入力値の警告', en: 'Input Value Warning' },
       },
     };
   },
@@ -94,8 +95,8 @@ type Emits = {
   focus: [elm: HTMLElement];
   blur: [elm: HTMLElement];
   // ----------------------------
-  "update:data": [value: boolean];
-  "value-change": [after: boolean, before: boolean | null];
+  'update:data': [value: boolean];
+  'value-change': [after: boolean, before: boolean | null];
   // ----------------------------
   keydown: [event: KeyboardEvent];
   keyup: [event: KeyboardEvent];
@@ -104,7 +105,7 @@ type Emits = {
 const emit = defineEmits<Emits>();
 // ----------------------------------------------------------------------------
 
-const multiLang = useHsMultiLang();
+const multiLang = useHsMultiLang(useHsPinia());
 const tx = multiLang.tx;
 // ----------------------------------------------------------------------------
 // [ getCurrentInstance ]
@@ -112,10 +113,10 @@ const uid = useId();
 // ----------------------------------------------------------------------------
 // [ ref ]
 const inputElement = ref();
-
+defineExpose({ el: inputElement });
 const setRef = (elm: any) => {
   inputElement.value = elm;
-  emit("ref", elm);
+  emit('ref', elm);
 };
 
 const switchValue = () => {
@@ -123,14 +124,14 @@ const switchValue = () => {
   if (props.disabled === true) return;
 
   if (props.data === true) {
-    emit("update:data", false);
+    emit('update:data', false);
     nextTick(() => {
-      emit("value-change", false, before);
+      emit('value-change', false, before);
     });
   } else {
-    emit("update:data", true);
+    emit('update:data', true);
     nextTick(() => {
-      emit("value-change", true, before);
+      emit('value-change', true, before);
     });
   }
   if (inputElement.value !== null) {
@@ -176,10 +177,10 @@ watch(computedActivate, (value) => {
     // クリックでの遷移の場合に
     // 一つ前のコントロールのblurイベントよりも早くfocusが発生しないようにする対策で10ミリ秒処理をずらす
     setTimeout(() => {
-      emit("focus", inputElement.value);
+      emit('focus', inputElement.value);
     }, 10);
   } else {
-    emit("blur", inputElement.value);
+    emit('blur', inputElement.value);
   }
 });
 const onMousedown = () => {
@@ -194,7 +195,9 @@ const onMouseup = () => {
 const onFocus = () => {
   if (props.disabled === true) return;
   focusState.isActivate = true;
-  hsFocus.state.id = uid;
+  if (hsFocus.state.id !== uid) {
+    hsFocus.state.id = uid;
+  }
 };
 const onBlur = () => {
   focusState.isActivate = false;
@@ -216,22 +219,19 @@ const baseClass = computed(() => {
   return {
     disabled: props.disabled,
     activate: computedActivate.value,
-    diff:
-      props.diff !== undefined &&
-      props.diff !== props.data &&
-      !(props.diff === null && props.data === true),
+    diff: props.diff !== undefined && props.diff !== props.data && !(props.diff === null && props.data === true),
   };
 });
 
 const boxClass = computed(() => {
   return [
     twMerge(
-      "border border-gray-700",
-      !props.disabled ? "cursor-pointer" : "cursor-not-allowed",
-      !props.disabled ? "bg-white" : "bg-gray-100",
-      props.size === "s" ? "w-[16px] h-[16px] " : "",
-      props.size === "m" ? "w-[18px] h-[18px] " : "",
-      props.size === "l" ? "w-[22px] h-[22px] " : ""
+      'border border-gray-700',
+      !props.disabled ? 'cursor-pointer' : 'cursor-not-allowed',
+      !props.disabled ? 'bg-white' : 'bg-gray-100',
+      props.size === 's' ? 'w-[16px] h-[16px] ' : '',
+      props.size === 'm' ? 'w-[18px] h-[18px] ' : '',
+      props.size === 'l' ? 'w-[22px] h-[22px] ' : ''
     ),
   ];
 });
@@ -239,23 +239,23 @@ const boxClass = computed(() => {
 const checkClass = computed(() => {
   return [
     twMerge(
-      "absolute inset-0",
-      "flex items-center justify-center",
-      props.size === "s" ? "text-[14px]" : "",
-      props.size === "m" ? "text-[16px]" : "",
-      props.size === "l" ? "text-[18px]" : "",
-      props.data === true ? "scale-100" : "scale-0"
+      'absolute inset-0',
+      'flex items-center justify-center',
+      props.size === 's' ? 'text-[14px]' : '',
+      props.size === 'm' ? 'text-[16px]' : '',
+      props.size === 'l' ? 'text-[18px]' : '',
+      props.data === true ? 'scale-100' : 'scale-0'
     ),
   ];
 });
 const labelClass = computed(() => {
   return [
     twMerge(
-      "flex items-center gap-[2px]",
-      !props.disabled ? "cursor-pointer" : "cursor-not-allowed",
-      props.size === "s" ? "text-[14px] ps-[6px]" : "",
-      props.size === "m" ? "text-[16px] ps-[8px]" : "",
-      props.size === "l" ? "text-[20px] ps-[10px]" : "",
+      'flex items-center gap-[2px]',
+      !props.disabled ? 'cursor-pointer' : 'cursor-not-allowed',
+      props.size === 's' ? 'text-[14px] ps-[6px]' : '',
+      props.size === 'm' ? 'text-[16px] ps-[8px]' : '',
+      props.size === 'l' ? 'text-[20px] ps-[10px]' : '',
       ClassTypeToString(props.classLabel)
     ),
   ];
@@ -275,7 +275,7 @@ const labelClass = computed(() => {
       @focus="onFocus()"
     />
     <div
-      class="nac-checkbox-box flex-none"
+      class="nac-checkbox-box flex-none relative"
       :class="[boxClass, { checked: props.data === true }]"
       @click="switchValue()"
     >
@@ -301,11 +301,7 @@ const labelClass = computed(() => {
         {{ tx(label) }}
         <slot />
       </div>
-      <span
-        v-if="props.warn.length !== 0"
-        class="warn flex-none"
-        @click.stop="iconEventShowWarn()"
-      >
+      <span v-if="props.warn.length !== 0" class="warn flex-none" @click.stop="iconEventShowWarn()">
         <i class="fas fa-exclamation-triangle"></i>{{ props.warn }}
       </span>
     </div>

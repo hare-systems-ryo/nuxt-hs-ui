@@ -2,6 +2,7 @@
 // src\runtime\utils\class-style.ts
 // ----------------------------------------------------------------------------
 // [ src > runtime > utils > * ]
+import {} from '~/src/runtime/utils/class-style';
 ----------------------------------------------------------------------------- */
 
 export type ClassTypeObje = {

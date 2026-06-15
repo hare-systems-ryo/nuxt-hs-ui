@@ -4,7 +4,7 @@
 // ----------------------------------------------------------------------------
 // WindowLoader
 // WindowLoaderWindowLoader
------------------------------------------------------------------------------ */
+---------------------------------------------------------------------------- */
 
 /* ----------------------------------------------------------------------------
 const WindowLoader = useHsWindowLoader();
@@ -13,14 +13,15 @@ WindowLoader.zindex=10000
 ----------------------------------------------------------------------------- */
 
 // [ vueuse ]
-import { useFocusTrap } from "@vueuse/integrations/useFocusTrap";
+import { useFocusTrap } from '@vueuse/integrations/useFocusTrap';
 
 // [ NUXT ]
-import { ref, watch } from "#imports";
+import { ref, watch } from '#imports';
 // [ composables ]
-import { useHsWindowLoader } from "../../composables/use-hs-window-loader";
+import { useHsWindowLoader } from '../../composables/use-hs-window-loader';
+import { useHsPinia } from '../../composables/use-pinia';
 // ----------------------------------------------------------------------------
-const WindowLoader = useHsWindowLoader();
+const WindowLoader = useHsWindowLoader(useHsPinia());
 // ----------------------------------------------------------------------------
 // [ focusTrap ]
 const focusTargetElm = ref<HTMLElement | null>(null);

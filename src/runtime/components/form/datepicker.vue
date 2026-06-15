@@ -4,80 +4,52 @@
 // ----------------------------------------------------------------------------
 // Datepicker
 // DatepickerDatepicker
------------------------------------------------------------------------------ */
+---------------------------------------------------------------------------- */
 
 // [ node-modules ]
-import dayjs from "dayjs/esm/index";
-// flatpickr cdn 経由で使用する
-import flatpickr from "flatpickr";
-// import monthSelectPlugin from "flatpickr/dist/plugins/monthSelect";
-// [ vueuse ]
-import { useMounted } from "@vueuse/core";
+import { type DateValue, fromDate, toCalendarDate, getLocalTimeZone } from '@internationalized/date';
+
 // [ NUXT ]
-import {
-  reactive,
-  ref,
-  watch,
-  computed,
-  useId,
-  onMounted,
-  nextTick,
-  onUnmounted,
-  // useHead,
-} from "#imports";
+import { reactive, ref, watch, computed, useId, onMounted, nextTick, shallowRef } from '#imports';
 // [ utils ]
-import { Sleep } from "../../utils/com";
-import type { ClassType } from "../../utils/class-style";
-import { GetTimeShiftValue, Dayjs, DayjsInit } from "../../utils/dayjs";
-import type { MultiLang } from "../../utils/multi-lang";
-// [ utils ]
+import type { ClassType } from '../../utils/class-style';
+import { GetTimeShiftValue, Dayjs, DayjsInit, dayjs } from '../../utils/dayjs';
+import type { MultiLang } from '../../utils/multi-lang';
+import { Theme, type ThemeColor, GetColorCode } from '../../utils/theme';
+import { IntNullable } from '../../utils/number';
 
-import { ja } from "../../types/flatpickr/ja";
-import { en } from "../../types/flatpickr/default";
 // [ composables ]
-import { useHsMisc } from "../../composables/use-hs-misc";
-import { useHsFocus } from "../../composables/use-hs-focus";
-import { useHsToast } from "../../composables/use-hs-toast";
-import { useHsMultiLang } from "../../composables/use-hs-multi-lang";
+import { useHsFocus } from '../../composables/use-hs-focus';
+import { useHsToast } from '../../composables/use-hs-toast';
+import { useHsMultiLang } from '../../composables/use-hs-multi-lang';
+import { useHsPinia } from '../../composables/use-pinia';
+import { useHsIsMobile } from '../../composables/use-hs-is-mobile';
 // [ Components ]
-import InputFrame from "./input-frame.vue";
-
-// useHead({
-//   script: [
-//     //
-//     // https://npmcdn.com/flatpickr@4.6.13/dist/plugins/monthSelect/index.js
-//     //{ src: `https://npmcdn.com/flatpickr/dist/flatpickr.min.js` },
-//     { src: `https://npmcdn.com/flatpickr/dist/plugins/monthSelect` },
-//     { src: `https://npmcdn.com/flatpickr/dist/l10n/ja.js` },
-//     { src: `https://npmcdn.com/flatpickr/dist/l10n/default.js` },
-//   ],
-// });
-
+import InputFrame from './input-frame.vue';
 // ----------------------------------------------------------------------------
 // [ nac-stroe ]
 DayjsInit();
-const hsFocus = useHsFocus();
-const Toast = useHsToast();
-const multiLang = useHsMultiLang();
-const hsMisc = useHsMisc();
+const hsFocus = useHsFocus(useHsPinia());
+const Toast = useHsToast(useHsPinia());
+const multiLang = useHsMultiLang(useHsPinia());
 const tx = multiLang.tx;
-// ----------------------------------------------------------------------------
-// [ vueuse ]
-const isMounted = useMounted();
+const hsIsMobile = useHsIsMobile(useHsPinia());
+onMounted(() => {
+  hsIsMobile.init();
+});
 // ----------------------------------------------------------------------------
 // flatpickr
-// const MonthSelectPlugin: any = monthSelectPlugin;
-const timeDateFormat = "YYYY-MM-DD HH:mm:ss.SSS";
-const timeOutputDateFormat = "HH:mm:ss.SSS";
-const timeShowDateFormat = "HH:mm";
+const timeOutputDateFormat = 'HH:mm:ss.SSS';
+const timeShowDateFormat = 'HH:mm';
+const timeDateFormat = 'YYYY-MM-DD HH:mm:ss.SSS';
 // ----------------------------------------------------------------------------
 // [ Props ]
 type Props = {
+  theme?: ThemeColor;
   // ----------------------------------------------------------------------------
   // Input 種類別
-  textAlign?: "left" | "center" | "right";
-  mode?: "all" | "date" | "time";
-  // mode?: "all" | "date" | "time" | "month";
+  textAlign?: 'left' | 'center' | 'right';
+  mode?: 'all' | 'date' | 'time';
   /** mode=time の場合、[HH:mm:ss.SSS] に固定 */
   dataFormat?: string;
   /** mode=time の場合、[HH:mm] に固定 */
@@ -88,6 +60,10 @@ type Props = {
   hideTodayBtn?: boolean;
   disableMobile?: boolean;
   hasShift?: boolean;
+  /** 言語設定
+   * * 例 'ja-JP'  'en-US'" */
+  locale?: string | undefined;
+  portal?: string | false | true | HTMLElement;
   // ----------------------------------------------------------------------------
   data: string | null;
   diff?: string | null | undefined;
@@ -116,7 +92,7 @@ type Props = {
   warnTimeOut?: number;
   // ----------------------------------------------------------------------------
   // 設定
-  size?: "s" | "m" | "l";
+  size?: 's' | 'm' | 'l';
   // ----------------------------------------------------------------------------
   uiText?: {
     error: {
@@ -129,53 +105,56 @@ type Props = {
 const props = withDefaults(defineProps<Props>(), {
   // ----------------------------------------------------------------------------
   // Input 種類別
-  textAlign: "left",
-  mode: "date",
-  dataFormat: "",
-  showFormat: "",
+  textAlign: 'left',
+  mode: 'date',
+  dataFormat: '',
+  showFormat: '',
   minDate: null,
   maxDate: null,
   hideDeleteBtn: false,
   disableMobile: false,
   hasShift: true,
+  locale: undefined,
+  theme: Theme.accent1,
+  portal: true,
   // ----------------------------------------------------------------------------
   diff: undefined,
   tabindex: undefined,
   // ----------------------------------------------------------------------------
-  class: "",
-  classHeader: "",
-  classInput: "",
+  class: '',
+  classHeader: '',
+  classInput: '',
   // ----------------------------------------------------------------------------
   // 状態
   //   focus: false,
-  focusColor: "shadow-[inset_0px_0px_1px_2px_#0d8ee4]",
+  focusColor: 'shadow-[inset_0px_0px_1px_2px_#0d8ee4]',
   //   change: false,
-  changeColor: "shadow-[inset_0px_0px_1px_2px_#fd9831be]",
+  changeColor: 'shadow-[inset_0px_0px_1px_2px_#fd9831be]',
   error: false,
-  errorColor: "shadow-[inset_0px_0px_1px_2px_#d80000dc]",
+  errorColor: 'shadow-[inset_0px_0px_1px_2px_#d80000dc]',
   disabled: false,
-  disabledColor: "",
+  disabledColor: '',
   readonly: false,
   headerless: false,
   // ----------------------------------------------------------------------------
   // 表示
-  label: "",
+  label: '',
   // 表示-副情報
   require: false,
-  requireText: () => ({ ja: "必須", en: "Required" }),
-  warn: "",
+  requireText: () => ({ ja: '必須', en: 'Required' }),
+  warn: '',
   warnTimeOut: 3000,
   // ----------------------------------------------------------------------------
   // 設定
-  size: "m",
+  size: 'm',
   // ----------------------------------------------------------------------------
   uiText: () => {
     return {
       error: {
-        inputRangeTitle: { ja: "入力値の警告", en: "Input Value Warning" },
+        inputRangeTitle: { ja: '入力値の警告', en: 'Input Value Warning' },
         inputRangeMessage: {
-          ja: "入力範囲外です",
-          en: "Input is out of range",
+          ja: '入力範囲外です',
+          en: 'Input is out of range',
         },
       },
     };
@@ -187,410 +166,331 @@ type Emits = {
   focus: [elm: HTMLElement];
   blur: [elm: HTMLElement];
   // ----------------------------
-  "update:data": [value: string | null];
-  "value-change": [after: string | null, before: string | null];
+  'update:data': [value: string | null];
+  'value-change': [after: string | null, before: string | null];
   // ----------------------------
-  "reset-piceker-func": [func: any];
+  'reset-piceker-func': [func: any];
   // ----------------------------
 };
 const emit = defineEmits<Emits>();
 // ----------------------------------------------------------------------------
+const themeColor = computed(() => {
+  return GetColorCode(props.theme);
+});
+// ----------------------------------------------------------------------------
+const themeWeekColor = computed(() => {
+  return GetColorCode(Theme.main1);
+});
+
+// ----------------------------------------------------------------------------
+const themeErrorColor = computed(() => {
+  return GetColorCode(Theme.error);
+});
+
+// ----------------------------------------------------------------------------
 const slots = defineSlots<{
   default(props: { msg: string }): any;
   overlay?(): any;
-  "right-icons"?(): any;
-  "left-icons"?(): any;
+  'right-icons'?(): any;
+  'left-icons'?(): any;
+  'label-prepend'?(): any;
+  'label-append'?(): any;
+  'header-right'?(): any;
 }>();
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 // [ getCurrentInstance ]
 const uid = useId();
-
 // ----------------------------------------------------------------------------
-// [ reactive ]
-
-interface State {
-  picker: any;
-  // FormControl値
-  date: Date | null;
-  // text: string;
-  option: any;
-}
-const state = reactive<State>({
-  // text: '',
-  picker: null,
-  date: null,
-  option: {
-    dateFormat: "Z",
-    locale: ja,
-    time_24hr: true,
-    minDate: undefined,
-    maxDate: undefined,
-    plugins: [],
-    disableMobile: true,
-  },
-});
-
-onMounted(() => {
-  state.option.maxDate =
-    dayjs(props.maxDate).isValid() === true
-      ? dayjs(props.maxDate).toISOString()
-      : undefined;
-  state.option.minDate =
-    dayjs(props.minDate).isValid() === true
-      ? dayjs(props.minDate).toISOString()
-      : undefined;
-});
+// 現在の表示系
 const shiftM = GetTimeShiftValue(Dayjs());
 const getShiftDayjs = (date: any) => {
   if (props.hasShift && shiftM !== 0) {
-    return dayjs(date).subtract(shiftM, "minute");
+    return dayjs().subtract(shiftM, 'minute');
   }
   return dayjs(date);
 };
-
-const inputBoxClass = computed(() => {
-  if (props.textAlign === "left") {
-    return "display-left";
-  } else if (props.textAlign === "center") {
-    return "display-center";
-  } else {
-    return "display-right";
-  }
-});
-const displayText = computed(() => {
-  const lang = multiLang.state.lang;
+// ----------------------------------------------------------------------------
+const dataDasyjs = computed(() => {
+  const lang = multiLang.lang;
   dayjs.locale(lang);
   if (props.data === null) {
-    return "";
-  } else if (props.mode === "time") {
-    return getShiftDayjs(dayjs().format("YYYY-MM-DD ") + props.data).format(
-      timeShowDateFormat
-    );
+    return null;
+  } else if (props.mode === 'time') {
+    return getShiftDayjs(dayjs().format('YYYY-MM-DD ') + props.data);
   } else {
-    return getShiftDayjs(props.data).format(props.showFormat);
+    return getShiftDayjs(props.data);
+  }
+});
+const minDayjs = computed(() => {
+  if (props.minDate === null) {
+    return null;
+  } else if (props.mode === 'time') {
+    return getShiftDayjs(dayjs().format('YYYY-MM-DD ') + props.minDate);
+  } else {
+    return getShiftDayjs(props.minDate);
+  }
+});
+const maxDayjs = computed(() => {
+  if (props.maxDate === null) {
+    return null;
+  } else if (props.mode === 'time') {
+    return getShiftDayjs(dayjs().format('YYYY-MM-DD ') + props.maxDate);
+  } else {
+    return getShiftDayjs(props.maxDate);
+  }
+});
+// ----------------------------------------------------------------------------
+
+const displayText = computed(() => {
+  if (dataDasyjs.value === null) {
+    return '';
+  } else if (props.mode === 'time') {
+    return dataDasyjs.value.format(timeShowDateFormat);
+  } else {
+    return dataDasyjs.value.format(props.showFormat);
   }
 });
 
 // ----------------------------------------------------------------------------
-watch(
-  () =>
-    computed(() => {
-      return [props.minDate, props.maxDate, multiLang.state.lang];
-    }).value,
-  async () => {
-    // console.log('computed', props.minDate, props.maxDate, isMounted.value);
-    if (!isMounted.value) return;
-    await Sleep(1);
-    resetPicekr();
-  }
-);
-
+// データ更新系
 const checkDate = (date: any) => {
   // console.log(props.minDate);
   const d = getShiftDayjs(date);
-  if (props.minDate !== "" && d.isBefore(props.minDate)) {
+  if (props.minDate !== '' && d.isBefore(props.minDate)) {
     // console.log('最小日付を下回っています', props.data, props.minDate);
     return false;
-  } else if (props.maxDate !== "" && d.isAfter(props.maxDate)) {
+  } else if (props.maxDate !== '' && d.isAfter(props.maxDate)) {
     // console.log('最大日付を下回っています', props.data, props.maxDate);
     return false;
   }
   return true;
 };
 
-const keyDown = (event: any) => {
+const updateValue = async (text: string | null) => {
+  // console.log('updateValue', text);
   const before = props.data;
-  // console.log('keyDown', state.picker);
-  if (event.key === "Enter") {
-    datePickerToday();
+  if (text === null || text.length === 0) {
+    emit('update:data', null);
+    await nextTick();
+    emit('value-change', null, before);
     return;
   }
-  if (event.key === "Backspace") {
-    iconEventDelete();
-    return;
-  }
-  let move = 0;
-  if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
-    move--;
-  }
-  if (event.key === "ArrowRight" || event.key === "ArrowDown") {
-    move++;
-  }
-  if (event.key === "ArrowUp" || event.key === "ArrowDown") {
-    // Flatpickerにフォーカスを奪われるキーイベントはフォーカスを取り戻す予約
-    setTimeout(() => {
-      // console.log('フォーカス戻す');
-      if (inputElement.value != null) {
-        inputElement.value.focus();
-      }
-    }, 150);
-  }
-  if (move !== 0) {
-    let m =
-      props.data == null ? getShiftDayjs(dayjs()) : getShiftDayjs(props.data);
-    if (move < 0) {
-      m = m.subtract(1, "d");
-    } else {
-      m = m.add(1, "d");
-    }
-    if (props.data !== "") {
-      if (checkDate(m) === false) {
-        // console.log('行き過ぎ');
-        return false;
-      }
-    } else if (move < 0) {
-      m = getShiftDayjs(props.maxDate).subtract(1, "d");
-    } else {
-      m = getShiftDayjs(props.minDate).add(1, "d");
-    }
-    emit("update:data", m.format(props.dataFormat));
-    nextTick(() => {
-      emit("value-change", m.format(props.dataFormat), before);
-    });
-    return false;
-  }
-};
-
-// ----------------------------------------------------------------------------
-// [ flatpicker関連 ]
-const initFlatPickerOption = () => {
-  if (props.mode === "all" || props.mode === "time") {
-    state.option.enableTime = true;
-    if (props.mode === "time") {
-      state.option.noCalendar = true;
-    }
-  }
-  if (props.disableMobile) {
-    state.option.disableMobile = true;
-  }
-  // if (props.mode === "month") {
-  //   state.option.disableMobile = true;
-  //   state.option.plugins = [
-  //     new MonthSelectPlugin({
-  //       shorthand: true, // デフォルトはfalse
-  //       dateFormat: "m.y", // デフォルトは"F Y"
-  //       altFormat: "F Y", // デフォルトは"F Y"
-  //       theme: "dark", // デフォルトは"light"
-  //     }),
-  //   ];
-  // }
-};
-
-const onOpen = () => {
-  focusState.isOpenFlatpickr = true;
-};
-
-const onClose = () => {
-  focusState.isOpenFlatpickr = false;
-  focusState.isClosingFlatpickr = true;
-  setTimeout(() => {
-    focusState.isClosingFlatpickr = false;
-  }, 200);
-};
-
-const onChange = (selectedDates: any) => {
-  let value = null;
-  if (selectedDates.length === 0) {
-    value = null;
-  } else {
-    const d = selectedDates[0];
-    if (d == null) {
-      value = null;
-    } else {
-      value = d;
-    }
-  }
-  updateValue(value);
-};
-
-const generateFlatPickerOption = () => {
-  // console.log('generatePicker', elmInput.value);
-  if (inputElement.value != null) {
-    dayjs.locale(multiLang.state.lang);
-    switch (multiLang.state.lang) {
-      case "jp":
-      case "ja":
-        state.option.locale = ja;
-        break;
-      default:
-        state.option.locale = en;
-        break;
-    }
-    // state.option.position = 'above';
-    // state.option.static = true;
-    state.picker = flatpickr(inputElement.value, state.option);
-    state.picker.config.onChange.push(onChange);
-    state.picker.config.onOpen.push(onOpen);
-    state.picker.config.onClose.push(onClose);
-    setValue();
-    // MonthSelectPlugin();
-  }
-};
-const flag = ref(false);
-
-const resetPicekr = () => {
-  if (flag.value) return;
-  try {
-    flag.value = true;
-    state.picker.destroy();
-    state.picker = false;
-    focusState.isOpenFlatpickr = false;
-    dayjs.locale(multiLang.state.lang);
-    if (props.minDate !== null) {
-      state.option.minDate =
-        dayjs(props.minDate).isValid() === true
-          ? dayjs(props.minDate).toISOString()
-          : undefined;
-    } else {
-      state.option.minDate = null;
-    }
-    if (props.maxDate !== null) {
-      state.option.maxDate =
-        dayjs(props.maxDate).isValid() === true
-          ? dayjs(props.maxDate).toISOString()
-          : undefined;
-    } else {
-      state.option.maxDate = null;
-    }
-    generateFlatPickerOption();
-  } catch (error) {
-    console.error("resetPicekr()", error);
-  } finally {
-    flag.value = false;
-  }
-};
-emit("reset-piceker-func", resetPicekr);
-watch(
-  () => props.data,
-  () => {
-    setValue();
-  }
-);
-
-const setValue = () => {
-  // console.log('setValue');
-  try {
-    if (props.data == null) {
-      state.picker.setDate(null);
-      state.date = null;
+  if (props.mode === 'all' || props.mode === 'date') {
+    const d = getShiftDayjs(dayjs(text));
+    if (checkDate(d.format('YYYY-MM-DD')) === false) {
+      Toast.Warning(props.uiText.error.inputRangeMessage, props.uiText.error.inputRangeTitle, props.warnTimeOut);
       return;
     }
-    const date =
-      props.mode === "time"
-        ? dayjs().format("YYYY-MM-DD ") + props.data
-        : props.data;
-    const d = getShiftDayjs(date);
-    // console.log('setValue', date);
-    if (d.isValid() === true) {
-      if (checkDate(props.data) === true) {
-        state.date = d.toDate();
-        state.picker.setDate(state.date);
-        return;
-      }
-    }
-    throw new Error("変換失敗");
-  } catch (err) {
-    console.error(err);
-    state.picker.setDate(null);
-    state.date = null;
-    updateValue(null);
   }
-};
-
-//  アイコン系イベント
-const datePickerToggle = () => {
-  if (props.readonly === true) return;
-  if (props.disabled === true) return;
-  if (state.picker === null) return;
-  if (focusState.isClosingFlatpickr) return;
-  hsFocus.state.id = uid;
-  state.picker.open();
+  if (props.mode === 'all') {
+    emit('update:data', dayjs(text).format(props.dataFormat));
+    nextTick(() => {
+      emit('value-change', dayjs(text).format(props.dataFormat), before);
+    });
+  } else if (props.mode === 'time') {
+    emit('update:data', dayjs(text).format(timeOutputDateFormat));
+    nextTick(() => {
+      emit('value-change', dayjs(text).format(timeOutputDateFormat), before);
+    });
+  } else {
+    // 時間情報を削除する
+    emit('update:data', dayjs(dayjs(text).format('YYYY-MM-DD')).format(props.dataFormat));
+    nextTick(() => {
+      emit('value-change', dayjs(dayjs(text).format('YYYY-MM-DD')).format(props.dataFormat), before);
+    });
+  }
 };
 
 const datePickerToday = () => {
   if (props.readonly === true) return;
   if (props.disabled === true) return;
-  if (state.date !== null) return;
+  //   if (state.date !== null) return;
   const inputValue = dayjs();
-  // if (props.mode === "month") {
-  //   inputValue = inputValue.startOf("month");
-  // }
+
   const d = getShiftDayjs(inputValue);
-  if (checkDate(d.format("YYYY-MM-DD")) === false) {
-    Toast.Warning(
-      props.uiText.error.inputRangeMessage,
-      props.uiText.error.inputRangeTitle,
-      props.warnTimeOut
-    );
+  if (checkDate(d.format('YYYY-MM-DD')) === false) {
+    Toast.Warning(props.uiText.error.inputRangeMessage, props.uiText.error.inputRangeTitle, props.warnTimeOut);
     return;
   }
-  if (props.mode === "time") {
-    updateValue(inputValue.format(timeDateFormat));
-  } else {
-    updateValue(inputValue.format(props.dataFormat));
-  }
+  // console.log(inputValue.format(''));
+  updateValue(inputValue.format(''));
 };
 
-const updateValue = async (text: string | null) => {
-  // console.log('updateValue', text);
-  const before = props.data;
-  if (text === null || text.length === 0) {
-    emit("update:data", null);
-    await nextTick();
-    emit("value-change", null, before);
-    return;
-  }
-  if (props.mode === "all") {
-    emit("update:data", dayjs(text).format(props.dataFormat));
-    nextTick(() => {
-      emit("value-change", dayjs(text).format(props.dataFormat), before);
-    });
-  } else if (props.mode === "time") {
-    emit("update:data", dayjs(text).format(timeOutputDateFormat));
-    nextTick(() => {
-      emit("value-change", dayjs(text).format(timeOutputDateFormat), before);
-    });
+const inputBoxClass = computed(() => {
+  if (props.textAlign === 'left') {
+    return 'display-left';
+  } else if (props.textAlign === 'center') {
+    return 'display-center';
   } else {
-    // 時間情報を削除する
-    emit(
-      "update:data",
-      dayjs(dayjs(text).format("YYYY-MM-DD")).format(props.dataFormat)
-    );
-    nextTick(() => {
-      emit(
-        "value-change",
-        dayjs(dayjs(text).format("YYYY-MM-DD")).format(props.dataFormat),
-        before
-      );
-    });
+    return 'display-right';
   }
-};
+});
 
 const iconEventDelete = () => {
   const before = props.data;
   if (props.readonly === true) return;
   if (props.disabled === true) return;
-  if (state.date != null) {
-    emit("update:data", null);
-    nextTick(() => {
-      emit("value-change", null, before);
-    });
-  }
+  emit('update:data', null);
+  nextTick(() => {
+    emit('value-change', null, before);
+  });
 };
 
 // [ ref ]
 const inputElement = ref();
+defineExpose({ el: inputElement });
 onMounted(() => {
-  emit("ref", inputElement.value as HTMLInputElement);
+  emit('ref', inputElement.value as HTMLInputElement);
 });
 
-const setRef = (elm: any) => {
-  inputElement.value = elm;
-  emit("ref", elm);
+const tabindex = computed(() => {
+  if (props.disabled === true) return -1;
+  return props.tabindex;
+});
+
+// 更新の有無判定
+const isChangeData = computed(() => {
+  if (props.diff === undefined) return false;
+  if (props.diff === null && props.data === '') return false;
+  if (props.diff === '' && props.data === null) return false;
+  if (props.diff !== props.data) return true;
+  return false;
+});
+
+//  ---------------------------------------------------------------------------------
+// カレンダーモーダル制御
+const open = ref(false);
+// Popupの表示位置のターゲット
+const openBtn = ref<HTMLElement | null>();
+// 表示中カレンダーの値
+const calendarValue = shallowRef<DateValue | null>(null);
+const displayLocale = computed(() => {
+  if (props.locale) return props.locale;
+  return multiLang.lang === 'ja' ? 'ja-JP' : 'en-US';
+});
+//  -------------------------------------------------
+const calendarMinValue = computed(() => {
+  if (!minDayjs.value) return null;
+  return toCalendarDate(fromDate(minDayjs.value.toDate(), getLocalTimeZone()));
+});
+const calendarMaxValue = computed(() => {
+  if (!maxDayjs.value) return null;
+  return toCalendarDate(fromDate(maxDayjs.value.toDate(), getLocalTimeZone()));
+});
+//  -------------------------------------------------
+const HH = shallowRef<number | null>(null);
+const MM = shallowRef<number | null>(null);
+//  -------------------------------------------------
+const pad2 = (n: number) => String(n).padStart(2, '0');
+const listHH = Array.from({ length: 24 })
+  .fill(null)
+  .map((row, index) => {
+    return { id: index, label: pad2(index) };
+  });
+
+const listMM = Array.from({ length: 60 })
+  .fill(null)
+  .map((row, index) => {
+    return { id: index, label: pad2(index) };
+  });
+//  -------------------------------------------------
+
+const toggleModal = () => {
+  if (props.readonly) return;
+  if (props.disabled) return;
+
+  const openState = !open.value;
+  if (!openState) {
+    open.value = false;
+    return;
+  }
+  if (hsFocus.state.id !== uid) {
+    hsFocus.state.id = uid;
+  }
+  if (dataDasyjs.value === null) {
+    calendarValue.value = null;
+    HH.value = null;
+    MM.value = null;
+    open.value = true;
+    return;
+  }
+  if (props.mode !== 'time') {
+    const calDate = toCalendarDate(fromDate(dataDasyjs.value.toDate(), getLocalTimeZone()));
+    calendarValue.value = calDate;
+  } else {
+    calendarValue.value = null;
+  }
+  if (props.mode === 'all' || props.mode === 'time') {
+    // const calDate = toCalendarDate(fromDate(displayTs.value.toDate(), getLocalTimeZone()));
+    HH.value = dataDasyjs.value.hour();
+    MM.value = dataDasyjs.value.minute();
+  } else {
+    HH.value = null;
+    MM.value = null;
+  }
+  open.value = true;
+};
+function toJSDate(v: DateValue, tz: string): Date {
+  return 'timeZone' in v || 'offset' in v ? (v as any).toDate() : (v as any).toDate(tz);
+}
+
+const changeCalender = (date: DateValue | null) => {
+  const TZ = getLocalTimeZone();
+  // console.log('changeCalender', { HH: HH.value, MM: MM.value, date, TZ });
+  const t = date ? Dayjs(toJSDate(date, TZ)).tz(TZ) : null;
+  if (!t) {
+    calendarValue.value = null;
+    HH.value = null;
+    MM.value = null;
+    updateValue(null);
+    return;
+  }
+  if (!HH.value) HH.value = 0;
+  if (!MM.value) MM.value = 0;
+  if (props.mode === 'all' || props.mode === 'time') {
+    // console.log('changeCalender', { date, TZ }, t.format('YYYY-MM-DD') + ` ${HH.value || '00'}:${MM.value || '00'}`);
+    updateValue(t.format('YYYY-MM-DD') + ` ${pad2(HH.value || 0)}:${pad2(MM.value || 0)}`);
+  } else {
+    updateValue(t.format(''));
+  }
+  calendarValue.value = date;
 };
 
-// [ focus, blur ]
+//  -------------------------------------------------
+const hhValueChange = (_value: number) => {
+  const value = IntNullable(_value);
+  // console.log('hhValueChange', value);
+  if (value && value >= 0 && value <= 23) {
+    HH.value = value;
+    if (!MM.value) MM.value = 0;
+    if (!calendarValue.value) {
+      calendarValue.value = toCalendarDate(fromDate(new Date(), getLocalTimeZone()));
+    }
+  } else {
+    HH.value = null;
+    MM.value = null;
+    calendarValue.value = null;
+  }
+  changeCalender(calendarValue.value);
+};
+const mmValueChange = (_value: number) => {
+  const value = IntNullable(_value);
+  // console.log('mmValueChange', value);
+  if (value && value >= 0 && value <= 59) {
+    HH.value = value;
+    if (!HH.value) HH.value = 0;
+    if (!calendarValue.value) {
+      calendarValue.value = toCalendarDate(fromDate(new Date(), getLocalTimeZone()));
+    }
+  } else {
+    HH.value = null;
+    MM.value = null;
+    calendarValue.value = null;
+  }
+  changeCalender(calendarValue.value);
+};
+//  ---------------------------------------------------------------------------------
 
 interface FocusState {
   isOpenFlatpickr: boolean;
@@ -613,11 +513,18 @@ const computedActivate = computed(() => {
   if (props.disabled === true) return false;
   if (props.readonly === true) return false;
   if (hsFocus.state.id !== uid) return false;
+  if (open.value === true) return true;
   if (focusState.isOpenFlatpickr) return true;
   if (focusState.manualInput) return true;
   if (focusState.openBtn) return true;
   return false;
 });
+watch(
+  () => hsFocus.state.id,
+  () => {
+    open.value = false;
+  }
+);
 
 /**
  * focus, blur イベント
@@ -627,55 +534,35 @@ watch(computedActivate, (value) => {
     // クリックでの遷移の場合に
     // 一つ前のコントロールのblurイベントよりも早くfocusが発生しないようにする対策で10ミリ秒処理をずらす
     setTimeout(() => {
-      emit("focus", inputElement.value);
+      emit('focus', inputElement.value);
     }, 10);
   } else {
-    emit("blur", inputElement.value);
+    emit('blur', inputElement.value);
   }
 });
-
-onMounted(async () => {
-  await Sleep(1);
-  // setTimeout(() => {
-  initFlatPickerOption();
-  generateFlatPickerOption();
-  // }, 1);
-});
-onUnmounted(async () => {
-  await Sleep(1);
-  if (state.picker != null) {
-    state.picker.destroy();
-    state.picker = null;
+const openBtnFocus = () => {
+  if (props.readonly) return;
+  if (props.disabled) return;
+  if (hsFocus.state.id !== uid) {
+    hsFocus.state.id = uid;
   }
-});
-const tabindex = computed(() => {
-  if (props.disabled === true) return -1;
-  return props.tabindex;
-});
-
-// 更新の有無判定
-const isChangeData = computed(() => {
-  if (props.diff === undefined) return false;
-  if (props.diff === null && props.data === "") return false;
-  if (props.diff === "" && props.data === null) return false;
-  if (props.diff !== props.data) return true;
-  return false;
-});
-
-const openBtn = ref<HTMLElement | null>();
+  focusState.openBtn = true;
+};
+//  ---------------------------------------------------------------------------------
 const manualElm = ref<HTMLInputElement | null>();
-const manualData = ref("");
+const manualData = ref('');
 const manualInput = ref(false);
 const manualInputClick = () => {
   if (props.readonly) return;
   if (props.disabled) return;
-  if (hsMisc.state.isMobile) {
-    datePickerToggle();
+  if (hsIsMobile.isMobile) {
+    toggleModal();
     return;
   }
   manualInput.value = true;
   manualElm.value?.focus();
 };
+
 const manualInputfocus = () => {
   if (props.readonly) return;
   if (props.disabled) return;
@@ -683,53 +570,45 @@ const manualInputfocus = () => {
   focusState.openBtn = false;
   setTimeout(() => {
     manualElm.value?.select();
-    hsFocus.state.id = uid;
+    if (hsFocus.state.id !== uid) {
+      hsFocus.state.id = uid;
+    }
     focusState.manualInput = true;
   }, 1);
 };
 const manualInputBlur = () => {
   if (props.readonly) return;
   if (props.disabled) return;
+  const TZ = getLocalTimeZone();
   try {
-    const data = manualData.value
-      .replace(/\//g, "-")
-      .replace(/-(\d)-/g, "-0$1-")
-      .replace(/-(\d)$/g, "-0$1");
-    const dataFormat = props.showFormat.replace(/\//g, "-");
-    const dt = dayjs(data, dataFormat);
-    // console.log('manualInputBlur', { data, dataFormat, dt });
-    if (dt.isValid() === false) {
-      updateValue(null);
-      return;
+    if (props.mode === 'all' || props.mode === 'date') {
+      const d = dayjs(manualData.value, props.showFormat, true);
+      if (!d.isValid()) {
+        updateValue(null);
+        return;
+      }
+      updateValue(d.tz(TZ).format(props.dataFormat));
+    } else if (props.mode === 'time') {
+      const inputValue = manualData.value.replace(/[-:]/g, '').replace(/(\d{2})(\d{2})/, '$1:$2');
+      const nowDt = dayjs().format('YYYY-MM-DD');
+      const d = dayjs(nowDt + ' ' + inputValue, timeDateFormat, true);
+      if (!d.isValid()) {
+        updateValue(null);
+        return;
+      }
+      updateValue(d.tz(TZ).format(timeDateFormat));
     }
-    updateValue(dt.format(props.dataFormat));
-    // console.log('manualInputBlur', data);
   } catch (err) {
-    console.error("manualInputBlur", err);
+    console.error('manualInputBlur', err);
   } finally {
-    manualData.value = "";
+    manualData.value = '';
     manualInput.value = false;
     focusState.manualInput = false;
   }
 };
 
-const openBtnClick = () => {
-  if (props.readonly) return;
-  if (props.disabled) return;
-  if (!hsMisc.state.isMobile) {
-    inputElement.value?.focus();
-    return;
-  }
-  hsFocus.state.id = uid;
-  datePickerToggle();
-};
+//  ---------------------------------------------------------------------------------
 
-const openBtnFocus = () => {
-  if (props.readonly) return;
-  if (props.disabled) return;
-  hsFocus.state.id = uid;
-  focusState.openBtn = true;
-};
 const computedIsFocusOpenBtn = computed(() => {
   if (props.disabled === true) return false;
   if (props.readonly === true) return false;
@@ -739,12 +618,33 @@ const computedIsFocusOpenBtn = computed(() => {
   return false;
 });
 
+const KEEP_OPEN_SELECTOR = '[data-keep-popover-open]';
+// Nuxt UI UPopover用
+const content = {
+  align: 'start',
+  sideOffset: 8,
+  onPointerDownOutside: (e: any) => {
+    const t = e.target as HTMLElement;
+    // console.log('onFocusOutside', t);
+    if (t.closest(KEEP_OPEN_SELECTOR)) {
+      e.preventDefault(); // ← このクリックでは閉じない
+    }
+  },
+  onFocusOutside: (e: any) => {
+    const t = e.target as HTMLElement;
+    // console.log('onFocusOutside', t);
+    if (t.closest(KEEP_OPEN_SELECTOR)) e.preventDefault();
+  },
+};
+
+const posTarget = ref();
 //  ---------------------------------------------------------------------------------
 </script>
 
 <template>
   <InputFrame
-    :class="props.class"
+    v-bind="$attrs"
+    :class="['HsDatePicker', props.class]"
     :class-header="props.classHeader"
     :class-input="[props.classInput]"
     :focus="computedActivate"
@@ -763,116 +663,177 @@ const computedIsFocusOpenBtn = computed(() => {
     :warn-time-out="props.warnTimeOut"
     :size="props.size"
     :headerless="props.headerless"
+    @ref="(e) => (posTarget = e)"
   >
-    <template v-if="slots.overlay" #overlay>
-      <slot name="overlay"></slot>
+    <template v-if="slots.overlay" #overlay="{ focus, change }">
+      <slot name="overlay" :focus="focus" :change="change"></slot>
     </template>
-    <template v-if="!props.readonly" #left-icons>
+    <template v-if="!props.readonly || slots['left-icons']" #left-icons>
       <slot name="left-icons" :disabled="disabled" />
+      <!-- <UButton label="" color="neutral" variant="subtle" /> -->
+
       <button
+        v-if="!props.readonly"
         ref="openBtn"
         data-sep="right"
         data-icon="calendar"
         :tabindex="tabindex"
         :disabled="disabled"
-        :class="
-          !disabled
-            ? 'cursor-pointer hover:bg-accent1/[0.1] active:bg-accent1/[0.2]'
-            : ''
-        "
-        @click.stop.prevent="openBtnClick()"
+        class="open-btn"
+        :class="!disabled ? 'cursor-pointer hover:bg-accent1/[0.1] active:bg-accent1/[0.2]' : ''"
+        data-keep-popover-open
         @focus="openBtnFocus"
         @blur="focusState.openBtn = false"
+        @click.stop="toggleModal"
       >
         <div
-          class="tw-absolute tw-inset-[2px] tw-border-main2 tw-border tw-pointer-events-none tw-transition-all tw-rounded-sm"
-          :class="computedIsFocusOpenBtn ? 'tw-opacity-100' : 'tw-opacity-0'"
-        ></div>
-        <i
-          :class="
-            props.mode === 'time'
-              ? 'fa-regular fa-clock'
-              : 'fa-solid fa-calendar-days'
-          "
-        ></i>
-        <!-- <div
-          class="absolute inset-[2px] border-main2 border pointer-events-none transition-all rounded-sm"
+          class="absolute inset-[4px] border-main2 border pointer-events-none transition-all rounded-sm"
           :class="computedIsFocusOpenBtn ? 'opacity-100' : 'opacity-0'"
-        ></div> -->
+        ></div>
+        <i :class="props.mode === 'time' ? 'fa-regular fa-clock' : 'fa-solid fa-calendar-days'"></i>
       </button>
     </template>
+    <template #right-icons>
+      <template v-if="!props.hideDeleteBtn && !props.readonly">
+        <button
+          :class="!disabled ? 'text-error cursor-pointer hover:bg-error/[0.1] active:bg-error/[0.2]' : ''"
+          tabindex="-1"
+          @click.stop="iconEventDelete()"
+        >
+          <i class="fa-solid fa-delete-left"></i>
+        </button>
+      </template>
+      <slot name="right-icons" :disabled="disabled" />
+    </template>
+    <template v-if="slots['label-prepend']" #label-prepend>
+      <slot name="label-prepend" />
+    </template>
+    <template v-if="slots['label-append']" #label-append>
+      <slot name="label-append" />
+    </template>
+    <template v-if="slots['header-right']" #header-right>
+      <slot name="header-right" />
+    </template>
+
     <div
-      class="nac-c-input-p"
-      :class="[
-        { disabled: props.disabled, readonly: props.readonly },
-        inputBoxClass,
-      ]"
-      @click="manualInputClick"
-      @dblclick="datePickerToggle()"
+      class="nac-c-input-p relative min-h-[20px]"
+      :class="[{ disabled: props.disabled, readonly: props.readonly }, inputBoxClass]"
+      @click.stop="manualInputClick"
     >
-      <!---->
-      <!-- -->
-      <input
-        :ref="(e) => setRef(e)"
-        type="text"
-        class="flatpickr-body"
-        :disabled="props.disabled"
-        tabindex="-1"
-        @keydown="keyDown"
-      />
       <input
         ref="manualElm"
         v-model="manualData"
         type="text"
         class="absolute inset-0"
-        :class="[
-          manualInput
-            ? 'pointer-events-auto opacity-100'
-            : 'pointer-events-none opacity-0',
-          inputBoxClass,
-        ]"
+        :class="[manualInput ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0', inputBoxClass]"
         :tabindex="-1"
+        :name="'HsDatePicker-manual-input-' + uid"
         @blur="manualInputBlur()"
         @focus="manualInputfocus()"
       />
-      <span
-        :class="
-          !manualInput
-            ? 'pointer-events-auto opacity-100'
-            : 'pointer-events-none opacity-0'
-        "
-        >{{ displayText }}</span
-      >
+      <span :class="!manualInput ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'">
+        {{ displayText }}
+      </span>
       <span
         v-if="props.data === null && !props.hideTodayBtn && !props.readonly"
         class="today"
-        :class="
-          !manualInput
-            ? 'pointer-events-auto opacity-100'
-            : 'pointer-events-none opacity-0'
-        "
+        :class="!manualInput ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'"
         @click.stop="datePickerToday()"
       >
-        <!-- {{ props.mode === "month" ? "Now" : "Today" }} -->
-        Today
+        {{ props.mode === 'time' ? 'Now' : 'Today' }}
       </span>
     </div>
-    <template #right-icons>
-      <template v-if="!props.hideDeleteBtn && !props.readonly">
+  </InputFrame>
+  <ClientOnly>
+    <UPopover
+      v-model:open="open"
+      arrow
+      :reference="openBtn"
+      :portal="props.portal"
+      :open-delay="10"
+      :same-width="false"
+      strategy="absolute"
+      :content="content"
+    >
+      <template #content>
         <div
-          :class="
-            !disabled
-              ? 'text-error cursor-pointer hover:bg-error/[0.1] active:bg-error/[0.2]'
-              : ''
-          "
-          @click="iconEventDelete()"
+          class="calender-modal min-w-[200px]"
+          :style="{
+            '--selected-color': themeColor,
+            '--error-color': themeErrorColor,
+            '--ui-primary': themeColor,
+            '--ui-secondary': themeWeekColor,
+          }"
         >
-          <i class="fa-solid fa-delete-left"></i>
+          <UCalendar
+            v-if="props.mode !== 'time'"
+            :model-value="calendarValue"
+            class="p-2"
+            :locale="displayLocale"
+            :min-value="calendarMinValue"
+            :max-value="calendarMaxValue"
+            color="secondary"
+            :ui="{}"
+            @update:model-value="(v:any) => changeCalender(v)"
+          />
+          <div v-if="props.mode === 'all' || props.mode === 'time'" class="grid grid-cols-2 gap-1 p-1">
+            <template v-if="hsIsMobile.isMobile">
+              <USelect
+                :model-value="HH"
+                :items="listHH"
+                class=""
+                value-key="id"
+                placeholder="HH"
+                :search-input="{
+                  placeholder: 'HH',
+                  type: 'number',
+                }"
+                @update:model-value="(v:any) => hhValueChange(v)"
+              />
+              <USelect
+                :model-value="MM"
+                :items="listMM"
+                class=""
+                value-key="id"
+                placeholder="mm"
+                :search-input="{
+                  placeholder: 'mm',
+                  type: 'number',
+                }"
+                @update:model-value="(v:any) => mmValueChange(v)"
+              />
+            </template>
+            <template v-else>
+              <USelectMenu
+                :model-value="HH"
+                :items="listHH"
+                class=""
+                value-key="id"
+                placeholder="HH"
+                :search-input="{
+                  placeholder: 'HH',
+                  type: 'number',
+                }"
+                @update:model-value="(v:any) => hhValueChange(v)"
+              />
+              <USelectMenu
+                :model-value="MM"
+                :items="listMM"
+                class=""
+                value-key="id"
+                placeholder="mm"
+                :search-input="{
+                  placeholder: 'mm',
+                  type: 'number',
+                }"
+                @update:model-value="(v:any) => mmValueChange(v)"
+              />
+            </template>
+          </div>
         </div>
       </template>
-      <slot name="right-icons" :disabled="disabled" />
-    </template>
-  </InputFrame>
+    </UPopover>
+  </ClientOnly>
 </template>
 
 <style lang="scss" scoped>
@@ -907,10 +868,6 @@ const computedIsFocusOpenBtn = computed(() => {
   }
 }
 
-:deep(.flatpickr-mobile) {
-  position: absolute;
-  opacity: 0;
-}
 .nac-c-input-p {
   display: flex;
   align-items: center;
@@ -934,5 +891,42 @@ const computedIsFocusOpenBtn = computed(() => {
       display: none;
     }
   }
+}
+.calender-modal:deep(*) {
+  [data-reka-calendar-cell-trigger] {
+    cursor: pointer;
+    &[data-today]:not([data-selected]) {
+      color: var(--selected-color) !important;
+    }
+    &[data-disabled] {
+      background-color: #afafaf !important;
+      color: white !important;
+    }
+  }
+  [data-selected] {
+    background: var(--selected-color) !important;
+    color: white !important;
+  }
+  [data-reka-calendar-cell-trigger]:hover:not([data-selected]):not([data-disabled]) {
+    @media (hover: hover) {
+      // @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--selected-color) 20%, transparent);
+      // }
+    }
+  }
+  [data-reka-calendar-cell-trigger]:hover:not([data-selected])[data-disabled] {
+    @media (hover: hover) {
+      background-color: color-mix(in oklab, var(--error-color) 50%, transparent);
+    }
+  }
+}
+</style>
+
+<style lang="scss">
+[data-reka-popper-content-wrapper] > [data-dismissable-layer] {
+  filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.58));
+}
+[data-reka-popper-content-wrapper] > [data-dismissable-layer] > span > svg {
+  fill: white;
 }
 </style>

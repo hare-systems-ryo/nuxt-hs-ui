@@ -2,6 +2,7 @@
 // src\runtime\utils\com.ts
 // ----------------------------------------------------------------------------
 // [ src > runtime > utils > * ]
+import {} from '~/src/runtime/utils/com';
 ----------------------------------------------------------------------------- */
 
 import dayjs from "dayjs/esm/index";

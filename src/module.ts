@@ -1,169 +1,103 @@
+/* ----------------------------------------------------------------------------
+// src\module.ts
+// ----------------------------------------------------------------------------
+// [ src > * ]
+import {} from '~/src/module';
+----------------------------------------------------------------------------- */
+
+import { AddTheme } from './module-lib/theme';
+import { AddCss } from './module-lib/css';
+
 import {
-  defineNuxtModule,
+  defineNuxtModule, //
   createResolver,
   addComponentsDir,
   addImportsDir,
-  installModule,
-  addPlugin,
-} from "@nuxt/kit";
-import { defu } from "defu";
-type Config = any;
-const defaultTwConfig = {
-  future: {
-    hoverOnlyWhenSupported: true,
-  },
-  theme: {
-    screens: {
-      400: "400px",
-      600: "600px",
-      sm: "640px",
-      md: "768px",
-      800: "800px",
-      1000: "1000px",
-      lg: "1024px",
-      1200: "1200px",
-      xl: "1280px",
-      1400: "1400px",
-      "2xl": "1536px",
-      1600: "1600px",
-      1800: "1800px",
-    },
-    extend: {
-      colors: {
-        main0: "#192a61",
-        main1: "#1c03a2",
-        main2: "#4443ff",
-        main3: "#628cff",
-        accent1: "#FF6600",
-        accent2: "#ffac7c",
-        info: "#2badd5",
-        link: "#6200EE",
-        download: "#11691f",
-        success: "#2bb60c",
-        warn: "#EAB000",
-        error: "#d80329",
-        white: "#FFFFFF",
-        black: "#000000",
-        dark: "#224466",
-        back: "#EDF2F7",
-      },
-    },
-  },
-} as const;
+} from '@nuxt/kit';
 
 export interface ModuleOptions {
   prefix: {
-    nuxtUi: string;
     form: string;
     interactive: string;
     layout: string;
     misc: string;
   };
-  tailwind?: Partial<Config>;
+  theme: Record<string, string>;
 }
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
-    name: "nuxt-hs-ui",
-    configKey: "hsui",
+    name: 'my-module',
+    configKey: 'myModule',
+    dependencies: [
+      '@nuxt/ui', //
+      // '@vueuse/nuxt',
+      // '@pinia/nuxt',
+      // 'pinia-plugin-persistedstate/nuxt',
+    ],
     compatibility: {
-      nuxt: ">=3.15.0",
+      nuxt: '>=4.0.0',
     },
   },
   // Default configuration options of the Nuxt module
   defaults: {
     prefix: {
-      nuxtUi: "",
-      form: "",
-      interactive: "",
-      layout: "",
-      misc: "",
+      form: '',
+      interactive: '',
+      layout: '',
+      misc: '',
     },
-    tailwind: {},
+    theme: {
+      main0: '#183C5E',
+      main1: '#2C5A85',
+      main2: '#487CB4',
+      main3: '#A7CDED',
+      main4: '#C4E1FF',
+      accent1: '#FF6600',
+      accent2: '#FFAC7C',
+      info: '#2BABB5',
+      link: '#6200EE',
+      download: '#11691F',
+      success: '#2BB60C',
+      warn: '#EAB000',
+      error: '#D80329',
+      dark: '#224466',
+      back1: '#EDF2F7',
+      back2: '#AABED1',
+      white: '#FFFFFF',
+    },
   },
-  async setup(_options, _nuxt) {
-    const resolver = createResolver(import.meta.url);
-    const resolve = resolver.resolve;
-    const runtimeDir = resolve("./runtime");
-    const isDevelopment =
-      runtimeDir.endsWith("src/runtime") || runtimeDir.endsWith("src\\runtime");
-    const extension = isDevelopment ? "scss" : "css";
-    // ----------------------------------------------------------------------------
-    const twReqConfig = {
-      content: {
-        files: [
-          //
-          resolve("./runtime/components/**/*.{vue,mjs,ts}"),
-          resolve("./runtime/**/*.{mjs,js,ts}"),
-        ],
-      },
-    };
-    const twConfig = defu(
-      twReqConfig,
-      defu(_options.tailwind, defaultTwConfig)
-    );
-    // ----------------------------------------------------------------------------
-    // runtime config
-    // console.log(_nuxt.options.appConfig.ui);
-    // _nuxt.options.appConfig.ui = {
-    //   colors: twConfig.theme.extend.colors,
-    // };
-    const pConfig = _nuxt.options.runtimeConfig.public;
-    pConfig.hsui = {
-      colors: twConfig.theme.extend.colors,
-    };
-    _nuxt.options.appConfig.tv = {
-      twMerge: true,
-      twMergeConfig: {
-        theme: twConfig.theme,
-      },
-    };
-    // ----------------------------------------------------------------------------
-    addImportsDir(resolve("runtime/composables"));
-    // ----------------------------------------------------------------------------
+  async setup(options, nuxt) {
+    const { resolve } = createResolver(import.meta.url);
+    // -------------------------
+    AddTheme(options.theme);
+    // -------------------------
+
     addComponentsDir({
-      path: resolve("runtime/components/form"),
-      prefix: _options.prefix.form,
+      path: resolve('runtime/components/form'),
+      prefix: options.prefix.form,
+      pattern: '**/*.vue',
+      ignore: [
+        '**/_*/**', // 深さ問わず、"_xxx" という名前のフォルダ配下を全部除外
+        '**/*/_**', // 深さ問わず、"_xxx" という名前のフォルダ配下を全部除外
+      ],
     });
     addComponentsDir({
-      path: resolve("runtime/components/interactive"),
-      prefix: _options.prefix.interactive,
+      path: resolve('runtime/components/layout'),
+      prefix: options.prefix.layout,
     });
     addComponentsDir({
-      path: resolve("runtime/components/layout"),
-      prefix: _options.prefix.layout,
+      path: resolve('runtime/components/misc'),
+      prefix: options.prefix.misc,
     });
     addComponentsDir({
-      path: resolve("runtime/components/misc"),
-      prefix: _options.prefix.misc,
+      path: resolve('runtime/components/interactive'),
+      prefix: options.prefix.interactive,
     });
-    // addComponentsDir({
-    //   path: resolve("runtime/components/ui"),
-    //   prefix: _options.prefix.form,
-    //   // pathPrefix: false,
-    // });
-    // ----------------------------------------------------------------------------
-    _nuxt.options.css.push(resolve("runtime/style." + extension));
-    _nuxt.options.css.push(resolve("runtime/tailwind." + extension));
-    _nuxt.options.css.push(resolve("runtime/assets/flatpickr-dark.css"));
-    _nuxt.options.css.push(
-      resolve("runtime/assets/flatpickr-month-select-style.css")
-    );
-    _nuxt.options.css.push(resolve("runtime/assets/vue-select.css"));
-    _nuxt.options.css.push(resolve("runtime/assets/tabulator.css"));
-    _nuxt.options.css.push(resolve("runtime/assets/tabulator-custom.css"));
-    // ----------------------------------------------------------------------------
-    // console.log(twConfig);
-    // console.log(JSON.stringify({ twConfig: twConfig }, null, 3));
-    await installModule("@nuxtjs/tailwindcss", {
-      exposeConfig: true,
-      config: twConfig,
-    });
-    await installModule("@pinia/nuxt");
-    // 型拡張も注入（配布先で types 設定不要にする）
-    await installModule("@vueuse/nuxt");
-    // await installModule("@nuxt/ui");
-    // await installModule("@nuxt/ui");
-    addPlugin(resolve("runtime/plugin/v-select"));
+    // -------------------------
+    addImportsDir(resolve('runtime/composables'));
+    // -------------------------
+    AddCss(nuxt, resolve, { mode: 'bundle' });
+    // -------------------------
   },
 });

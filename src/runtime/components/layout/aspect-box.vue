@@ -4,14 +4,14 @@
 // ----------------------------------------------------------------------------
 // AspectBox
 // AspectBoxAspectBox
------------------------------------------------------------------------------ */
+---------------------------------------------------------------------------- */
 // [ tailwind ]
-import { twMerge } from "tailwind-merge";
+import { twMerge } from 'tailwind-merge';
 // [ NUXT ]
-import { computed } from "#imports";
+import { computed } from '#imports';
 // [ utils ]
-import { type ClassType, ClassTypeToString } from "../../utils/class-style";
-import { Int } from "../../utils/number";
+import { type ClassType, ClassTypeToString } from '../../utils/class-style';
+import { Int } from '../../utils/number';
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 type Props = {
@@ -28,13 +28,13 @@ type Props = {
 };
 
 const props = withDefaults(defineProps<Props>(), {
-  class: "",
-  rate: "3:2",
+  class: '',
+  rate: '3:2',
 });
 const aspectRate = computed(() => {
-  const left = Int(props.rate.replace(/^(\d*):(\d*)$/, "$1"));
-  const right = Int(props.rate.replace(/^(\d*):(\d*)$/, "$2"));
-  if (left === 0 || right === 0) return "100";
+  const left = Int(props.rate.replace(/^(\d*):(\d*)$/, '$1'));
+  const right = Int(props.rate.replace(/^(\d*):(\d*)$/, '$2'));
+  if (left === 0 || right === 0) return '100';
   return ((right / left) * 100).toFixed(3);
 });
 
@@ -44,11 +44,7 @@ const classStyle = computed(() => {
 </script>
 
 <template>
-  <div
-    class="UiAspectContainer"
-    :class="classStyle"
-    :style="` --aspect-rate: ${aspectRate}%;`"
-  >
+  <div class="UiAspectContainer" :class="classStyle" :style="` --aspect-rate: ${aspectRate}%;`">
     <div>
       <slot />
     </div>
@@ -59,7 +55,7 @@ const classStyle = computed(() => {
 .UiAspectContainer {
   --aspect-rate: 66.66%;
   &::before {
-    content: "";
+    content: '';
     display: block;
     padding-top: var(--aspect-rate);
   }

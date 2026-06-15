@@ -2,61 +2,11 @@
 // src\runtime\utils\tabulator.ts
 // ----------------------------------------------------------------------------
 // [ src > runtime > utils > * ]
+import {} from '~/src/runtime/utils/tabulator';
 ----------------------------------------------------------------------------- */
 
-export type { TabulatorFull as Tabulator } from "tabulator-tables";
-// import { useRuntimeConfig } from "#imports";
-// import { Sleep } from '~/com/lib/com';
-import { Int } from "./number";
-import { ObjectCopy } from "./object";
-
-// [ composables ]
-import { useHsMultiLang } from "../composables/use-hs-multi-lang";
-import { type Theme, GetGolorCode } from "../utils/theme";
-
-/**
- * セル内部にボタンを配置した時用
- */
-export const cellMouseOut = (e: any) => {
-  const elm = e.target as any;
-  // テーブル自体が補足されてoverlayが複数取得できる場合がありえる
-  const overlays = elm.querySelectorAll("span.overlay");
-  Array.from(overlays).forEach((child: any) => {
-    child.classList.remove("flash");
-  });
-};
-
-/**
- * セル内部にボタンを配置した時用
- */
-export const cellMouseUp = (e: any) => {
-  const elm = e.target as any;
-  const overlays = elm.querySelectorAll("span.overlay");
-  Array.from(overlays).forEach((child: any) => {
-    child.classList.remove("flash");
-  });
-};
-
-/**
- * セル内部にボタンを配置した時用
- */
-export const cellMouseDown = (e: any) => {
-  const elm = e.target as any;
-  if (elm.classList.contains("table-cell-btn") === true) {
-    const offsetX = e.offsetX;
-    const offsetY = e.offsetY;
-    const width = Int(elm.clientWidth) + 20;
-    const overlays = elm.querySelectorAll("span.overlay");
-    Array.from(overlays).forEach((child: any) => {
-      child.style.top = `${-width + offsetY}px`;
-      child.style.left = `${-width + offsetX}px`;
-      child.style.width = `${width * 2}px`;
-      child.style.height = `${width * 2}px`;
-      child.classList.add("flash");
-      setTimeout(() => child.classList.remove("flash"), 10000);
-    });
-  }
-};
+export type { TabulatorFull as Tabulator } from 'tabulator-tables';
+import { ObjectCopy } from './object';
 
 export interface SortItem<T> {
   key: T;
@@ -67,10 +17,7 @@ export const ColumnsPropsDisplay = {
   headerSort: false,
   download: false,
 };
-export const ColumnsDisplay = (
-  field: string | undefined = undefined,
-  width: number | undefined = undefined
-) => {
+export const ColumnsDisplay = (field: string | undefined = undefined, width: number | undefined = undefined) => {
   return {
     headerSort: false,
     download: false,
@@ -87,16 +34,16 @@ export const InitEmitFunc = () => {
     //   await Sleep(1);
     // },
     tableReBuild: () => {
-      console.error("初期化が完了していません");
+      console.error('初期化が完了していません');
     },
     tableRedraw: () => {
-      console.error("初期化が完了していません");
+      console.error('初期化が完了していません');
     },
     tableRefresh: () => {
-      console.error("初期化が完了していません");
+      console.error('初期化が完了していません');
     },
     tableRefreshStopToggle: () => {
-      console.error("初期化が完了していません");
+      console.error('初期化が完了していません');
     },
   };
 };
@@ -105,70 +52,70 @@ export const TabulatorInitEmitFunc = InitEmitFunc;
 export const Option = (option?: any) => {
   return Object.assign(
     {
-      locale: "ja",
+      locale: 'ja',
       langs: {
         ja: {
           columns: {},
           data: {
-            loading: "Loading", // data loader text
-            error: "Error", // data error text
+            loading: 'Loading', // data loader text
+            error: 'Error', // data error text
           },
           groups: {
-            item: "item", // the singular  for item
-            items: "items", // the plural for items
+            item: 'item', // the singular  for item
+            items: 'items', // the plural for items
           },
           pagination: {
-            page_size: "表示件数",
-            page_title: "Show Page",
-            first: "<<", // text for the first page button
-            first_title: "最初のページ", // tooltip text for the first page button
-            last: ">>",
-            last_title: "最後のページ",
-            prev: "<",
-            prev_title: "Prev Page",
-            next: ">",
-            next_title: "Next Page",
-            all: "All",
+            page_size: '表示件数',
+            page_title: 'Show Page',
+            first: '<<', // text for the first page button
+            first_title: '最初のページ', // tooltip text for the first page button
+            last: '>>',
+            last_title: '最後のページ',
+            prev: '<',
+            prev_title: 'Prev Page',
+            next: '>',
+            next_title: 'Next Page',
+            all: 'All',
             counter: {
-              showing: "Showing",
-              of: "of",
-              rows: "rows",
-              pages: "pages",
+              showing: 'Showing',
+              of: 'of',
+              rows: 'rows',
+              pages: 'pages',
             },
           },
         },
         en: {
           columns: {},
           data: {
-            loading: "Loading", // data loader text
-            error: "Error", // data error text
+            loading: 'Loading', // data loader text
+            error: 'Error', // data error text
           },
           groups: {
-            item: "item", // the singular  for item
-            items: "items", // the plural for items
+            item: 'item', // the singular  for item
+            items: 'items', // the plural for items
           },
           pagination: {
-            page_size: "Page Size ",
-            page_title: "Show Page",
-            first: "<<", // text for the first page button
-            first_title: "First", // tooltip text for the first page button
-            last: ">>",
-            last_title: "Last",
-            prev: "<",
-            prev_title: "Prev ",
-            next: ">",
-            next_title: "Next",
-            all: "All",
+            page_size: 'Page Size ',
+            page_title: 'Show Page',
+            first: '<<', // text for the first page button
+            first_title: 'First', // tooltip text for the first page button
+            last: '>>',
+            last_title: 'Last',
+            prev: '<',
+            prev_title: 'Prev ',
+            next: '>',
+            next_title: 'Next',
+            all: 'All',
             counter: {
-              showing: "Showing",
-              of: "of",
-              rows: "rows",
-              pages: "pages",
+              showing: 'Showing',
+              of: 'of',
+              rows: 'rows',
+              pages: 'pages',
             },
           },
         },
       },
-      layout: "fitColumns",
+      layout: 'fitColumns',
       virtualDomBuffer: 200,
       downloadConfig: {
         columnHeaders: true, // do not include column headers in downloaded table
@@ -182,9 +129,6 @@ export const Option = (option?: any) => {
   );
 };
 export const Func = {
-  cellMouseOut,
-  cellMouseUp,
-  cellMouseDown,
   ColumnsDisplay,
   InitEmitFunc,
   Option,
@@ -219,89 +163,12 @@ export const SortIconClassName = <T>(uid: string) => {
   };
 };
 
-export const GetCellHtml = (html: string, style = "") =>
-  `<div class="v-cell-container" style="--row-height:28px;${style}">{replace}</div>`.replace(
-    /\{replace\}/g,
-    html
-  );
-export const GetHeaderHtml = (html: string, style = "") =>
-  `<div class="v-cell-container" style="--row-height:28px;${style}">{replace}</div>`.replace(
-    /\{replace\}/g,
-    html
-  );
+export const GetCellHtml = (html: string, style = '') =>
+  `<div class="v-cell-container" style="--row-height:28px;${style}">{replace}</div>`.replace(/\{replace\}/g, html);
+export const GetHeaderHtml = (html: string, style = '') =>
+  `<div class="v-cell-container" style="--row-height:28px;${style}">{replace}</div>`.replace(/\{replace\}/g, html);
 
 // ----------------------------------------------------------------------------
-/** Data-Row-Table ボタン列 */
-export const GetListTableBtnSetting = (arg: {
-  detailUrl: string | null;
-  mode: "select" | "detail";
-  actionBtnTheme: Theme;
-  componentName: string;
-  TabulatorFunc: typeof TabulatorFunc;
-  emit: any;
-  size: string;
-}) => {
-  const {
-    detailUrl,
-    mode,
-    actionBtnTheme,
-    componentName,
-    TabulatorFunc,
-    emit,
-    size,
-  } = arg;
-  const storeMultiLang = useHsMultiLang();
-  const tx = storeMultiLang.tx;
-  return {
-    ...TabulatorFunc.ColumnsDisplay("", 100),
-    title: ``,
-    formatter: (cell: any) => {
-      const row: any = cell.getRow().getData();
-      // ----------------------------------------------------------------------------
-      const herf = (() => {
-        if (mode !== "detail") return "";
-        if (!detailUrl) return "";
-        return `href="${detailUrl.replace(/new$/, "")}${row.pId}"`;
-      })();
-      // ----------------------------------------------------------------------------
-      const style = [
-        `border:solid 2px ${GetGolorCode(actionBtnTheme)}`,
-        `color:${GetGolorCode(actionBtnTheme)}`,
-        `width:100%`,
-      ].join(";");
-      const overlayBg = `bg-${actionBtnTheme}`;
-      const caption =
-        mode === "detail"
-          ? tx({ ja: "詳細", en: "Detail" }).value
-          : tx({ ja: "選択", en: "Select" }).value;
-      const icon =
-        mode === "detail"
-          ? `<i class="fa-solid fa-window-restore me-1"></i>`
-          : `<i class="fa-solid fa-pen-to-square me-1"></i>`;
-      return GetCellHtml(`
-<div class="v-cell-row" style="--row-size:${size};">
-<div class="v-cell" style="width:100%">
-<a class="table-cell-btn cursor-pointer" style="${style}" onclick="window.${componentName}_func(event);" ${herf}>
-${icon}${caption}
-<span class='overlay ${overlayBg}'></span>
-</a>
-</div>
-</div>
-    `);
-    },
-    cellClick: (e: any, cell: any) => {
-      if ((window as any)[`${componentName}_flag`] === true) return;
-      const row: any = cell.getRow().getData();
-      if (e.target.classList.contains("table-cell-btn") === true) {
-        emit("selected-id", row.id);
-        emit("select-private-id", row.pId);
-      }
-    },
-    cellMouseUp: TabulatorFunc.cellMouseUp,
-    cellMouseOut: TabulatorFunc.cellMouseOut,
-    cellMouseDown: TabulatorFunc.cellMouseDown,
-  };
-};
 // ----------------------------------------------------------------------------
 
 /** List用 並べ替え処理 */
@@ -315,7 +182,7 @@ export const ListOriginSortItems = <T>(arg: {
   //
   const { a, b, sortCount, SortReverse, sort } = arg;
   for (let i = 0; i < sortCount; i++) {
-    const row = sort[i];
+    const row = sort[i] as any;
     const isReverse = SortReverse.includes(row.key) === true ? -1 : 1;
     const aRow = (a as any)[row.key];
     const bRow = (b as any)[row.key];
@@ -328,11 +195,7 @@ export const ListOriginSortItems = <T>(arg: {
 };
 
 /** List用 表示中ページの配列生成 */
-export const ListPage = <T>(arg: {
-  size: number;
-  index: number;
-  list: T[];
-}) => {
+export const ListPage = <T>(arg: { size: number; index: number; list: T[] }) => {
   const { size, index, list } = arg;
   const st = index * size;
   const end = (index + 1) * size - 1;
@@ -346,10 +209,7 @@ export const ListPage = <T>(arg: {
 };
 
 /** List用 並べ替え */
-export const SortToggle = <SortKey extends string>(arg: {
-  key: SortKey;
-  sort: SortItem<SortKey>[];
-}) => {
+export const SortToggle = <SortKey extends string>(arg: { key: SortKey; sort: SortItem<SortKey>[] }) => {
   const { key, sort } = arg;
   let temp = ObjectCopy(sort);
   const getActiveSortItem = (key: SortKey): SortItem<SortKey> | null => {

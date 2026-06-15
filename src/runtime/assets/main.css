@@ -1,0 +1,22 @@
+@import url(//use.fontawesome.com/releases/v6.4.0/css/all.css);
+
+
+*:focus {
+    outline: none !important;
+}
+
+
+:root {
+    color-scheme: light !important;
+}
+
+
+.flatpickr-monthSelect-theme-dark {
+    background: #3f4458;
+}
+
+.flatpickr-day.flatpickr-disabled {
+    background-color: rgba(255, 34, 34, 0.164) !important;
+    color           : rgb(255, 255, 255) !important;
+    border          : solid 1px rgb(187, 153, 153) !important;
+}

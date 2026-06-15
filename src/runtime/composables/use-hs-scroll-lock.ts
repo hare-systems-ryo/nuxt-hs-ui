@@ -27,15 +27,17 @@ scrollLock.unlock();
 ----------------------------------------------------------------------------- */
 
 // [ node_modules ]
-import { defineStore } from "pinia";
-import { GenerateUniqeKey } from "../utils/com";
-import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
-import { ref, onUnmounted } from "vue";
+import { defineStore } from 'pinia';
+import { GenerateUniqeKey } from '../utils/com';
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
+import { ref, onUnmounted } from 'vue';
 
-export const useHsScrollLockPinia = defineStore("HsScrollLockPinia", () => {
+import { useHsPinia } from '../composables/use-pinia';
+
+export const useHsScrollLockPinia = defineStore('HsScrollLockPinia', () => {
   // ---------------------------------------------------
   const active = ref(false);
-  const key = ref("");
+  const key = ref('');
   return { active, key };
 });
 
@@ -44,7 +46,7 @@ export const useHsScrollLock = () => {
   const isIOS = ref(false);
   const elm = ref<HTMLElement | null>(null);
   const key = GenerateUniqeKey();
-  const hsScrollLockPinia = useHsScrollLockPinia();
+  const hsScrollLockPinia = useHsScrollLockPinia(useHsPinia());
 
   onUnmounted(() => {
     unlock();
@@ -52,8 +54,8 @@ export const useHsScrollLock = () => {
 
   // ----------------------------------------------------------------------------
   const checkSafariMobile = () => {
-    if (typeof navigator === "undefined") return false;
-    const ua = navigator.userAgent || "";
+    if (typeof navigator === 'undefined') return false;
+    const ua = navigator.userAgent || '';
     const isOldIPad = /\(iPad.*OS/.test(ua);
     const isIpad = /Macintosh/.test(ua) && navigator.maxTouchPoints > 1;
     const isiOS = /iP(?:ad|hone|od)/.test(ua);
@@ -64,11 +66,11 @@ export const useHsScrollLock = () => {
   const init = (element: HTMLElement | null) => {
     if (element === null) {
       console.error(
-        "[useScrollLock] Expected a valid HTMLElement in init(), but got null. Make sure to pass the correct ref."
+        '[useScrollLock] Expected a valid HTMLElement in init(), but got null. Make sure to pass the correct ref.'
       );
       if (import.meta.dev) {
         throw new Error(
-          "[useScrollLock] Expected a valid HTMLElement in init(), but got null. Make sure to pass the correct ref."
+          '[useScrollLock] Expected a valid HTMLElement in init(), but got null. Make sure to pass the correct ref.'
         );
       }
     }
@@ -82,11 +84,11 @@ export const useHsScrollLock = () => {
     hsScrollLockPinia.active = true;
     if (isIOS.value) {
       scrollY.value = window.scrollY;
-      document.body.style.position = "fixed";
+      document.body.style.position = 'fixed';
       document.body.style.top = `-${scrollY.value}px`;
-      document.body.style.left = "0";
-      document.body.style.right = "0";
-      document.body.style.width = "100%";
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+      document.body.style.width = '100%';
     } else {
       if (!elm.value) return;
       const options = {
@@ -99,14 +101,14 @@ export const useHsScrollLock = () => {
 
   const unlock = () => {
     if (hsScrollLockPinia.key !== key) return;
-    hsScrollLockPinia.key = "";
+    hsScrollLockPinia.key = '';
     hsScrollLockPinia.active = false;
     if (isIOS.value) {
-      document.body.style.position = "";
-      document.body.style.top = "";
-      document.body.style.left = "";
-      document.body.style.right = "";
-      document.body.style.width = "";
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      document.body.style.width = '';
       window.scrollTo(0, scrollY.value);
     } else {
       if (!elm.value) return;

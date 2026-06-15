@@ -2,6 +2,7 @@
 // src\runtime\utils\modal.ts
 // ----------------------------------------------------------------------------
 // [ src > runtime > utils > * ]
+import {} from '~/src/runtime/utils/modal';
 ----------------------------------------------------------------------------- */
 
 /** --------------------------------------------
@@ -45,77 +46,50 @@ onMounted(() => {
 
 -------------------------------------------- */
 
+// type OptionalFunction<T> = ((state?: T) => undefined | boolean) | ((state?: T) => Promise<undefined | boolean>);
 type OptionalFunction<T> =
-  | ((state: T) => undefined | boolean)
-  | ((state: T) => Promise<undefined | boolean>)
-  | null;
+  | ((state?: T) => void)
+  | ((state?: T) => boolean)
+  | ((state?: T) => Promise<boolean>)
+  | ((state?: T) => Promise<void>);
+
+type OptionalAfterFunction<T> = (state?: T) => Promise<void> | void;
+
 export interface ModalControl<T = any> {
-  /**
-   * showBefre,showAfter がasync付きならasync付き関数になります。
-   */
-  show: (() => undefined) | (() => Promise<undefined>);
+  show: () => Promise<undefined>;
   /**
    * showBefore モーダルが開く前に実行される関数
    * - true をreturnするとモーダルを開く処理は中止される
    */
-  showBefore: OptionalFunction<T>;
-  showAfter: OptionalFunction<T>;
-  /**
-   * closeBefore,closeAfter がasync付きならasync付き関数になります。
-   */
+  showBefore: OptionalFunction<T> | null;
+  showAfter: OptionalAfterFunction<T> | null;
   // close: () => undefined;
-  close: (() => undefined) | (() => Promise<undefined>);
+  close: () => Promise<undefined>;
   /**
    * closeBefore モーダルが閉じる前に実行される関数
    * - true をreturnするとモーダルを閉じる処理は中止される
    */
-  closeBefore: OptionalFunction<T>;
-  closeAfter: OptionalFunction<T>;
+  closeBefore: OptionalFunction<T> | null;
+  closeAfter: OptionalAfterFunction<T> | null;
   // 状態管理
   isShow: boolean;
   // データ保持
   state: T;
 }
 
-export const InitModalControl = <T = any>(arg?: {
-  state?: T;
-  /**
-   * showBefore モーダルが開く前に実行される関数
-   * - true をreturnするとモーダルを開く処理は中止される
-   */
-  showBefore?: OptionalFunction<T>;
-  showAfter?: OptionalFunction<T>;
-  /**
-   * closeBefore モーダルが閉じる前に実行される関数
-   * - true をreturnするとモーダルを閉じる処理は中止される
-   */
-  closeBefore?: OptionalFunction<T>;
-  closeAfter?: OptionalFunction<T>;
-}): ModalControl<T> => {
+export const InitModalControl = <T = any>(state?: T): ModalControl<T> => {
   // if (arg === undefined) arg = {};
-  const noneInitMessage = "が初期化されていません";
+  const noneInitMessage = 'が初期化されていません';
   return {
-    show: () => console.log("[show]" + noneInitMessage),
+    show: () => console.log('[show]' + noneInitMessage),
     showBefore: null,
     showAfter: null,
-    close: () => console.log("[close]" + noneInitMessage),
+    close: () => console.log('[close]' + noneInitMessage),
     closeBefore: null,
     closeAfter: null,
     isShow: false,
-    state: null,
-    ...arg,
+    state: state || null,
   } as ModalControl;
-};
-
-const isAsync = (func: any) => {
-  try {
-    if (func === null) return false;
-    if (func === undefined) return false;
-    if (!("constructor" in func)) return false;
-    return func.constructor.name === "AsyncFunction";
-  } catch {
-    return false;
-  }
 };
 
 /**
@@ -128,46 +102,28 @@ export const InitModals = (modal: any, nextTick: any) => {
     const m: ModalControl = (modal as any)[key];
     m.show = async () => {
       if (m.showBefore) {
-        if (isAsync(m.showBefore)) {
-          if ((await m.showBefore(m.state)) === true) {
-            console.info("モーダルのShow動作はキャンセルされました");
-            return;
-          }
-        } else if (m.showBefore(m.state) === true) {
-          console.info("モーダルのShow動作はキャンセルされました");
+        if ((await m.showBefore(m.state)) === true) {
+          console.info('モーダルのShow動作はキャンセルされました');
           return;
         }
       }
       m.isShow = true;
       if (!m.showAfter) return;
       await nextTick();
-      if (isAsync(m.showAfter)) {
-        await m.showAfter(m.state);
-      } else {
-        m.showAfter(m.state);
-      }
+      await m.showAfter(m.state);
     };
     m.close = async () => {
       if (m.closeBefore) {
-        if (isAsync(m.closeBefore)) {
-          if ((await m.closeBefore(m.state)) === true) {
-            console.info("モーダルのClose動作はキャンセルされました");
-            return;
-          }
-        } else if (m.closeBefore(m.state) === true) {
-          console.info("モーダルのClose動作はキャンセルされました");
+        if ((await m.closeBefore(m.state)) === true) {
+          console.info('モーダルのClose動作はキャンセルされました');
           return;
         }
       }
       m.isShow = false;
       await nextTick();
       if (!m.closeAfter) return;
-      if (isAsync(m.closeAfter)) {
-        await m.closeAfter(m.state);
-      } else {
-        m.closeAfter(m.state);
-      }
-      return undefined;
+      await m.closeAfter(m.state);
+      return;
     };
   });
 };

@@ -1,114 +1,88 @@
 /* ----------------------------------------------------------------------------
 // src\runtime\composables\use-hs-multi-lang.ts
 // ----------------------------------------------------------------------------
-// [ composables ]
-copnst hsMultiLang = useHsMultiLang()
+// [ src > runtime > composables > * ]
+import {} from '~/src/runtime/composables/use-hs-multi-lang';
 ----------------------------------------------------------------------------- */
 
 // [dayjs]
-import dayjs from "dayjs/esm/index";
-import ja from "dayjs/esm/locale/ja.js";
-import en from "dayjs/esm/locale/en.js";
-import { defineStore } from "pinia";
+import { dayjs } from '../utils/dayjs';
+import ja from 'dayjs/esm/locale/ja.js';
+import en from 'dayjs/esm/locale/en.js';
+import { defineStore } from 'pinia';
 // [ NUXT ]
-import { computed, watch } from "vue";
+import { computed, watch, ref } from 'vue';
 // [ utils ]
-import type { MultiLang } from "../utils/multi-lang";
-import { GetTextByMultiLang } from "../utils/multi-lang";
+import type { MultiLang } from '../utils/multi-lang';
+import { GetTextByMultiLang } from '../utils/multi-lang';
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
-interface StoreState {
-  state: {
-    lang: string;
-    fallBack: string;
-    dateFormat: string;
-    isInit: boolean;
-    showLog: boolean;
+export const useHsMultiLang = defineStore('HsMultiLang', () => {
+  const lang = ref('ja');
+  const fallBack = ref('ja');
+
+  const langChange = ref((_lang: string) => {
+    if (import.meta.server) return;
+    if (_lang === 'ja') {
+      dayjs.locale(ja);
+    } else {
+      dayjs.locale(en);
+    }
+  });
+
+  /**
+   * A reactive handler that updates the Day.js locale whenever
+   * the application language changes.
+   *
+   * By default, this function switches between Japanese and English:
+   *
+   * ```javascript
+   * import ja from 'dayjs/esm/locale/ja.js';
+   * import en from 'dayjs/esm/locale/en.js';
+   * const _langChange=(_lang: string)=>{
+   *  if (_lang === 'ja') {
+   *    dayjs.locale(ja);
+   *  } else {
+   *    dayjs.locale(en);
+   *  }
+   * }
+   * ```
+   *
+   * This ensures that all Day.js–based formatting (e.g., dates, times)
+   * automatically reflects the current UI language setting.
+   */
+  const setLangChange = (_langChange: (_lang: string) => void) => {
+    langChange.value = _langChange;
+  };
+  watch(
+    () => lang.value,
+    (_lang) => {
+      langChange.value(_lang);
+    },
+    { immediate: true }
+  );
+
+  /**
+   * Creates a `ComputedRef<string>` that resolves the appropriate text
+   * from a given `MultiLang` object based on the active language.
+   *
+   * This is useful when you need a reactive value that automatically updates
+   * whenever the language setting changes.
+   */
+  const tx = (text: MultiLang) => {
+    return computed(() => {
+      return GetTextByMultiLang(text, lang.value, fallBack.value);
+    });
   };
 
-  // apiSetDefaultLang: {
-  //   ts: string;
-  //   loading: boolean;
-  // };
-}
-// ----------------------------------------------------------------------------
-export const useHsMultiLang = defineStore("HsMultiLang", {
-  state: (): StoreState => {
-    return {
-      state: {
-        lang: "ja",
-        fallBack: "ja",
-        dateFormat: "YYYY-MM-DD",
-        isInit: false,
-        showLog: false,
-      },
-    };
-  },
-  getters: {
-    lang(state) {
-      return state.state.lang;
-    },
-    dateFormat(state) {
-      return state.state.dateFormat;
-    },
-  }, // ----------------------------------------------------------------------------
-  actions: {
-    init(arg: {
-      lang?: string;
-      changeLangFunc?: (lang: string) => Promise<void> | void;
-    }) {
-      const state = this.state;
-      if (state.isInit) return;
-      if (arg.lang !== undefined) {
-        state.lang = arg.lang;
-      }
-      const changeLangFunc =
-        arg.changeLangFunc === undefined
-          ? (lang: string) => {
-              if (lang === "ja") {
-                dayjs.locale(ja);
-              } else {
-                dayjs.locale(en);
-              }
-            }
-          : arg.changeLangFunc;
-      watch(
-        () => this.state.lang,
-        (lang) => {
-          changeLangFunc(lang);
-        },
-        { immediate: true }
-      );
-    },
-    // ---------------------
-    /** Text Ref  */
-    tx(text: MultiLang, lang = undefined) {
-      const state = this.state;
-      return computed(() => {
-        if (lang) {
-          return GetTextByMultiLang(text, lang, state.fallBack, state.showLog);
-        }
-        return GetTextByMultiLang(
-          text,
-          state.lang,
-          state.fallBack,
-          state.showLog
-        );
-      });
-    },
-    /** GetText  */
-    gt(text: MultiLang, lang = undefined) {
-      const state = this.state;
-      if (lang) {
-        return GetTextByMultiLang(text, lang, state.fallBack, state.showLog);
-      }
-      return GetTextByMultiLang(
-        text,
-        state.lang,
-        state.fallBack,
-        state.showLog
-      );
-    },
-    // ---------------------
-  },
+  /**
+   * Retrieves the localized text from a `MultiLang` object
+   * for the current (or optionally provided) language.
+   *
+   * Unlike `tx`, this returns a plain string rather than a computed reference.
+   */
+  const gt = (text: MultiLang) => {
+    return GetTextByMultiLang(text, lang.value, fallBack.value);
+  };
+  return { lang, fallBack, tx, gt, GetText: GetTextByMultiLang, setLangChange };
 });
