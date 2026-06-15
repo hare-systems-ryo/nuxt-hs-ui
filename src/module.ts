@@ -99,5 +99,22 @@ export default defineNuxtModule<ModuleOptions>({
     // -------------------------
     AddCss(nuxt, resolve, { mode: 'bundle' });
     // -------------------------
+    nuxt.options.vite ||= {};
+    nuxt.options.vite.optimizeDeps ||= {};
+    nuxt.options.vite.optimizeDeps.include ||= [];
+
+    nuxt.options.vite.optimizeDeps.include.push(
+      '@vueuse/integrations/useFocusTrap',
+      'body-scroll-lock',
+      'tailwind-merge',
+      'tailwind-variants',
+      '@internationalized/date',
+      'dayjs/esm/index',
+      'dayjs/esm/locale/en.js',
+      'dayjs/esm/locale/ja.js',
+      'dayjs/esm/plugin/advancedFormat',
+      'dayjs/esm/plugin/timezone',
+      'dayjs/esm/plugin/utc'
+    );
   },
 });

@@ -44,4 +44,22 @@ export default defineNuxtConfig({
     port: 8888,
   },
   devtools: { enabled: true },
+  vite: {
+    optimizeDeps: {
+      include: [
+        '@internationalized/date',
+        '@vueuse/integrations/useFocusTrap',
+        'bignumber.js',
+        'body-scroll-lock',
+        'dayjs/esm/index',
+        'dayjs/esm/locale/en.js',
+        'dayjs/esm/locale/ja.js',
+        'dayjs/esm/plugin/advancedFormat',
+        'dayjs/esm/plugin/timezone',
+        'dayjs/esm/plugin/utc',
+        'tailwind-merge',
+        'tailwind-variants',
+      ],
+    },
+  },
 });
