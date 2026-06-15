@@ -22,7 +22,7 @@ A Nuxt 4 UI component library for business management applications, built on top
 ## Installation
 
 ```sh
-npm install nuxt-hs-ui-next
+npm install nuxt-hs-ui
 ```
 
 ---
@@ -41,11 +41,11 @@ export default defineNuxtConfig({
     classSuffix: '',
   },
   build: {
-    transpile: ['nuxt-hs-ui-next'],
+    transpile: ['nuxt-hs-ui'],
   },
   vite: {
-    optimizeDeps: { exclude: ['nuxt-hs-ui-next'] },
-    ssr: { noExternal: ['nuxt-hs-ui-next'] },
+    optimizeDeps: { exclude: ['nuxt-hs-ui'] },
+    ssr: { noExternal: ['nuxt-hs-ui'] },
   },
   modules: [
     '@nuxt/eslint',
@@ -54,7 +54,7 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     'pinia-plugin-persistedstate/nuxt',
     [
-      'nuxt-hs-ui-next',
+      'nuxt-hs-ui',
       {
         theme: {
           main0: '#183C5E',
@@ -89,7 +89,7 @@ Import Tailwind and define the same colors as CSS custom properties under `@them
 ```css
 @import "tailwindcss";
 @import "@nuxt/ui";
-@source "../../node_modules/nuxt-hs-ui-next/dist";
+@source "../../node_modules/nuxt-hs-ui/dist";
 
 @theme static {
   --color-main0   : #183C5E;
