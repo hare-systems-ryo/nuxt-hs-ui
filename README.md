@@ -1,4 +1,4 @@
-# nuxt-hs-ui-next
+# nuxt-hs-ui
 
 A Nuxt 4 UI component library for business management applications, built on top of [@nuxt/ui](https://ui.nuxt.com/) and Tailwind CSS v4.
 
