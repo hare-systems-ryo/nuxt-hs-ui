@@ -84,6 +84,7 @@ const selectedText = computed(() => {
           :list="state.list"
           :unknown-text="selectedText"
           searchable
+          nullable
           @value-change="(v:any) => dataChange(v)"
         />
       </div>

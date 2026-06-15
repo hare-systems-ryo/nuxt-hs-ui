@@ -55,7 +55,7 @@ export const InsertComma = (
   const numString = String(num).replace(/,/g, "");
   const delimitExp = /(\d)(?=(\d{3})+$)/g; //
   const decimalDelimitExp = /(\d)(?=(\d{3})+(\.\d+))/g; //
-  let ret = "";
+  let ret: string;
   if (numString.includes(".")) {
     ret = numString.replace(decimalDelimitExp, "$1" + comma);
   } else {

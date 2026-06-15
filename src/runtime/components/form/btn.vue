@@ -249,7 +249,7 @@ import { useHsPinia } from '../../composables/use-pinia';
 import BtnLineLoading from './btn-line-loading.vue';
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
-interface Props {
+export interface Props {
   class?: ClassType;
   classInner?: ClassType;
   classOverlay?: ClassType;

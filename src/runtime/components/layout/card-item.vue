@@ -88,7 +88,7 @@ import Btn from '../form/btn.vue';
 import Accordion from './accordion.vue';
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
-interface Props {
+export interface Props {
   class?: ClassType;
   variant?: 'header' | 'body' | 'footer';
   size?: 'xs' | 's' | 'm' | 'l' | 'xl';

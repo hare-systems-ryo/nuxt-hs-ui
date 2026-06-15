@@ -375,7 +375,7 @@ const content = {
   bodyLock: false,
 };
 const uiBase = [
-  'bg-transparent',
+  'bg-transparent hover:bg-transparent',
   'max-w-full text-left',
   'focus-visible:outline-none  focus:outline-none ring-0 focus:ring-0',
   'py-0 pr-[10px]',
@@ -574,7 +574,7 @@ watch(computedActivate, (value) => {
           trailing-icon=""
           :ui="{
             base: uiBase,
-            item: ['!bg-white focus:bg-white active:bg-white p-0'],
+            item: ['!bg-white hover:!bg-white focus:bg-white active:bg-white p-0'],
           }"
           :content="{
             reference: inputFrameElm,
@@ -649,7 +649,7 @@ watch(computedActivate, (value) => {
         <USelectMenu
           v-model:serach-term="searchWord"
           v-model:open="selectOpen"
-          :model-value="activeValue as any"
+          :model-value="activeValue"
           :items="displayList"
           value-key="id"
           label-key="text"
@@ -658,7 +658,7 @@ watch(computedActivate, (value) => {
           trailing-icon=""
           :ui="{
             base: uiBase,
-            item: ['!bg-white focus:bg-white active:bg-white p-0'],
+            item: ['!bg-white hover:!bg-white focus:bg-white active:bg-white p-0'],
           }"
           :content="{
             reference: inputFrameElm,
