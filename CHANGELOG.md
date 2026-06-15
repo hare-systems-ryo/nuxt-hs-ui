@@ -1,6 +1,34 @@
 # Changelog
 
 
+## v4.0.0
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui-next/compare/v2.12.7...v4.0.0)
+
+### 🚀 Enhancements
+
+- ⚠️  Migrate from v2 to v3 (previously published as nuxt-hs-ui-next) ([4b303d7](https://github.com/hare-systems-ryo/nuxt-hs-ui-next/commit/4b303d7))
+- **text-box:** Ctrl押下中にRedoボタンを表示する機能を追加 ([60ceb82](https://github.com/hare-systems-ryo/nuxt-hs-ui-next/commit/60ceb82))
+- Add redo support to Datepicker, Radio, Select, Textarea, and ValueBox ([78ca6d2](https://github.com/hare-systems-ryo/nuxt-hs-ui-next/commit/78ca6d2))
+- Add grouped display support to Select component ([2d1211d](https://github.com/hare-systems-ryo/nuxt-hs-ui-next/commit/2d1211d))
+- Add ComboBox form component with text input and selectable options ([abbc110](https://github.com/hare-systems-ryo/nuxt-hs-ui-next/commit/abbc110))
+
+### 🩹 Fixes
+
+- Improve type errors in Datepicker component ([52d33a9](https://github.com/hare-systems-ryo/nuxt-hs-ui-next/commit/52d33a9))
+
+### 📖 Documentation
+
+- Update README ([28ee7c1](https://github.com/hare-systems-ryo/nuxt-hs-ui-next/commit/28ee7c1))
+
+#### ⚠️ Breaking Changes
+
+- ⚠️  Migrate from v2 to v3 (previously published as nuxt-hs-ui-next) ([4b303d7](https://github.com/hare-systems-ryo/nuxt-hs-ui-next/commit/4b303d7))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](https://github.com/hare-systems-ryo))
+
 ## v3.3.5
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui-next/compare/v3.3.4...v3.3.5)
