@@ -19,10 +19,12 @@ import type { MultiLang } from '../../utils/multi-lang';
 import { useHsFocus } from '../../composables/use-hs-focus';
 import { useHsPinia } from '../../composables/use-pinia';
 import { useHsMultiLang } from '../../composables/use-hs-multi-lang';
+import { useHsMisc } from '../../composables/use-hs-misc';
 // [ Components ]
 import InputFrame from './input-frame.vue';
 // ----------------------------------------------------------------------------
 const fcFocus = useHsFocus(useHsPinia());
+const hsMisc = useHsMisc(useHsPinia());
 // ----------------------------------------------------------------------------
 // [ Props ]
 type Enterkeyhint = 'done' | 'search' | 'enter' | 'go' | 'next' | 'previous' | 'send';
@@ -327,8 +329,20 @@ const placeholder = computed(() => tx(props.placeholder).value);
     :headerless="props.headerless"
   >
     <!-- @click="elmFocus" -->
-    <template v-if="slots.overlay" #overlay="{ focus, change }">
-      <slot name="overlay" :focus="focus" :change="change"></slot>
+    <template #overlay="{ focus, change }">
+      <div
+        v-if="props.diff !== undefined && change"
+        class="absolute inset-0 bg-red/30 transition-opacity flex items-center px-2 bg-dark/20"
+        :class="!focus && hsMisc.capsLockState ? 'opacity-100' : 'opacity-0 pointer-events-none select-none'"
+      >
+        <Btn variant="outlined" theme="error" tabindex="-1" size="xs" class="bg-white" @click="updateValue(props.diff)">
+          <i class="fa-solid fa-rotate-right"></i>
+          Redo
+        </Btn>
+      </div>
+      <template v-if="slots.overlay">
+        <slot name="overlay" :focus="focus" :change="change"></slot>
+      </template>
     </template>
     <template v-if="slots['left-icons']" #left-icons>
       <slot name="left-icons" :disabled="disabled" />

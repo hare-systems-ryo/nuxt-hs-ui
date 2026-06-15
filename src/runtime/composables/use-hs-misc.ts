@@ -7,10 +7,13 @@ import {} from '~/src/runtime/composables/use-hs-misc';
 
 // [ pinia ]
 import { defineStore } from 'pinia';
+import { useKeyModifier } from '@vueuse/core';
 // [ NUXT ]
 import { nextTick, reactive } from 'vue';
 // [ utils ]
+
 import { Sleep } from '../utils/com';
+
 // ----------------------------------------------------------------------------
 // ----------------------------------------------------------------------------
 interface StoreState {
@@ -20,6 +23,7 @@ interface StoreState {
 // ----------------------------------------------------------------------------
 
 export const useHsMisc = defineStore('HsMisc', () => {
+  const capsLockState = useKeyModifier('Control');
   const state = reactive<StoreState>({
     isInit: false,
     isReady: false,
@@ -36,5 +40,6 @@ export const useHsMisc = defineStore('HsMisc', () => {
   return {
     state,
     init,
+    capsLockState,
   };
 });
