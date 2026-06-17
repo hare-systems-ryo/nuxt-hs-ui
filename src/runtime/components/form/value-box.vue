@@ -7,7 +7,7 @@
 ---------------------------------------------------------------------------- */
 
 // [ node_modules ]
-import BigNumber from 'bignumber.js';
+import { BigNumber } from 'bignumber.js';
 // [ NUXT ]
 import { reactive, ref, watch, computed, useId, onMounted, nextTick } from '#imports';
 // [ utils ]

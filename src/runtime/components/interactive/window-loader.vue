@@ -12,30 +12,11 @@ WindowLoader.Show()
 WindowLoader.zindex=10000
 ----------------------------------------------------------------------------- */
 
-// [ vueuse ]
-import { useFocusTrap } from '@vueuse/integrations/useFocusTrap';
-
-// [ NUXT ]
-import { ref, watch } from '#imports';
 // [ composables ]
 import { useHsWindowLoader } from '../../composables/use-hs-window-loader';
 import { useHsPinia } from '../../composables/use-pinia';
 // ----------------------------------------------------------------------------
 const WindowLoader = useHsWindowLoader(useHsPinia());
-// ----------------------------------------------------------------------------
-// [ focusTrap ]
-const focusTargetElm = ref<HTMLElement | null>(null);
-const { activate, deactivate } = useFocusTrap(focusTargetElm);
-watch(
-  () => WindowLoader.state.show,
-  (show) => {
-    if (show) {
-      activate();
-    } else {
-      deactivate();
-    }
-  }
-);
 // ----------------------------------------------------------------------------
 </script>
 
@@ -61,7 +42,6 @@ watch(
         <div class="sk-cube sk-cube9" />
       </div>
       <div class="HsUiWindowLoader-text">Please wait...</div>
-      <input type="checkbox" class="dummy" />
     </div>
   </div>
 </template>
@@ -71,14 +51,6 @@ $base-color-modal: rgba(0, 0, 0, 0.411);
 
 //--------------------------------------------
 
-//ダミー用
-.dummy {
-  opacity: 0;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  outline: none;
-}
 .HsUiWindowLoader {
   position: fixed;
   left: 0;

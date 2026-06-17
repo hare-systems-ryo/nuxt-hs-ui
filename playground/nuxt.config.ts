@@ -48,7 +48,6 @@ export default defineNuxtConfig({
     optimizeDeps: {
       include: [
         '@internationalized/date',
-        '@vueuse/integrations/useFocusTrap',
         'bignumber.js',
         'body-scroll-lock',
         'dayjs/esm/index',

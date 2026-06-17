@@ -104,7 +104,6 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.vite.optimizeDeps.include ||= [];
 
     nuxt.options.vite.optimizeDeps.include.push(
-      '@vueuse/integrations/useFocusTrap',
       'body-scroll-lock',
       'tailwind-merge',
       'tailwind-variants',
