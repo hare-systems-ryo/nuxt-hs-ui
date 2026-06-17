@@ -1,6 +1,6 @@
 {
   "name": "nuxt-hs-ui",
-  "version": "4.0.4",
+  "version": "4.0.5",
   "description": "This repository is dedicated to the ongoing migration of **nuxt-hs-ui** to **Nuxt 4**",
   "repository": "https://github.com/hare-systems-ryo/nuxt-hs-ui",
   "license": "MIT",
@@ -46,7 +46,6 @@
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
     "release": "npm run lint && npm run test && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
-    "release-nologen": "npm run lint && npm run test && npm run prepack && npm publish && git push --follow-tags",
     "release-beta": "npm run lint && npm run test && npm run prepack  && npm publish --tag beta && git push --follow-tags",
     "lint": "eslint .",
     "test": "vitest run",
