@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v4.0.4
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v4.0.3...v4.0.4)
+
+### 📖 Documentation
+
+- Update README ([9535d5f](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/9535d5f))
+
+### 🏡 Chore
+
+- Update Node packages and remove unused dependencies ([5933161](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/5933161))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](https://github.com/hare-systems-ryo))
+
 ## v4.0.3
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v4.0.2...v4.0.3)
