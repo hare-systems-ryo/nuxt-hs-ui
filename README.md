@@ -126,14 +126,12 @@ All components are auto-imported when the module is registered.
 | Component | Description |
 |---|---|
 | `Btn` | Themed button with loading / disabled states |
-| `BtnLineLoading` | Button with inline loading indicator |
 | `TextBox` | Styled text input |
 | `Textarea` | Styled multi-line input |
 | `CheckBox` | Single checkbox with label |
 | `CheckList` | List of checkboxes |
 | `Radio` | Radio button group |
 | `Select` | Dropdown select with search |
-| `SelectImgIcon` | Select with image/icon support |
 | `DatePicker` | Date picker (powered by flatpickr) |
 | `ValueBox` | Read-only value display field |
 | `InputFrame` | Generic wrapper for custom form inputs |
@@ -145,8 +143,7 @@ All components are auto-imported when the module is registered.
 | `Alert` | Inline alert banner |
 | `BlockLoading` | Full-area loading overlay |
 | `Dialog` | Confirmation / prompt dialog |
-| `Modal` | Base modal with focus-trap and scroll-lock |
-| `ModalBg` | Backdrop layer for modals |
+| `Modal` | Base modal |
 | `Toast` | Toast notification |
 | `WindowLoader` | Full-window loading screen |
 
@@ -160,7 +157,6 @@ All components are auto-imported when the module is registered.
 | `Accordion` | Collapsible section |
 | `AccordionDown` | Bottom-anchored collapsible section |
 | `AspectBox` | Fixed aspect-ratio container |
-| `DividerH` | Horizontal divider |
 
 ### Misc
 
@@ -204,13 +200,10 @@ Available via `nuxt-hs-ui/utils/*` named exports.
 | `select-item` | Select item type definitions |
 | `multi-lang` | Multilingual string utilities |
 | `multi-lang-object` | Multilingual object utilities |
-| `wareki` | Japanese era (和暦) conversion |
 | `dayjs` | Pre-configured dayjs instance |
 | `tabulator` | Tabulator helper types and formatters |
 | `class-style` | Tailwind class merging utilities |
 | `modal` | Modal state helpers |
-| `stop-watch` | Stopwatch / timer utility |
-| `tv` | tailwind-variants wrapper |
 | `theme` | Theme token accessor |
 | `com` | Common utility functions |
 
