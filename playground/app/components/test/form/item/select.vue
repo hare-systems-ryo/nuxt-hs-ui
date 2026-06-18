@@ -76,6 +76,7 @@ const selectedText = computed(() => {
           :list="state.list"
           :unknown-text="selectedText"
           nullable
+          readonly
           @value-change="(v:any) => dataChange(v)"
         />
         <Select

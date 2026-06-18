@@ -375,7 +375,7 @@ const content = {
   bodyLock: false,
 };
 const uiBase = [
-  'bg-transparent hover:bg-transparent',
+  '!bg-transparent hover:bg-transparent',
   'max-w-full text-left',
   'focus-visible:outline-none  focus:outline-none ring-0 focus:ring-0',
   'py-0 pr-[10px]',
