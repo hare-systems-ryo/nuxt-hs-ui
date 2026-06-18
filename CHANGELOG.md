@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v4.0.6
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v4.0.5...v4.0.6)
+
+### 🩹 Fixes
+
+- Add unbuild to package-lock.json to resolve missing module error ([6470e01](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/6470e01))
+- Prevent readonly Select component from applying background color ([6852b3c](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/6852b3c))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](https://github.com/hare-systems-ryo))
+
 ## v4.0.5
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v4.0.4...v4.0.5)
