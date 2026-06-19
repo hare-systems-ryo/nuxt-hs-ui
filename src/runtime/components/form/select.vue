@@ -503,10 +503,10 @@ watch(computedActivate, (value) => {
     <template #overlay="{ focus, change }">
       <div
         v-if="props.diff !== undefined && change"
-        class="absolute inset-0 bg-red/30 transition-opacity flex items-center p-1 bg-dark/20"
+        class="absolute inset-0 bg-red/30 transition-opacity flex items-center p-1 bg-dark/20 overflow-hidden"
         :class="!focus && hsMisc.capsLockState ? 'opacity-100' : 'opacity-0 pointer-events-none select-none'"
       >
-        <div class="flex" @mousedown.prevent @click.prevent>
+        <div class="flex items-center w-full h-full py-1" @mousedown.prevent @click.prevent>
           <Btn
             variant="outlined"
             theme="error"
@@ -517,7 +517,7 @@ watch(computedActivate, (value) => {
           >
             <i class="fa-solid fa-rotate-right"></i>
           </Btn>
-          <div v-if="props.diff" class="px-1 truncate bg-white mx-1 flex items-center select-none" @click.stop>
+          <div v-if="props.diff" class="px-1 mx-1 flex-1 select-none truncate bg-white" @click.stop>
             {{ diffDisplayText }}
           </div>
         </div>
@@ -605,6 +605,7 @@ watch(computedActivate, (value) => {
                   :img-mode="props.imgMode"
                   :disabled="props.disabled"
                   :readonly="props.readonly"
+                  :overflow="false"
                   type="display"
                 />
               </template>
@@ -690,6 +691,7 @@ watch(computedActivate, (value) => {
                   :img-mode="props.imgMode"
                   :disabled="props.disabled"
                   :readonly="props.readonly"
+                  :overflow="false"
                   type="display"
                 />
               </template>

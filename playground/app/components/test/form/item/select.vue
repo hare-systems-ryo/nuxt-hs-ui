@@ -14,12 +14,12 @@ const state = ref<{
   label: string;
   list: SelectItem<string>[];
 }>({
-  data: null,
+  data: '1',
   diff: null,
   list: [
     {
       id: `1`,
-      text: 'TOYOTA',
+      text: 'TOYOTA > TOYOTATOYOTATOYOTATOYOTATOYOTATOYOTA',
       groupId: 'JPN',
       groupLabel: { ja: '日本', en: 'Japan' },
     },
@@ -76,7 +76,6 @@ const selectedText = computed(() => {
           :list="state.list"
           :unknown-text="selectedText"
           nullable
-          readonly
           @value-change="(v:any) => dataChange(v)"
         />
         <Select

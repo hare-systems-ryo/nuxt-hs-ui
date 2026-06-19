@@ -24,6 +24,7 @@ type Props = {
     _key: string;
   };
   value?: string | number | null;
+  overflow?: boolean;
   img?: boolean;
   activated: boolean;
   classImg?: ClassType;
@@ -33,7 +34,13 @@ type Props = {
   readonly?: boolean;
   type: 'display' | 'item';
 };
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+  overflow: true,
+  value: null,
+  classImg: '',
+  classImgTag: '',
+  imgMode: 'contain',
+});
 // ----------------------------------------------------------------------------
 const multiLang = useHsMultiLang(useHsPinia());
 const tx = multiLang.tx;
@@ -60,7 +67,7 @@ const labels = computed(() => {
     v-if="props.type === 'display'"
     :key="item._key + 'label'"
     :item="item"
-    overflow
+    :overflow="overflow"
     :disabled="props.disabled"
     :readonly="props.readonly"
   />
