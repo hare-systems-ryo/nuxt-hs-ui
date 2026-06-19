@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v4.0.7
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v4.0.6...v4.0.7)
+
+### 🩹 Fixes
+
+- Keep Select component height fixed when label text overflows ([debcc3a](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/debcc3a))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](https://github.com/hare-systems-ryo))
+
 ## v4.0.6
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v4.0.5...v4.0.6)
