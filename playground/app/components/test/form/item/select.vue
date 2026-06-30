@@ -14,7 +14,7 @@ const state = ref<{
   label: string;
   list: SelectItem<string>[];
 }>({
-  data: '1',
+  data: null,
   diff: null,
   list: [
     {
@@ -50,15 +50,15 @@ const state = ref<{
 const dataChange = (v: string | null) => {
   console.log('dataChange', v);
 };
-// // onMounted(() => {
-// //   for (let i = 0; i < 20; i++) {
-// //     state.value.list.push({
-// //       id: `${i}`,
-// //       text: `${i}`,
-// //       // appendIcon: 'fa-solid fa-arrow-down-short-wide w-[1em] text-center',
-// //     });
-// //   }
-// // });
+onMounted(() => {
+  for (let i = 0; i < 20; i++) {
+    state.value.list.push({
+      id: `${i}`,
+      text: `${i}`,
+      // appendIcon: 'fa-solid fa-arrow-down-short-wide w-[1em] text-center',
+    });
+  }
+});
 const selectedText = computed(() => {
   const ret = state.value.list.find((row) => row.id === state.value.data);
   if (!ret) return '';
@@ -69,6 +69,9 @@ const selectedText = computed(() => {
   <Card class="mt-4">
     <CardItem class="" variant="header"> Select </CardItem>
     <CardItem class="grid gap-4" variant="body">
+    <div class="py-20"></div>
+    <div class="py-20"></div>
+    <div class="py-20"></div>
       <div class="grid grid-cols-1 gap-2">
         <Select
           v-model:data="state.data"
@@ -76,8 +79,10 @@ const selectedText = computed(() => {
           :list="state.list"
           :unknown-text="selectedText"
           nullable
+          null-text="-"
           @value-change="(v:any) => dataChange(v)"
         />
+        {{ { s: state.data } }}
         <Select
           v-model:data="state.diff"
           :diff="state.data"
@@ -85,6 +90,7 @@ const selectedText = computed(() => {
           :unknown-text="selectedText"
           searchable
           nullable
+          null-text="-"
           @value-change="(v:any) => dataChange(v)"
         />
       </div>

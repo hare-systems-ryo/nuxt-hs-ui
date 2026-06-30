@@ -573,6 +573,7 @@ watch(computedActivate, (value) => {
           :trailing="false"
           trailing-icon=""
           :ui="{
+            content: 'max-h-100',
             base: uiBase,
             item: ['!bg-white hover:!bg-white focus:bg-white active:bg-white p-0'],
           }"
@@ -658,6 +659,7 @@ watch(computedActivate, (value) => {
           :trailing="false"
           trailing-icon=""
           :ui="{
+            content: 'max-h-100',
             base: uiBase,
             item: ['!bg-white hover:!bg-white focus:bg-white active:bg-white p-0'],
           }"
