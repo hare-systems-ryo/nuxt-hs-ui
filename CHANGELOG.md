@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v4.0.8
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v4.0.7...v4.0.8)
+
+### 🎨 Styles
+
+- Set Select dropdown max height to 400px ([3a2acb3](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/3a2acb3))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](https://github.com/hare-systems-ryo))
+
 ## v4.0.7
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v4.0.6...v4.0.7)
