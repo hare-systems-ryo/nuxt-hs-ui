@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v4.1.0
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v4.0.8...v4.1.0)
+
+### 🚀 Enhancements
+
+- **datepicker:** Add disable-dates prop to prevent specific date selections ([7afb51d](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/7afb51d))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](https://github.com/hare-systems-ryo))
+
 ## v4.0.8
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v4.0.7...v4.0.8)
