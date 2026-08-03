@@ -58,6 +58,8 @@ type Props = {
   showFormat?: string;
   minDate?: string | null;
   maxDate?: string | null;
+  /** minDate, maxDate と同様のフォーマット文字列の配列で、選択禁止日を指定 */
+  disableDates?: string[];
   hideDeleteBtn?: boolean;
   hideTodayBtn?: boolean;
   disableMobile?: boolean;
@@ -113,6 +115,7 @@ const props = withDefaults(defineProps<Props>(), {
   showFormat: '',
   minDate: null,
   maxDate: null,
+  disableDates: () => [],
   hideDeleteBtn: false,
   disableMobile: false,
   hasShift: true,
@@ -242,6 +245,19 @@ const maxDayjs = computed(() => {
     return getShiftDayjs(props.maxDate);
   }
 });
+// 選択禁止日（YYYY-MM-DD）の集合
+const disableDaySet = computed(() => {
+  const lang = multiLang.lang;
+  dayjs.locale(lang);
+  return new Set(
+    (props.disableDates || []).map((date) => {
+      if (props.mode === 'time') {
+        return getShiftDayjs(dayjs().format('YYYY-MM-DD ') + date).format('YYYY-MM-DD');
+      }
+      return getShiftDayjs(date).format('YYYY-MM-DD');
+    })
+  );
+});
 
 const diffDasyjs = computed(() => {
   const lang = multiLang.lang;
@@ -286,6 +302,8 @@ const checkDate = (date: any) => {
     return false;
   } else if (props.maxDate !== '' && d.isAfter(props.maxDate)) {
     // console.log('最大日付を下回っています', props.data, props.maxDate);
+    return false;
+  } else if (disableDaySet.value.has(d.format('YYYY-MM-DD'))) {
     return false;
   }
   return true;
@@ -402,6 +420,10 @@ const calendarMaxValue = computed(() => {
   if (!maxDayjs.value) return null;
   return toCalendarDate(fromDate(maxDayjs.value.toDate(), getLocalTimeZone()));
 });
+const isDateDisabled = (date: DateValue) => {
+  const d = Dayjs(toJSDate(date, getLocalTimeZone()));
+  return disableDaySet.value.has(d.format('YYYY-MM-DD'));
+};
 //  -------------------------------------------------
 const HH = shallowRef<number | null>(null);
 const MM = shallowRef<number | null>(null);
@@ -817,6 +839,7 @@ const posTarget = shallowRef<HTMLElement | null>(null);
             :locale="displayLocale"
             :min-value="calendarMinValue || undefined"
             :max-value="calendarMaxValue || undefined"
+            :is-date-disabled="isDateDisabled"
             color="secondary"
             :ui="{}"
             @update:model-value="(v:any) => changeCalender(v)"

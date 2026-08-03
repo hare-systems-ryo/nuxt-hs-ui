@@ -13,6 +13,7 @@ const valueB = ref<string | null>(null);
 // const modeTime1 = ref<string | null>(null);
 // const modeTime2 = ref<string | null>(null);
 // const disabled = ref(false);
+const disableDates = ref(['2026-08-03', '2026-08-10']);
 </script>
 <template>
   <Card class="mt-4">
@@ -24,10 +25,12 @@ const valueB = ref<string | null>(null);
           <Datepicker
             v-model:data="valueA"
             :diff="valueB"
+            :max-date="valueB"
             mode="all"
             show-format="YYYY-MM-DD(ddd) a H:mm "
             class=""
             label="ge"
+            :disable-dates="disableDates"
           />
           <div class="">Value : {{ valueA }}</div>
         </div>
