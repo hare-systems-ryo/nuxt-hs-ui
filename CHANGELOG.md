@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v4.2.0
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v4.1.0...v4.2.0)
+
+### 🚀 Enhancements
+
+- Add classPlaceholder prop to style input placeholders ([302812f](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/302812f))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](https://github.com/hare-systems-ryo))
+
 ## v4.1.0
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v4.0.8...v4.1.0)
