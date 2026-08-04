@@ -13,7 +13,7 @@ import { twMerge } from 'tailwind-merge';
 import { reactive, ref, watch, computed, nextTick, useId, watchEffect } from '#imports';
 
 // [ utils ]
-import type { ClassType } from '../../utils/class-style';
+import { type ClassType, ClassTypeToString } from '../../utils/class-style';
 import type { MultiLang } from '../../utils/multi-lang';
 import type { SelectItem } from '../../utils/select-item';
 // [ composables ]
@@ -56,6 +56,7 @@ type Props = {
   class?: ClassType;
   classHeader?: ClassType;
   classInput?: ClassType;
+  classPlaceholder?: ClassType;
   // ----------------------------------------------------------------------------
   // 状態
   focusColor?: string;
@@ -100,6 +101,7 @@ const props = withDefaults(defineProps<Props>(), {
   class: '',
   classHeader: '',
   classInput: '',
+  classPlaceholder: '',
   // ----------------------------------------------------------------------------
   // 状態
   focusColor: 'shadow-[inset_0px_0px_1px_2px_#0d8ee4]',
@@ -329,6 +331,15 @@ const lenLabelClass = computed(() => {
 const dataListId = ref(`textbox-list-${uid}`);
 const placeholder = computed(() => tx(props.placeholder).value);
 
+const placeholderClass = computed(() => {
+  return [
+    twMerge(
+      'text-black/50 pointer-events-none select-none px-1 absolute inset-0 items-center transition-opacity truncate',
+      ClassTypeToString(props.classPlaceholder)
+    ),
+  ];
+});
+
 const filteredList = computed(() => {
   if (!props.data || props.data.length === 0) return props.list;
   const query = props.data.toLowerCase();
@@ -412,11 +423,7 @@ watchEffect(() => {
         </div>
       </template>
       <template #default="{ focus }">
-        <span
-          v-if="placeholder"
-          class="text-black/50 pointer-events-none select-none px-1 absolute inset-0 items-center transition-opacity truncate"
-          :class="focus || !!state.value ? 'opacity-0' : ''"
-        >
+        <span v-if="placeholder" :class="[focus || !!state.value ? 'opacity-0' : '', placeholderClass]">
           <div class="truncate w-full" :style="`text-align:${props.textAlign};`">
             {{ placeholder }}
           </div>

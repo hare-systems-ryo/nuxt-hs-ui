@@ -6,12 +6,14 @@
 // ValueBoxValueBox
 ---------------------------------------------------------------------------- */
 
+// [ tailwind ]
+import { twMerge } from 'tailwind-merge';
 // [ node_modules ]
 import { BigNumber } from 'bignumber.js';
 // [ NUXT ]
 import { reactive, ref, watch, computed, useId, onMounted, nextTick } from '#imports';
 // [ utils ]
-import type { ClassType } from '../../utils/class-style';
+import { type ClassType, ClassTypeToString } from '../../utils/class-style';
 import { InsertComma } from '../../utils/number';
 import { FloatNullable } from '../../utils/float';
 import type { MultiLang } from '../../utils/multi-lang';
@@ -65,6 +67,7 @@ type Props = {
   class?: ClassType;
   classHeader?: ClassType;
   classInput?: ClassType;
+  classPlaceholder?: ClassType;
   // ----------------------------------------------------------------------------
   // 状態
   //   focus?: boolean;
@@ -122,6 +125,7 @@ const props = withDefaults(defineProps<Props>(), {
   class: '',
   classHeader: '',
   classInput: '',
+  classPlaceholder: '',
   // ----------------------------------------------------------------------------
   // 状態
   //   focus: false,
@@ -560,6 +564,15 @@ watch(
 );
 const placeholder = computed(() => tx(props.placeholder).value);
 
+const placeholderClass = computed(() => {
+  return [
+    twMerge(
+      'text-black/50 pointer-events-none select-none px-1 absolute inset-0 items-center transition-opacity truncate',
+      ClassTypeToString(props.classPlaceholder)
+    ),
+  ];
+});
+
 const displayTextArr = computed(() => {
   const text = displayText.value;
   if (props.digits === 0) return [text, ''];
@@ -656,8 +669,7 @@ const pHolder = computed(() => {
         <div class="flex-1 relative">
           <span
             v-if="placeholder"
-            class="text-black/50 pointer-events-none select-none px-1 absolute inset-0 items-center transition-opacity truncate"
-            :class="focus || !!state.value || !!displayText ? 'opacity-0' : ''"
+            :class="[focus || !!state.value || !!displayText ? 'opacity-0' : '', placeholderClass]"
           >
             <div class="truncate w-full" :style="`text-align:${props.textAlign};`">
               <div v-if="props.digitsPointSmall">

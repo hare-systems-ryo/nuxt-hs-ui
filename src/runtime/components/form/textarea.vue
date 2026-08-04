@@ -11,7 +11,7 @@ import { twMerge } from 'tailwind-merge';
 // [ NUXT ]
 import { reactive, ref, watch, computed, useId, nextTick, onMounted } from '#imports';
 // [ utils ]
-import type { ClassType } from '../../utils/class-style';
+import { type ClassType, ClassTypeToString } from '../../utils/class-style';
 import type { MultiLang } from '../../utils/multi-lang';
 import { Int } from '../../utils/number';
 
@@ -48,6 +48,7 @@ type Props = {
   class?: ClassType;
   classHeader?: ClassType;
   classInput?: ClassType;
+  classPlaceholder?: ClassType;
   // ----------------------------------------------------------------------------
   // 状態
   //   focus?: boolean;
@@ -91,6 +92,7 @@ const props = withDefaults(defineProps<Props>(), {
   class: '',
   classHeader: '',
   classInput: '',
+  classPlaceholder: '',
   // ----------------------------------------------------------------------------
   // 状態
   //   focus: false,
@@ -383,6 +385,15 @@ const _rows = computed(() => {
   return Math.max(state.value.split('\n').length, placeholder.split('\n').length, Int(props.rows));
 });
 const placeholder = computed(() => tx(props.placeholder).value);
+
+const placeholderClass = computed(() => {
+  return [
+    twMerge(
+      'text-black/50 pointer-events-none select-none px-1 absolute inset-0 items-center transition-opacity truncate',
+      ClassTypeToString(props.classPlaceholder)
+    ),
+  ];
+});
 </script>
 
 <template>
@@ -455,11 +466,7 @@ const placeholder = computed(() => tx(props.placeholder).value);
       <slot name="header-right" />
     </template>
     <template #default="{ focus }">
-      <span
-        v-if="placeholder"
-        class="text-black/50 pointer-events-none select-none px-1 absolute inset-0 items-center transition-opacity truncate"
-        :class="focus || !!state.value ? 'opacity-0' : ''"
-      >
+      <span v-if="placeholder" :class="[focus || !!state.value ? 'opacity-0' : '', placeholderClass]">
         <div class="whitespace-pre-wrap w-full leading-[1.20em] mt-1">
           {{ placeholder }}
         </div>
