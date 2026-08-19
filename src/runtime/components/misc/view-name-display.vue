@@ -59,6 +59,7 @@ const styleScrollTarget = computed(() => {
 const styleVisibleTarget = computed(() => {
   return `margin-top:-${props.offset - 10}px;`;
 });
+const label = tx(props.label);
 </script>
 
 <template>
@@ -66,9 +67,9 @@ const styleVisibleTarget = computed(() => {
     <div ref="targetScrollElm" class="absolute top-0 pointer-events-none" :style="styleScrollTarget"></div>
     <div ref="targetVisibleElm" class="absolute top-0 pointer-events-none" :style="styleVisibleTarget"></div>
     <div class="view-name-display flex items-center justify-center" :class="{ isShow: !targetIsVisible && isMounted }">
-      <div class="view-name elevation-4 cursor-pointer bg-white" @click.stop="scroll()">
+      <div class="view-name elevation-4 cursor-pointer bg-back0" @click.stop="scroll()">
         <div class="hover:bg-orange-700/10 min-h-full min-w-full px-2 py-1">
-          {{ tx(props.label).value }}
+          {{ label }}
         </div>
       </div>
     </div>
@@ -84,8 +85,6 @@ const styleVisibleTarget = computed(() => {
   z-index: 1;
   opacity: 0;
   transition: opacity 300ms;
-  // background-color: white;
-  // border: solid 1px green;
   pointer-events: none;
 
   &.isShow {
@@ -93,30 +92,13 @@ const styleVisibleTarget = computed(() => {
   }
   .view-name {
     font-size: 0.8rem;
-    // padding: 2px 10px;
-    // border-radius: 4px;
-    // background-color: white;
-    border: solid 2px #eb6600;
-    color: #eb6600;
-    // border: solid 2px #1c03a2;
-    // color: #1c03a2;
+    border: solid 2px var(--color-accent1);
+    color: var(--color-accent1);
     pointer-events: all;
   }
 
   .view-name {
     font-size: 0.8rem;
   }
-
-  // @media screen and (min-width: #{ 0 }px) and (max-width: #{ $app-breake-sp-tablet - 0.1}px) {
-  //   top: calc(#{$app-header-height-mobile}px + 4px);
-
-  // }
-
-  // @media screen and (min-width: #{ $app-breake-sp-tablet  }px) {
-  //   top: calc(#{$app-header-height-pc}px + 4px);
-  //   .component-name {
-  //     font-size: 0.9rem;
-  //   }
-  // }
 }
 </style>

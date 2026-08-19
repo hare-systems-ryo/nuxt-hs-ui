@@ -16,6 +16,7 @@ const cardItemTv = tv({
       //
       `p-2 relative`,
       'bg-[var(--main-color)]',
+      'text-[var(--text-color)]',
     ],
     btn: [`border-[1px]`],
   },
@@ -54,16 +55,6 @@ const cardItemTv = tv({
     },
     theme: ObjectKeyToMap(Theme, ''),
   },
-  compoundVariants: [
-    ...Object.keys(Theme).map((theme) => {
-      return {
-        theme: theme,
-        class: {
-          base: [['back1', 'white', 'warn'].includes(theme) ? `` : 'text-white '],
-        },
-      } as any;
-    }),
-  ],
 });
 </script>
 
@@ -79,7 +70,7 @@ const cardItemTv = tv({
 import { computed, useId } from '#imports';
 // [ utils ]
 import { type ClassType, ClassTypeToString } from '../../utils/class-style';
-import { type ThemeColor, GetColorCode } from '../../utils/theme';
+import type { ThemeColor } from '../../utils/theme';
 // [ composables ]
 import { useHsFocus } from '../../composables/use-hs-focus';
 import { useHsPinia } from '../../composables/use-pinia';
@@ -127,10 +118,15 @@ const bgTheme = computed(() => {
   if (props.variant == 'footer') return Theme.main2;
   return Theme.back1;
 });
+const textTheme = computed(() => {
+  if (bgTheme.value.startsWith('main')) return Theme.white;
+  return Theme.text;
+});
 const styleMain = computed(() => {
   return [
     //
-    `--main-color:${GetColorCode(bgTheme.value)};`,
+    `--main-color:var(--color-${bgTheme.value});`,
+    `--text-color:var(--color-${textTheme.value});`,
   ];
 });
 const classTv = computed(() => {

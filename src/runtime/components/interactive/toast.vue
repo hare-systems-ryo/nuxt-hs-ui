@@ -80,7 +80,7 @@ const removeMessage = (key: string) => {
   <div class="HsUiToast-base" :style="{ 'z-index': state.zindex }">
     <div v-show="state.pendingList.length !== 0" class="HsUiToast-container">
       <TransitionGroup name="list" tag="div" class="flex flex-col-reverse items-end gap-1">
-        <div v-for="message in state.pendingList" :key="message.key" class="z-[1]">
+        <div v-for="message in state.pendingList" :key="message.key" class="z-1">
           <Card
             class="HsUiToast"
             :class="['drop-shadow-md', 'pointer-events-all']"
@@ -89,7 +89,7 @@ const removeMessage = (key: string) => {
             @mouseup.stop=""
           >
             <template v-if="!!tx(message.title).value">
-              <CardItem variant="header" :class="[`theme-${message.theme}`, 'items-center', 'gap-1']">
+              <CardItem variant="header" :class="[`theme-${message.theme}`, 'items-center', 'gap-3 py-1']">
                 <div class="HsUiToast-title">
                   {{ tx(message.title) }}
                 </div>
@@ -97,25 +97,19 @@ const removeMessage = (key: string) => {
                   <i class="fas fa-times" />
                 </Btn>
               </CardItem>
-              <CardItem
-                v-if="!!tx(message.message).value"
-                :class="[`theme-${message.theme}`, ['items-overflow-visible']]"
-              >
-                <div class="HsUiToast-message">
-                  {{ tx(message.message) }}
-                </div>
-              </CardItem>
-              <CardItem
-                v-if="message.hideAfter != 0"
-                :class="[`theme-${message.theme}`, ['overflow-visible', 'p-0', 'min-h-[8px]']]"
-              >
-                <div class="HsUiToast-bar-body" :class="[`${message.theme}`]">
-                  <div class="HsUiToast-bar" :style="style(message)" />
-                </div>
-              </CardItem>
+              <template v-if="!!tx(message.message).value">
+                <CardItem variant="body" :class="[`theme-${message.theme}`, '', 'py-0']">
+                  <div class="bg-white/40 h-px"></div>
+                </CardItem>
+                <CardItem :class="[`theme-${message.theme}`, ['items-overflow-visible']]">
+                  <div class="HsUiToast-message">
+                    {{ tx(message.message) }}
+                  </div>
+                </CardItem>
+              </template>
             </template>
             <template v-else>
-              <CardItem variant="header" :class="[`theme-${message.theme}`, 'items-center', 'gap-1']">
+              <CardItem variant="header" :class="[`theme-${message.theme}`, 'items-center', 'gap-3 p-1']">
                 <div class="HsUiToast-message">
                   {{ tx(message.message) }}
                 </div>
@@ -123,15 +117,15 @@ const removeMessage = (key: string) => {
                   <i class="fas fa-times" />
                 </Btn>
               </CardItem>
-              <CardItem
-                v-if="message.hideAfter != 0"
-                :class="[`theme-${message.theme}`, ['overflow-visible', 'p-0', 'min-h-[8px]']]"
-              >
-                <div class="HsUiToast-bar-body" :class="[`${message.theme}`]">
-                  <div class="HsUiToast-bar" :style="style(message)" />
-                </div>
-              </CardItem>
             </template>
+            <CardItem
+              v-if="message.hideAfter != 0"
+              :class="[`theme-${message.theme}`, ['overflow-visible', 'p-0', 'min-h-2']]"
+            >
+              <div class="HsUiToast-bar-body" :class="[`${message.theme}`]">
+                <div class="HsUiToast-bar" :style="style(message)" />
+              </div>
+            </CardItem>
           </Card>
         </div>
       </TransitionGroup>
@@ -220,8 +214,8 @@ const removeMessage = (key: string) => {
 .HsUiToast-container {
   pointer-events: none;
   position: relative;
-  // overflow-x: hidden;
-  // overflow-y: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   max-height: 100%;
   max-height: 100vh;
   max-height: 100dvh;
@@ -260,6 +254,9 @@ const removeMessage = (key: string) => {
   white-space: pre-line;
   overflow-wrap: break-word;
   word-break: break-all;
+  max-height: 30vh;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .HsUiToast-message {
   pointer-events: all;
@@ -267,6 +264,9 @@ const removeMessage = (key: string) => {
   white-space: pre-line;
   overflow-wrap: break-word;
   word-break: break-all;
+  max-height: 50vh;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .HsUiToast-icon {

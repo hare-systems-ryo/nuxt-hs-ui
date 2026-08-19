@@ -15,7 +15,7 @@ import { reactive, ref, watch, computed, useId, onMounted, nextTick, shallowRef 
 import type { ClassType } from '../../utils/class-style';
 import { GetTimeShiftValue, Dayjs, DayjsInit, dayjs } from '../../utils/dayjs';
 import type { MultiLang } from '../../utils/multi-lang';
-import { Theme, type ThemeColor, GetColorCode } from '../../utils/theme';
+import { Theme, type ThemeColor, GetColorVar } from '../../utils/theme';
 import { IntNullable } from '../../utils/number';
 
 // [ composables ]
@@ -180,16 +180,16 @@ type Emits = {
 const emit = defineEmits<Emits>();
 // ----------------------------------------------------------------------------
 const themeColor = computed(() => {
-  return GetColorCode(props.theme);
+  return GetColorVar(props.theme);
 });
 // ----------------------------------------------------------------------------
 const themeWeekColor = computed(() => {
-  return GetColorCode(Theme.main1);
+  return GetColorVar(Theme.main1);
 });
 
 // ----------------------------------------------------------------------------
 const themeErrorColor = computed(() => {
-  return GetColorCode(Theme.error);
+  return GetColorVar(Theme.error);
 });
 
 // ----------------------------------------------------------------------------
@@ -781,7 +781,6 @@ const posTarget = shallowRef<HTMLElement | null>(null);
     <template v-if="slots['header-right']" #header-right>
       <slot name="header-right" />
     </template>
-
     <div
       class="nac-c-input-p relative min-h-5"
       :class="[{ disabled: props.disabled, readonly: props.readonly }, inputBoxClass]"
@@ -791,7 +790,7 @@ const posTarget = shallowRef<HTMLElement | null>(null);
         ref="manualElm"
         v-model="manualData"
         type="text"
-        class="absolute inset-0"
+        class="absolute inset-0 pl-1"
         :class="[manualInput ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0', inputBoxClass]"
         :tabindex="-1"
         :name="'HsDatePicker-manual-input-' + uid"
@@ -801,14 +800,24 @@ const posTarget = shallowRef<HTMLElement | null>(null);
       <span :class="!manualInput ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'">
         {{ displayText }}
       </span>
-      <span
+      <button
         v-if="props.data === null && !props.hideTodayBtn && !props.readonly"
-        class="today"
-        :class="!manualInput ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'"
+        :class="[
+          !manualInput ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0', //
+          'border border-accent1 dark:border-accent2', //
+          'bg-transparent', //
+          'text-accent1 dark:text-accent2',
+          'text-[12px] leading-[1em]',
+          'rounded', //
+          'px-1 py-0.5', //
+          'ml-2', //
+          'ring-inset focus:ring focus:ring-accent1 dark:focus:ring-accent2',
+          'cursor-pointer hover:bg-accent1/10',
+        ]"
         @click.stop="datePickerToday()"
       >
         {{ props.mode === 'time' ? 'Now' : 'Today' }}
-      </span>
+      </button>
     </div>
   </InputFrame>
   <ClientOnly>
@@ -913,16 +922,6 @@ const posTarget = shallowRef<HTMLElement | null>(null);
     cursor: pointer;
   }
 
-  .today {
-    margin: 0 0 0 4px;
-    border-radius: 4px;
-    border: solid 1px #f68708;
-    background-color: rgb(255, 246, 237);
-    color: #e26f2c;
-    font-size: 12px;
-    padding: 1px 4px;
-  }
-
   .flatpickr-body {
     position: absolute;
     opacity: 0 !important;
@@ -994,5 +993,11 @@ const posTarget = shallowRef<HTMLElement | null>(null);
 }
 [data-reka-popper-content-wrapper] > [data-dismissable-layer] > span > svg {
   fill: white;
+}
+
+.dark .calender-modal {
+  .text-secondary {
+    color: var(--color-white);
+  }
 }
 </style>

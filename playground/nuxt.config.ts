@@ -4,7 +4,7 @@ export default defineNuxtConfig({
     preference: 'light', // デフォルトをlightに固定
     fallback: 'light', // SSR時のフォールバック
     classSuffix: '', // 'dark-mode'ではなく'dark'クラスを使う
-    storageKey: 'nuxt-color-mode',
+    storage: 'cookie',
   },
   modules: [
     '@nuxtjs/color-mode',
@@ -16,7 +16,6 @@ export default defineNuxtConfig({
       '../src/module',
       {
         theme: {
-          //
           main0: '#183C5E',
           main1: '#2C5A85',
           main2: '#487CB4',
@@ -25,15 +24,17 @@ export default defineNuxtConfig({
           accent1: '#FF6600',
           accent2: '#FFAC7C',
           info: '#2BABB5',
-          link: '#6200EE',
-          download: '#11691F',
           success: '#2BB60C',
           warn: '#EAB000',
           error: '#D80329',
+          link: '#6200EE',
+          download: '#11691F',
           dark: '#224466',
-          back: '#EDF2F7',
-          back2: '#AABED1',
-          white: '#FFFFFF',
+          back0: '#FFFFFF',
+          back1: '#DCE1E8',
+          back2: '#BAC3D1',
+          back3: '#97A5BA',
+          back4: '7487A3',
         },
       },
     ],

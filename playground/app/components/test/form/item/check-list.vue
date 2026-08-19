@@ -40,8 +40,8 @@ const listA = [
     <CardItem class="" variant="header"> CheckList </CardItem>
     <CardItem class="" variant="body">
       <!-- ------------------------------------------------ -->
-      <div class="-">
-        <div class="flex items-start gap-2">
+      <!-- <div class="-"> -->
+      <!-- <div class="flex items-start gap-2">
           <CheckList
             v-model:data="valueA"
             :diff="valueB"
@@ -56,12 +56,38 @@ const listA = [
           <div class="h-[48px] w-4 bg-red-600 flex items-center justify-center text-white"></div>
           <div class="">{{ valueA }}</div>
         </div>
+           </div> 
+   -->
+      <!-- </div> -->
+      <div class="grid grid-cols-3 gap-1">
+        <CheckList
+          v-model:data="valueA"
+          :diff="valueB"
+          :list="listA"
+          class=""
+          label="label"
+          size="m"
+          class-img-tag="object-cover"
+          image
+        />
+        <CheckList
+          v-model:data="valueA"
+          :diff="valueB"
+          :list="listA"
+          class=""
+          label="label"
+          disabled
+          size="m"
+          class-img-tag="object-cover"
+          image
+        />
       </div>
+      <!-- 
       <CheckList v-model:data="valueA" label="label" :list="listA">
         <template #label-prepend> prepend </template>
         <template #label-append> append </template>
         <template #header-right> <span class="text-main0">aaa</span> </template>
-      </CheckList>
+      </CheckList> -->
       <!--  -->
 
       <!-- ------------------------------------------------ -->

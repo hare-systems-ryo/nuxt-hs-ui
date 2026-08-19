@@ -42,7 +42,7 @@ const classStyleLink = computed(() => {
   return twMerge(`!text-link`, 'relative', ClassTypeToString(props.classLink));
 });
 const classStyleUnlink = computed(() => {
-  return twMerge(`text-gray-600`, ClassTypeToString(props.classUnlink));
+  return twMerge(`text-text/80`, ClassTypeToString(props.classUnlink));
 });
 </script>
 
@@ -75,7 +75,7 @@ const classStyleUnlink = computed(() => {
   content: '\f054';
   font-family: 'Font Awesome 6 Free';
   font-weight: 900;
-  color: #4b5563;
+  opacity: 0.6;
   position: absolute;
   inset: 0 auto 0 0;
   width: 1em;

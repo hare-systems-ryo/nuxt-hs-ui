@@ -389,7 +389,7 @@ const placeholder = computed(() => tx(props.placeholder).value);
 const placeholderClass = computed(() => {
   return [
     twMerge(
-      'text-black/50 pointer-events-none select-none px-1 absolute inset-0 items-center transition-opacity truncate',
+      'text-text/60 pointer-events-none select-none px-1 absolute inset-0 items-center transition-opacity truncate',
       ClassTypeToString(props.classPlaceholder)
     ),
   ];
@@ -398,7 +398,7 @@ const placeholderClass = computed(() => {
 
 <template>
   <InputFrame
-    :class="['h-auto', props.class]"
+    :class="['h-auto HsTextarea', props.class]"
     :class-header="props.classHeader"
     :class-input="['flex-1', props.classInput]"
     :focus="computedActivate"
@@ -526,8 +526,8 @@ const placeholderClass = computed(() => {
   &:not(.isMobile)::after {
     position: absolute;
     z-index: 0;
-    bottom: 0px;
-    right: 0px;
+    bottom: -2px;
+    right: 4px;
     width: 10px;
     height: 16px;
     content: '\f338';
@@ -535,7 +535,7 @@ const placeholderClass = computed(() => {
     font-weight: 900;
     pointer-events: none;
     text-align: right;
-    font-size: 10px;
+    font-size: 9px;
     padding-right: 2px;
     color: #e26f2c;
 
@@ -559,5 +559,18 @@ textarea {
   &[disabled]::-webkit-resizer {
     background: #f3f3f3;
   }
+}
+</style>
+
+<style lang="scss">
+.HsTextarea textarea::-webkit-corner {
+  background: transparent;
+}
+.HsTextarea textarea::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.HsTextarea textarea::-webkit-resizer {
+  background: transparent;
 }
 </style>

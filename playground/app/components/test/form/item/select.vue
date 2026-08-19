@@ -13,6 +13,8 @@ const state = ref<{
   diff: string | null;
   label: string;
   list: SelectItem<string>[];
+  d1: string | null;
+  d2: string | null;
 }>({
   data: null,
   diff: null,
@@ -43,10 +45,12 @@ const state = ref<{
     },
   ],
   label: 'Select',
+  d1: `1`,
+  d2: `1`,
 });
-// const disabled = ref(false);
-// const readonly = ref(false);
-// const nullable = ref(false);
+const disabled = ref(false);
+const readonly = ref(false);
+const nullable = ref(false);
 const dataChange = (v: string | null) => {
   console.log('dataChange', v);
 };
@@ -69,20 +73,25 @@ const selectedText = computed(() => {
   <Card class="mt-4">
     <CardItem class="" variant="header"> Select </CardItem>
     <CardItem class="grid gap-4" variant="body">
+      <!-- <div class="py-20"></div>
     <div class="py-20"></div>
-    <div class="py-20"></div>
-    <div class="py-20"></div>
-      <div class="grid grid-cols-1 gap-2">
+    <div class="py-20"></div> -->
+      <div class="">
+        <CheckBox v-model:data="disabled" label="disabled" placeholder="placeholderplaceholder" />
+        <CheckBox v-model:data="readonly" label="readonly" placeholder="placeholderplaceholder" />
+        <CheckBox v-model:data="nullable" label="nullable" placeholder="placeholderplaceholder" />
+      </div>
+      <div class="grid grid-cols-2 gap-2">
         <Select
           v-model:data="state.data"
-          :diff="state.diff"
           :list="state.list"
           :unknown-text="selectedText"
-          nullable
           null-text="-"
+          :disabled="disabled"
+          :readonly="readonly"
+          nullable
           @value-change="(v:any) => dataChange(v)"
         />
-        {{ { s: state.data } }}
         <Select
           v-model:data="state.diff"
           :diff="state.data"
@@ -90,18 +99,33 @@ const selectedText = computed(() => {
           :unknown-text="selectedText"
           searchable
           nullable
+          :disabled="disabled"
+          :readonly="readonly"
           null-text="-"
+          @value-change="(v:any) => dataChange(v)"
+        />
+        <Select
+          v-model:data="state.data"
+          :list="state.list"
+          :unknown-text="selectedText"
+          :disabled="disabled"
+          nullable
+          @value-change="(v:any) => dataChange(v)"
+        />
+        <Select
+          v-model:data="state.diff"
+          :list="state.list"
+          :unknown-text="selectedText"
+          :disabled="disabled"
+          nullable
+          searchable
           @value-change="(v:any) => dataChange(v)"
         />
       </div>
       <!-- ------------------------------------------------
        
 
-            <div class="">
-        <CheckBox v-model:data="disabled" label="disabled" placeholder="placeholderplaceholder" />
-        <CheckBox v-model:data="readonly" label="readonly" placeholder="placeholderplaceholder" />
-        <CheckBox v-model:data="nullable" label="nullable" placeholder="placeholderplaceholder" />
-      </div>
+
 
       <div class="grid grid-cols-1 gap-2">
         <Select

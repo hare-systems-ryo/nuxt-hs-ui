@@ -308,7 +308,7 @@ const placeholder = computed(() => tx(props.placeholder).value);
 const placeholderClass = computed(() => {
   return [
     twMerge(
-      'text-black/50 pointer-events-none select-none px-1 absolute inset-0 items-center transition-opacity truncate',
+      'text-text/60 pointer-events-none select-none px-1 absolute inset-0 items-center transition-opacity truncate',
       ClassTypeToString(props.classPlaceholder)
     ),
   ];

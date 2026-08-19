@@ -23,29 +23,220 @@
     --container-1400 : 1400px;
     --container-1600 : 1600px;
     --container-1800 : 1800px;
+    /* light palette */
+
+
+    --light-text    : #000000;
+    --light-main0   : #183C5E;
+    --light-main1   : #2C5A85;
+    --light-main2   : #487CB4;
+    --light-main3   : #A7CDED;
+    --light-main4   : #C4E1FF;
+    --light-accent1 : #FF6600;
+    --light-accent2 : #FFAC7C;
+    --light-info    : #2BABB5;
+    --light-success : #2BB60C;
+    --light-warn    : #EAB000;
+    --light-error   : #D80329;
+    --light-link    : #6200EE;
+    --light-download: #11691F;
+    --light-dark    : #224466;
+    --light-back0   : #FFFFFF;
+    --light-back1   : #DCE1E8;
+    --light-back2   : #BAC3D1;
+    --light-back3   : #97A5BA;
+    --light-back4   : #7487A3;
+
+    /* dark palette */
+
+    --dark-text     : #FFFFFF;
+    --dark-main0    : #0E2338;
+    --dark-main1    : #183A59;
+    --dark-main2    : #2C4E70;
+    --dark-main3    : #4A6FA0;
+    --dark-main4    : #9FC6ED;
+    --dark-accent1  : #FF7A1A;
+    --dark-accent2  : #FFC199;
+    --dark-info     : #3FC9D3;
+    --dark-success  : #4CD137;
+    --dark-warn     : #F5C518;
+    --dark-error    : #FF5470;
+    --dark-link     : #D1B8FD;
+    --dark-download : #3DDC5B;
+    --dark-dark     : #6E93B8;
+    --dark-back0    : #1C232B;
+    --dark-back1    : #323A42;
+    --dark-back2    : #485059;
+    --dark-back3    : #5D6770;
+    --dark-back4    : #737D87;
     /* color */
-    --color-main0    : #183C5E;
-    --color-main1    : #2C5A85;
-    --color-main2    : #487CB4;
-    --color-main3    : #A7CDED;
-    --color-accent1  : #FF6600;
-    --color-accent2  : #ffac7c;
-    --color-info     : #2BABB5;
-    --color-success  : #2BB60C;
-    --color-warn     : #EAB000;
-    --color-error    : #D80329;
-    --color-link     : #6200EE;
-    --color-download : #11691f;
-    --color-dark     : #224466;
-    --color-back     : #EDF2F7;
-    --color-back1    : #EDF2F7;
-    --color-back2    : #D5D9DD;
-    --color-back3    : #BCCCD5;
+    --color-text    : var(--light-text);
+    --color-main0   : var(--light-main0);
+    --color-main1   : var(--light-main1);
+    --color-main2   : var(--light-main2);
+    --color-main3   : var(--light-main3);
+    --color-main4   : var(--light-main4);
+    --color-accent1 : var(--light-accent1);
+    --color-accent2 : var(--light-accent2);
+    --color-info    : var(--light-info);
+    --color-success : var(--light-success);
+    --color-warn    : var(--light-warn);
+    --color-error   : var(--light-error);
+    --color-link    : var(--light-link);
+    --color-download: var(--light-download);
+    --color-dark    : var(--light-dark);
+    --color-back0   : var(--light-back0);
+    --color-back1   : var(--light-back1);
+    --color-back2   : var(--light-back2);
+    --color-back3   : var(--light-back3);
+    --color-back4   : var(--light-back4);
+}
+
+/* ----------------------------------------------------------------------------
+   公開ページ限定のダークモード用トークン。
+   .dark / .light は app.vue の bodyAttrs で明示選択済み(Cookie: color-mode-pref あり)の
+   場合にのみ body へ付与される。管理画面(layouts/app.vue)はレイアウトルートに常に
+   class="light" を付けており、詳細度で常にこちらが勝つため .dark の影響を受けない。
+   nuxt-hs-ui 側のフォーム/ボタン系コンポーネント(Btn, TextBox, CheckBox 等)は内部で
+   色を固定hex/インラインstyleで解決しているため、このトークン変更の影響を受けない
+   (常にライト配色のまま = 意図的な「ライトアイランド」として許容する)。
+   以下の配色は暫定値。デザイン確定後に差し替えてください。
+----------------------------------------------------------------------------- */
+
+/* 未選択(Cookie未設定)時は端末のカラースキームにそのまま追従させる。
+   JS/hydrationを介さない純粋なCSSなので、SSRとクライアントの初回描画が
+   絶対に食い違わない(サーバー側で端末の設定を知る必要が無い)。
+   .dark/.light が明示的に付与された要素ではそちらの詳細度(クラス > :root疑似クラス)が
+   優先されるため、このメディアクエリは常に「上書きされうるデフォルト」として振る舞う。
+   値は.darkブロックと同一。差し替える際は両方直すこと。 */
+@media (prefers-color-scheme: dark) {
+    :root {
+        color-scheme    : dark;
+        --color-text    : var(--dark-text);
+        --color-main0   : var(--dark-main0);
+        --color-main1   : var(--dark-main1);
+        --color-main2   : var(--dark-main2);
+        --color-main3   : var(--dark-main3);
+        --color-main4   : var(--dark-main4);
+        --color-accent1 : var(--dark-accent1);
+        --color-accent2 : var(--dark-accent2);
+        --color-info    : var(--dark-info);
+        --color-success : var(--dark-success);
+        --color-warn    : var(--dark-warn);
+        --color-error   : var(--dark-error);
+        --color-link    : var(--dark-link);
+        --color-download: var(--dark-download);
+        --color-dark    : var(--dark-dark);
+        --color-back0   : var(--dark-back0);
+        --color-back1   : var(--dark-back1);
+        --color-back2   : var(--dark-back2);
+        --color-back3   : var(--dark-back3);
+        --color-back4   : var(--dark-back4);
+    }
+}
+
+.dark {
+    color-scheme    : dark;
+    /* color */
+    --color-text    : var(--dark-text);
+    --color-main0   : var(--dark-main0);
+    --color-main1   : var(--dark-main1);
+    --color-main2   : var(--dark-main2);
+    --color-main3   : var(--dark-main3);
+    --color-main4   : var(--dark-main4);
+    --color-accent1 : var(--dark-accent1);
+    --color-accent2 : var(--dark-accent2);
+    --color-info    : var(--dark-info);
+    --color-success : var(--dark-success);
+    --color-warn    : var(--dark-warn);
+    --color-error   : var(--dark-error);
+    --color-link    : var(--dark-link);
+    --color-download: var(--dark-download);
+    --color-dark    : var(--dark-dark);
+    --color-back0   : var(--dark-back0);
+    --color-back1   : var(--dark-back1);
+    --color-back2   : var(--dark-back2);
+    --color-back3   : var(--dark-back3);
+    --color-back4   : var(--dark-back4);
+}
+
+/* ----------------------------------------------------------------------------
+   .dark は @nuxtjs/color-mode の仕様上 <html> に付与されるため(レイアウト単位に
+   スコープされない)、CSS変数は祖先の.darkから常に継承されてしまう。
+   app.vue の管理画面レイアウトルートや、bodyColorMode で明示的に付与している
+   class="light" では、この場で改めてライトトークンを再宣言し、
+   祖先が.darkであっても配下は常にライト配色に固定されるようにする。
+----------------------------------------------------------------------------- */
+.light {
+    color-scheme    : light;
+    /* color */
+    --color-text    : var(--light-text);
+    --color-main0   : var(--light-main0);
+    --color-main1   : var(--light-main1);
+    --color-main2   : var(--light-main2);
+    --color-main3   : var(--light-main3);
+    --color-main4   : var(--light-main4);
+    --color-accent1 : var(--light-accent1);
+    --color-accent2 : var(--light-accent2);
+    --color-info    : var(--light-info);
+    --color-success : var(--light-success);
+    --color-warn    : var(--light-warn);
+    --color-error   : var(--light-error);
+    --color-link    : var(--light-link);
+    --color-download: var(--light-download);
+    --color-dark    : var(--light-dark);
+    --color-back0   : var(--light-back0);
+    --color-back1   : var(--light-back1);
+    --color-back2   : var(--light-back2);
+    --color-back3   : var(--light-back3);
+    --color-back4   : var(--light-back4);
 }
 
 /* 
+
+
 
 #vue-tracer-overlay {
     background-color: red;
     opacity         : 50% !important;
 } */
+
+html,
+body {
+    font-family: sans-serif;
+    font-weight: 400;
+    font-size  : 16px;
+    min-height : 100%;
+    width      : 100%;
+    position   : relative;
+}
+
+body {
+    overflow-y      : scroll;
+    position        : relative;
+    background-color: var(--color-back3);
+
+}
+
+body.dark {
+    background-color: var(--color-black);
+    color           : var(--dark-text);
+}
+
+body.light {
+    background-color: var(--color-back3);
+    color           : var(--light-text);
+}
+
+
+@media (prefers-color-scheme: dark) {
+
+    /* body側にも :not(.light) を付けて、body.light(289行目)の詳細度(0,1,1)より
+       このルールの詳細度(html+bodyの要素2つ分、素のままだと(0,1,2))が上回ってしまう
+       事故を防ぐ。html側の.dark/.lightが何らかの理由でbody側と食い違っても
+       (例: /appルートでbodyだけ強制lightにしているケース)、明示的なbody.lightを
+       常に優先させる。 */
+    html:not(.light) body:not(.light) {
+        background-color: var(--color-black);
+    }
+}

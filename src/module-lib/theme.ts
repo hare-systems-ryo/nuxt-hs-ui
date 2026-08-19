@@ -14,6 +14,10 @@ export const AddTheme = (theme: Record<string, string>) => {
     return ret;
   }, {} as Record<string, string>);
 
+  // NOTE: 各キーに対応する CSS変数 --color-<key> は、このモジュールでは注入しない。
+  // コンポーネント側は GetColorVar()/GetColorVarAlpha() で var(--color-<key>) を参照するだけなので、
+  // 実際の値は利用側アプリの CSS（例: playground/main.css の @theme static ブロックやライト/ダーク切替）で
+  // 定義してもらう想定。ここでの theme（HEX値）は GetColorCode() 等の色計算API向けに残す。
   addTemplate({
     filename: 'nuxt-hs-ui/runtime/theme.mjs',
     getContents: () => `

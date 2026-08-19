@@ -567,7 +567,7 @@ const placeholder = computed(() => tx(props.placeholder).value);
 const placeholderClass = computed(() => {
   return [
     twMerge(
-      'text-black/50 pointer-events-none select-none px-1 absolute inset-0 items-center transition-opacity truncate',
+      'text-text/60 pointer-events-none select-none px-1 absolute inset-0 items-center transition-opacity truncate',
       ClassTypeToString(props.classPlaceholder)
     ),
   ];
@@ -674,7 +674,7 @@ const pHolder = computed(() => {
             <div class="truncate w-full" :style="`text-align:${props.textAlign};`">
               <div v-if="props.digitsPointSmall">
                 <span class="font-semibold">{{ pHolder[0] }}</span>
-                <span class="text-[0.8em] text-[#333] font-normal">{{ pHolder[1] }}</span>
+                <span class="text-[0.8em] text-text/40 font-normal">{{ pHolder[1] }}</span>
               </div>
               <template v-else>
                 {{ placeholder }}
@@ -716,7 +716,7 @@ const pHolder = computed(() => {
           >
             <div v-if="props.digitsPointSmall" class=" ">
               <span class="font-semibold">{{ displayTextArr[0] }}</span>
-              <span class="text-[0.8em] text-[#333] font-normal">{{ displayTextArr[1] }}</span>
+              <span class="text-[0.8em] text-text/90 font-normal">{{ displayTextArr[1] }}</span>
             </div>
             <template v-else>
               {{ displayText }}

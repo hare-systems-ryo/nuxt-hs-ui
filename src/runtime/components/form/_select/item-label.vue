@@ -36,14 +36,14 @@ const baseClass = computed(() => {
   return [
     twMerge(
       props.overflow ? 'whitespace-pre-line break-all' : 'truncate',
-      props.disabled ? 'text-gray-600 ' : '',
+      props.disabled ? 'opacity-80 ' : '',
       !props.disabled && props.readonly ? 'text-black' : ''
     ),
   ];
 });
 </script>
 <template>
-  <div :key="uid + text" class="min-w-0 flex-1 text-[1rem]" :class="baseClass" :title="String(props.item.text)">
+  <div :key="uid + text" class="min-w-0 flex-1 text-[1rem]" :class="baseClass">
     {{ tx(props.item.text) }}
   </div>
 </template>

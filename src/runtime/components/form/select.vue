@@ -59,6 +59,7 @@ type Props = {
   classImgTag?: ClassType;
   nullable?: boolean;
   searchable?: boolean;
+  overflow?: boolean;
   // ----------------------------------------------------------------------------
   class?: ClassType;
   classHeader?: ClassType;
@@ -109,6 +110,7 @@ const props = withDefaults(defineProps<Props>(), {
   diff: undefined,
   tabindex: undefined,
   imgMode: 'contain',
+  overflow: false,
   // ----------------------------------------------------------------------------
   class: '',
   classHeader: '',
@@ -517,7 +519,7 @@ watch(computedActivate, (value) => {
           >
             <i class="fa-solid fa-rotate-right"></i>
           </Btn>
-          <div v-if="props.diff" class="px-1 mx-1 flex-1 select-none truncate bg-white" @click.stop>
+          <div v-if="props.diff" class="px-1 mx-1 flex-1 select-none truncate bg-back0" @click.stop>
             {{ diffDisplayText }}
           </div>
         </div>
@@ -575,7 +577,11 @@ watch(computedActivate, (value) => {
           :ui="{
             content: 'max-h-100',
             base: uiBase,
-            item: ['!bg-white hover:!bg-white focus:bg-white active:bg-white p-0'],
+            item: [
+              'p-0 ', //
+              '!bg-white hover:!bg-white focus:bg-white active:bg-white ', //
+              'dark:!bg-back1 dark:hover:!bg-back1 dark:focus:bg-back1 dark:active:bg-back1', //
+            ],
           }"
           :content="{
             reference: inputFrameElm,
@@ -606,7 +612,7 @@ watch(computedActivate, (value) => {
                   :img-mode="props.imgMode"
                   :disabled="props.disabled"
                   :readonly="props.readonly"
-                  :overflow="false"
+                  :overflow="props.overflow"
                   type="display"
                 />
               </template>
@@ -616,7 +622,7 @@ watch(computedActivate, (value) => {
                 </div>
               </template>
               <template v-else>
-                <div class="min-w-0 truncate flex-1 text-[1rem]" :class="[!props.disabled ? 'text-gray-700' : '']">
+                <div class="min-w-0 truncate flex-1 text-[1rem]" :class="[!props.disabled ? 'opacity-80' : '']">
                   {{ tx(props.nullText) }}
                 </div>
               </template>
@@ -661,7 +667,11 @@ watch(computedActivate, (value) => {
           :ui="{
             content: 'max-h-100',
             base: uiBase,
-            item: ['!bg-white hover:!bg-white focus:bg-white active:bg-white p-0'],
+            item: [
+              'p-0 ', //
+              '!bg-white hover:!bg-white focus:bg-white active:bg-white ', //
+              'dark:!bg-back1 dark:hover:!bg-back1 dark:focus:bg-back1 dark:active:bg-back1', //
+            ],
           }"
           :content="{
             reference: inputFrameElm,
@@ -693,7 +703,7 @@ watch(computedActivate, (value) => {
                   :img-mode="props.imgMode"
                   :disabled="props.disabled"
                   :readonly="props.readonly"
-                  :overflow="false"
+                  :overflow="props.overflow"
                   type="display"
                 />
               </template>
@@ -703,7 +713,7 @@ watch(computedActivate, (value) => {
                 </div>
               </template>
               <template v-else>
-                <div class="min-w-0 truncate flex-1" :class="[!props.disabled ? 'text-gray-700' : '']">
+                <div class="min-w-0 truncate flex-1" :class="[!props.disabled ? 'opacity-80' : '']">
                   {{ tx(props.nullText) }}
                 </div>
               </template>
@@ -738,7 +748,7 @@ watch(computedActivate, (value) => {
       <template v-else>
         <div
           :key="activeRow?._key || 'null-' + '_base'"
-          class="flex items-center w-full px-2.5 text-neutral-900"
+          class="flex items-center w-full px-2.5"
           :class="[
             props.disabled ? 'cursor-not-allowed' : '', //
             props.readonly ? 'cursor-text' : '', //
@@ -757,6 +767,7 @@ watch(computedActivate, (value) => {
               :img-mode="props.imgMode"
               :disabled="props.disabled"
               :readonly="props.readonly"
+              :overflow="props.overflow"
               type="display"
             />
           </template>
@@ -766,7 +777,7 @@ watch(computedActivate, (value) => {
             </div>
           </template>
           <template v-else>
-            <div class="min-w-0 truncate flex-1" :class="[!props.disabled ? 'text-gray-700' : '']">
+            <div class="min-w-0 truncate flex-1" :class="[!props.disabled ? 'opacity-80' : '']">
               {{ tx(props.nullText) }}
             </div>
           </template>
@@ -785,30 +796,29 @@ watch(computedActivate, (value) => {
                 {{ tx(props.label || { ja: '選択', en: 'Please Select' }) }}
               </div>
             </CardItem>
-            <CardItem variant="body">
-              <div class="text-[14px] text-gray-600 leading-[1em] mb-1">{{ tx({ ja: '検索', en: 'Search' }) }}</div>
+            <div class="h-px w-full bg-back4"></div>
+            <CardItem variant="body" class="bg-back1">
+              <div class="text-[14px] leading-[1em] mb-1">{{ tx({ ja: '検索', en: 'Search' }) }}</div>
               <TextBox v-model:data="searchWord" size="m" />
             </CardItem>
-            <CardItem variant="body">
-              <div class="h-px w-full bg-main0/50"></div>
-            </CardItem>
-            <CardItem variant="body" scroll>
+            <div class="h-px w-full bg-back4"></div>
+            <CardItem variant="body" class="bg-back1" scroll>
               <div ref="modalSpScrollTopTarget" class="grid gap-1">
                 <template v-for="(row, index) in spFilterList" :key="index">
                   <div
                     v-if="
                       row.groupId !== undefined && (index === 0 || spFilterList[index - 1]?.groupId !== row.groupId)
                     "
-                    class="mt-1 py-1 px-2 font-semibold bg-dark/5 border-dark/40 border"
+                    class="mt-1 mb-px py-1 px-2 font-semibold bg-dark/5 border-back4 border"
                     :class="index !== 0 ? 'mt-2' : ''"
                   >
                     {{ tx(row.groupLabel ?? '') }}
                   </div>
                   <div
                     :ref="(e:any) => (row.html = e)"
-                    class="cursor-pointerw-full text-neutral-900 border rounded bg-white overflow-hidden"
+                    class="cursor-pointerw-full border rounded bg-back0 overflow-hidden"
                     :class="[
-                      row.id === activeValue ? 'border-accent1' : 'border-black/20',
+                      row.id === activeValue ? 'border-accent1' : 'border-back4/80',
                       row.id !== null && hasLabel ? 'ml-2' : '',
                     ]"
                     @click="

@@ -9,7 +9,7 @@
 // [ utils ]
 import type { ClassType } from '../../../utils/class-style';
 import type { SelectItem } from '../../../utils/select-item';
-import { Theme, GetColorCode } from '../../../utils/theme';
+import { Theme, GetColorVarAlpha } from '../../../utils/theme';
 
 // [ composables ]
 import { useHsPinia } from '../../../composables/use-pinia';
@@ -47,7 +47,7 @@ const emit = defineEmits<Emits>();
 // ----------------------------
 const multiLang = useHsMultiLang(useHsPinia());
 const tx = multiLang.tx;
-const activeColorCode = GetColorCode(Theme.accent1);
+const activeColorVar = GetColorVarAlpha(Theme.accent1, 6);
 const groupLabel = tx(props.item.groupLabel ?? '');
 </script>
 
@@ -69,7 +69,7 @@ const groupLabel = tx(props.item.groupLabel ?? '');
           props.item.id === props.activeId ? ' border-accent1' : 'border-transparent',
           // props.item.id !== null && props.hasLabel ? 'ml-2' : '',
         ]"
-        :style="`--color-bg: ${activeColorCode}10;`"
+        :style="`--color-bg: ${activeColorVar};`"
         @click="emit('update:selectOpen', false)"
       >
         <SelectItemContainer

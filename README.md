@@ -2,7 +2,7 @@
 
 A Nuxt 4 UI component library for business management applications, built on top of [@nuxt/ui](https://ui.nuxt.com/) and Tailwind CSS v4.
 
-**Version:** 3.x &nbsp;|&nbsp; **License:** MIT &nbsp;|&nbsp; **Author:** [Ryo@Hare-Systems](https://github.com/hare-systems-ryo)
+**Version:** 3.x &nbsp; |&nbsp; **License:** MIT &nbsp; |&nbsp; **Author:** [Ryo@Hare-Systems](https://github.com/hare-systems-ryo)
 
 ---
 
@@ -71,10 +71,11 @@ export default defineNuxtConfig({
           link: '#6200EE',
           download: '#11691F',
           dark: '#224466',
-          back1: '#EDF2F7',
-          back2: '#AABED1',
-          back3: '#B5C3D8',
-          back4: '#7487a3',
+          back0: '#FFFFFF',
+          back1: '#DCE1E8',
+          back2: '#BAC3D1',
+          back3: '#97A5BA',
+          back4: '7487A3',
         },
       },
     ],
@@ -82,38 +83,19 @@ export default defineNuxtConfig({
 });
 ```
 
-### 2. CSS (e.g. `assets/css/main.css`)
+### 2. CSS (e.g. `assets/css/main.css` )
 
-Import Tailwind and define the same colors as CSS custom properties under `@theme static`. The `@source` directive ensures Tailwind scans the library's `dist` folder for utility classes used inside components.
+Import Tailwind and define the same colors as CSS custom properties under `@theme static` . The `@source` directive ensures Tailwind scans the library's `dist` folder for utility classes used inside components.
 
 ```css
 @import "tailwindcss";
 @import "@nuxt/ui";
 @source "../../node_modules/nuxt-hs-ui/dist";
 
-@theme static {
-  --color-main0   : #183C5E;
-  --color-main1   : #2C5A85;
-  --color-main2   : #487CB4;
-  --color-main3   : #A7CDED;
-  --color-main4   : #C4E1FF;
-  --color-accent1 : #FF6600;
-  --color-accent2 : #ffac7c;
-  --color-info    : #2BABB5;
-  --color-success : #2BB60C;
-  --color-warn    : #EAB000;
-  --color-error   : #D80329;
-  --color-link    : #6200EE;
-  --color-download: #11691f;
-  --color-dark    : #224466;
-  --color-back1   : #EDF2F7;
-  --color-back2   : #D5D9DD;
-  --color-back3   : #B5C3D8;
-  --color-back4   : #7487a3;
-}
+
 ```
 
-> **Note:** The `theme` object in `nuxt.config.ts` is used only for generating TypeScript color token types. The actual CSS values must be declared here in `@theme static`.
+> **Note:** The `theme` object in `nuxt.config.ts` is used only for generating TypeScript color token types. The actual CSS values must be declared here in `@theme static` .
 
 ---
 

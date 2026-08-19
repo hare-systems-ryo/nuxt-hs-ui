@@ -7,7 +7,7 @@
 ---------------------------------------------------------------------------- */
 
 const valueA = ref<number | null>(null);
-const valueB = ref<number | null>(1);
+// const valueB = ref<number | null>(1);
 // const valueC = ref<number | null>(0);
 // const valueD = ref<number | null>(10);
 // const valueE = ref<number | null>(10);
@@ -21,12 +21,22 @@ const digits = ref<number | null>(3);
       <!-- ------------------------------------------------ -->
       <div>Test</div>
       <div class="flex flex-col">
-        <!-- <ValueBox v-model:data="test" size="s" label="" unit="円" digits-auto digits-point-small :digits="digits" /> -->
-        <ValueBox v-model:data="valueA" :diff="valueB" label="" unit="円" :min="0" :max="100000" placeholder="0" />
+        <ValueBox
+          v-model:data="valueA"
+          size="s"
+          label=""
+          unit="円"
+          digits-auto
+          digits-point-small
+          :digits="digits"
+          placeholder="0.33"
+        />
+        <ValueBox v-model:data="digits" size="s" label="小数点桁数" unit="桁" />
+
+        <!-- <ValueBox v-model:data="valueA" :diff="valueB" label="" unit="円" :min="0" :max="100000" placeholder="0" /> -->
         <!-- <ValueBox v-model:data="valueB" :diff="valueA" label="" unit="円" :min="0" :max="100000" placeholder="" /> -->
 
-        <ValueBox v-model:data="valueB" size="s" label="小数点" :digits="digits" unit="円" />
-        <ValueBox v-model:data="digits" size="s" label="小数点桁数" unit="桁" />
+        <!-- <ValueBox v-model:data="valueB" size="s" label="小数点" :digits="digits" unit="円" /> -->
         <!--
          <ValueBox v-model:data="test" size="s" label="" unit="円" :digits="digits" digits-auto /> -->
         <!-- <ValueBox v-model:data="digits" size="s" unit="円" :min="0" is-show-btn-control /> -->

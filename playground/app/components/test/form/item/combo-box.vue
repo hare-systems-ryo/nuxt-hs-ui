@@ -1,9 +1,9 @@
 <script setup lang="ts">
 /* ----------------------------------------------------------------------------
-// playground\app\components\test\form\item\text-box.vue
+// playground\app\components\test\form\item\combo-box.vue
 // ----------------------------------------------------------------------------
-// TestFormItemTextBox
-// TestFormItemTextBoxTestFormItemTextBox
+// TestFormItemComboBox
+// TestFormItemComboBoxTestFormItemComboBox
 ---------------------------------------------------------------------------- */
 
 import { Sleep } from '../../../../../../src/runtime/utils/com';

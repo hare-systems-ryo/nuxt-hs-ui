@@ -7,7 +7,97 @@
 ---------------------------------------------------------------------------- */
 
 const Toast = useHsToast();
-
+const test2 = () => {
+  Toast.e(
+    `
+  
+  
+  
+  ErrorError
+  Error
+  
+  ErrorError
+  Error
+  Error
+  Error
+  Error
+  Error
+  ErrorError
+  Error
+  error
+  
+  ErrorError
+  Error
+  Error
+  
+  
+  ErrorError
+  Error
+  Error
+  
+  
+  ErrorErrorErrorErrorErrorErrorErrorErrorErrorErrorErrorErrorErrorErrorErrorError
+  ErrorErrorErrorErrorError
+  ErrorErrorErrorErrorErrorErrorError
+  ErrorErrorErrorErrorErrorErrorErrorErrorErrorErrorError
+  ErrorErrorErrorErrorErrorError
+  
+  ErrorError
+  Error
+  Error
+  
+  
+  ErrorError
+  Error
+  Error
+  
+  
+  ErrorError
+  Error
+  Error
+  
+  
+  ErrorError
+  Error
+  Error
+  
+  
+  ErrorError
+  Error
+  Error
+  
+  
+  ErrorError
+  Error
+  Error
+  
+  
+  ErrorError
+  Error
+  Error
+  
+  
+  ErrorError
+  Error
+  Error
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  `,
+    'ErrorError'
+  );
+};
 const test = () => {
   // Toast.s('SuccessSuccessSuccessSuccessSuccessSuccessSuccess', 'SuccessSuccessSuccessSuccessSuccessSuccessSuccess');
   Toast.s('Success', 'SuccessSuccess', 3000);
@@ -23,6 +113,7 @@ const test = () => {
       <div class="">test</div>
       <div class="grid grid-cols-4 gap-2">
         <Btn color="accent1" variant="outlined" @click="test"> test </Btn>
+        <Btn color="accent1" variant="outlined" @click="test2"> test2 </Btn>
       </div>
       <div class="">only message has timeout [3000]</div>
 

@@ -13,6 +13,17 @@ export type { ThemeColor } from '#build/nuxt-hs-ui/types/theme';
 import { Theme as theme } from '#build/nuxt-hs-ui/runtime/theme.mjs';
 export const Theme = theme as Record<ThemeColor, ThemeColor>;
 
+// style に直接テーマカラーを当てる場合は、HEXを取得する GetColorCode() ではなく
+// こちらの var(--color-xxxx) 参照を使う。
+// --color-xxxx の実体（HEX値）はこのモジュールでは注入しないため、利用側アプリの CSS で
+// 各テーマキーに対応する --color-<key> を定義しておく必要がある
+// （例: playground/main.css の @theme static ブロック）。
+export const GetColorVar = (theme: ThemeColor): string => `var(--color-${theme})`;
+
+// 透過度付きでテーマカラーを当てたい場合（例: 旧 `${GetColorCode(theme)}88` のような書き方の代替）
+export const GetColorVarAlpha = (theme: ThemeColor, alphaPercent: number): string =>
+  `color-mix(in srgb, var(--color-${theme}) ${alphaPercent}%, transparent)`;
+
 type RGB = { r: number; g: number; b: number };
 type RGBA = RGB & { a: number };
 

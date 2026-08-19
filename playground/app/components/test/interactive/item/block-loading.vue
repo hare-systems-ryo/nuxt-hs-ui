@@ -19,10 +19,8 @@ const show = ref<boolean>(false);
           </Btn>
         </div>
         <div class="border-2 border-main2 p-10 relative">
-          <Btn color="accent1" variant="flat" @click="show = !show">
-            blockLoadingFlag
-          </Btn>
-          <BlockLoading :show="show" />
+          <Btn color="accent1" variant="flat" @click="show = !show"> blockLoadingFlag </Btn>
+          <BlockLoading :show="show" message />
         </div>
       </div>
     </CardItem>

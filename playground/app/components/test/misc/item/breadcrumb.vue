@@ -30,7 +30,7 @@ const linkList2 = [
       </div>
       <div class="min-h-[44px] mb-2 flex flex-col 600:flex-row gap-2">
         <div class="flex-1 h-auto">
-          <Breadcrumb :links="linkList2" class="h-full" class-link="text-link" class-unlink="text-main1"></Breadcrumb>
+          <Breadcrumb :links="linkList2" class="h-full" class-link="text-link" class-unlink="text-text/80"></Breadcrumb>
         </div>
         <div v-if="$slots.default" class="flex-none">
           <slot></slot>

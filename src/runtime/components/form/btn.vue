@@ -241,7 +241,7 @@ import { Dayjs } from '../../utils/dayjs';
 import { type ClassType, ClassTypeToString } from '../../utils/class-style';
 // import { GetGolorCode } from '../../utils/theme';
 import { Sleep } from '../../utils/com';
-import { type ThemeColor, GetColorCode } from '../../utils/theme';
+import { type ThemeColor, GetColorVar, GetColorVarAlpha } from '../../utils/theme';
 // [ composables ]
 import { useHsFocus } from '../../composables/use-hs-focus';
 import { useHsPinia } from '../../composables/use-pinia';
@@ -312,9 +312,9 @@ emit('id', uid);
 const styleMain = computed(() => {
   return [
     //
-    `--main-color:${GetColorCode(props.theme)};`,
-    `--main-color-opacity-50:${GetColorCode(props.theme)}88;`,
-    `--sub-color:${GetColorCode(props.theme)};`,
+    `--main-color:${GetColorVar(props.theme)};`,
+    `--main-color-opacity-50:${GetColorVarAlpha(props.theme, 53)};`,
+    `--sub-color:${GetColorVar(props.theme)};`,
   ];
 });
 

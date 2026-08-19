@@ -33,6 +33,7 @@ const toggleLang = () => {
         <Btn theme="white" variant="text" class="" @click="toggleLang()">
           {{ multiLang.lang }}
         </Btn>
+        <ColorModeToggle />
       </div>
       <div class="bg-white absolute top-full left-0 right-0 h-[1px]"></div>
     </header>

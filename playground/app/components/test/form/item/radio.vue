@@ -126,6 +126,7 @@ onMounted(() => {
               en: 'All',
             }"
             nullable
+            readonly
           />
         </div>
 

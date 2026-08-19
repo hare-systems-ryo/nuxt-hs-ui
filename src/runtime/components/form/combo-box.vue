@@ -334,7 +334,7 @@ const placeholder = computed(() => tx(props.placeholder).value);
 const placeholderClass = computed(() => {
   return [
     twMerge(
-      'text-black/50 pointer-events-none select-none px-1 absolute inset-0 items-center transition-opacity truncate',
+      'text-text/60 pointer-events-none select-none px-1 absolute inset-0 items-center transition-opacity truncate',
       ClassTypeToString(props.classPlaceholder)
     ),
   ];
@@ -466,7 +466,7 @@ watchEffect(() => {
       </template>
     </InputFrame>
     <template #content>
-      <div class="grid gap-1 bg-white max-h-60 overflow-y-auto p-2 select-none min-h-30">
+      <div class="grid gap-1 bg-back0 max-h-60 overflow-y-auto p-2 select-none min-h-30">
         <BlockLoading :show="props.listLoading" />
         <template v-for="(row, index) in filteredList" :key="index">
           <div

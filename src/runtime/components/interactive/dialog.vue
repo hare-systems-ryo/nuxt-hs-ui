@@ -30,7 +30,7 @@ import Card from '../layout/card.vue';
 import CardItem from '../layout/card-item.vue';
 import Btn from '../form/btn.vue';
 
-import { GetTextColor, GetColorCode } from '../../utils/theme';
+import { GetTextColor, GetColorCode, GetColorVar } from '../../utils/theme';
 // ----------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
@@ -175,16 +175,12 @@ const cancelBtnStyleInner = [
   'flex',
   'items-center',
 ];
-const btnBaseStyle = [
-  //
-  'grid',
-  'grid-cols-2',
-  'gap-2',
-];
+
 const btnStyle = [
   //
   'py-1',
   'w-full',
+  'flex-1',
 ];
 const titleStyle = [
   //
@@ -235,7 +231,9 @@ const textColorCode = computed(() => {
   return GetTextColor(bgColorCode.value);
 });
 const headerStyle = computed(() => {
-  return ['--color-bg:' + bgColorCode.value, '--color-text:' + textColorCode.value];
+  const theme = activeItem.value?.data.option.theme;
+  const bg = theme ? GetColorVar(theme) : bgColorCode.value;
+  return ['--color-bg:' + bg, '--color-text:' + textColorCode.value];
 });
 </script>
 
@@ -264,38 +262,38 @@ const headerStyle = computed(() => {
             {{ tx(activeItem.data.option.btnCancel.title) }}
           </Btn>
         </CardItem>
+        <div class="h-px bg-white/50"></div>
         <CardItem variant="body">
           <div :class="messageStyle">
             {{ tx(activeItem.data.message) }}
           </div>
-          <div :class="btnBaseStyle">
-            <div class="flex items-center justify-center">
-              <Btn
-                v-if="activeItem.data.option.btnLeft.isShow"
-                :class="[btnStyle, activeItem.data.option.btnLeft.variant === 'outlined' ? 'bg-white' : '']"
-                :variant="activeItem.data.option.btnLeft.variant"
-                :theme="activeItem.data.option.btnLeft.theme"
-                @click="clickLeft()"
-                @ref="(e:any) => (leftBtnElm = e)"
-                @keydown="onKeyDownNoBtn"
-              >
-                {{ tx(activeItem.data.option.btnLeft.title) }}
-              </Btn>
-            </div>
-            <div class="flex items-center justify-center">
-              <Btn
-                v-if="activeItem.data.option.btnRight.isShow"
-                :class="[btnStyle, activeItem.data.option.btnRight.variant === 'outlined' ? 'bg-white' : '']"
-                :variant="activeItem.data.option.btnRight.variant"
-                :theme="activeItem.data.option.btnRight.theme"
-                @click="clickRight()"
-                @ref="(e:any) => (rightBtnElm = e)"
-                @keydown="onKeyDownYesBtn"
-              >
-                {{ tx(activeItem.data.option.btnRight.title) }}
-              </Btn>
-            </div>
+          <!-- <div :class="['grid', 'grid-cols-2', 'gap-2']"> -->
+          <div class="flex items-stretch justify-between gap-2 mt-2">
+            <Btn
+              v-if="activeItem.data.option.btnLeft.isShow"
+              :class="[btnStyle, activeItem.data.option.btnLeft.variant === 'outlined' ? 'bg-back0' : '']"
+              :variant="activeItem.data.option.btnLeft.variant"
+              :theme="activeItem.data.option.btnLeft.theme"
+              @click="clickLeft()"
+              @ref="(e:any) => (leftBtnElm = e)"
+              @keydown="onKeyDownNoBtn"
+            >
+              {{ tx(activeItem.data.option.btnLeft.title) }}
+            </Btn>
+
+            <Btn
+              v-if="activeItem.data.option.btnRight.isShow"
+              :class="[btnStyle, activeItem.data.option.btnRight.variant === 'outlined' ? 'bg-back0' : '']"
+              :variant="activeItem.data.option.btnRight.variant"
+              :theme="activeItem.data.option.btnRight.theme"
+              @click="clickRight()"
+              @ref="(e:any) => (rightBtnElm = e)"
+              @keydown="onKeyDownYesBtn"
+            >
+              {{ tx(activeItem.data.option.btnRight.title) }}
+            </Btn>
           </div>
+          <!-- </div> -->
         </CardItem>
       </Card>
     </Modal>

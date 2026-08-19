@@ -226,9 +226,9 @@ const baseClass = computed(() => {
 const boxClass = computed(() => {
   return [
     twMerge(
-      'border border-gray-700',
+      'border border-gray-700 dark:border-white rounded',
       !props.disabled ? 'cursor-pointer' : 'cursor-not-allowed',
-      !props.disabled ? 'bg-white' : 'bg-gray-100',
+      !props.disabled ? 'bg-back0 dark:bg-back1' : 'bg-back0 dark:bg-back0',
       props.size === 's' ? 'w-[16px] h-[16px] ' : '',
       props.size === 'm' ? 'w-[18px] h-[18px] ' : '',
       props.size === 'l' ? 'w-[22px] h-[22px] ' : ''
@@ -280,7 +280,7 @@ const labelClass = computed(() => {
       @click="switchValue()"
     >
       <div :class="checkClass">
-        <i class="fas fa-check text-green-600"></i>
+        <i class="fas fa-check text-green-600 dark:text-green-200"></i>
       </div>
     </div>
     <div

@@ -609,9 +609,6 @@ const inputClass = computed(() => {
 </template>
 
 <style lang="scss">
-$control-fore-color: #222222 !default;
-$control-line-color: #112288 !default;
-
 .nac-input {
   width: 100%;
   height: 100%;
@@ -665,11 +662,11 @@ $control-line-color: #112288 !default;
       border: 1px solid gray;
       margin-right: 3px;
       margin: 3px 2px 2px 0;
-      box-shadow: inset 0 0 6px rgba(23, 97, 236, 0.308);
+      box-shadow: inset 0 0 6px color-mix(in srgb, var(--color-info) 40%, transparent);
       display: flex;
       justify-content: center;
       align-items: center;
-      border: 1px solid $control-line-color;
+      border: 1px solid var(--color-text);
       transition: all 300ms;
 
       &::after {
@@ -679,16 +676,16 @@ $control-line-color: #112288 !default;
         position: relative;
         border-radius: 100%;
         background-color: #ffdd9f;
-        box-shadow: inset 0 0 6px #ffa600;
+        box-shadow: inset 0 0 6px var(--color-accent1);
         transform: scale(0);
         transition: all 300ms;
       }
       &.checked {
-        border: 1px solid #f55a00;
+        border: 1px solid var(--color-accent1);
 
         &::after {
           background-color: #ffbcab;
-          box-shadow: inset 0 0 7px #f58b00;
+          box-shadow: inset 0 0 7px var(--color-accent1);
           // border: 1px solid #f58b00;
           transform: scale(100%);
         }
@@ -709,7 +706,7 @@ $control-line-color: #112288 !default;
     }
 
     .radio-label.isDeleted {
-      color: rgb(165, 0, 0);
+      color: var(--color-error);
     }
   }
 }

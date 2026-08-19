@@ -17,11 +17,11 @@ import { type ClassType, ClassTypeToString } from '../../utils/class-style';
 type Props = {
   class?: ClassType;
   show: boolean;
-  message?: string;
+  message?: string | undefined;
 };
 const props = withDefaults(defineProps<Props>(), {
   class: '',
-  message: 'Loading',
+  message: undefined,
 });
 
 const variableStyle = computed(() => {
@@ -64,12 +64,12 @@ const classStyle = computed(() => {
 <template>
   <div class="HsUiBlockLoading" :class="[classStyle]">
     <div class="loading-container relative">
-      <div class="loading-item ">
+      <div class="loading-item">
         <div class="loading-ball relative" />
         <div class="loading-ball relative" />
         <div class="loading-ball relative" />
       </div>
-      <div class="loading-text">{{ props.message }}<slot /></div>
+      <div class="loading-text">{{ props.message ?? 'Loading' }}<slot /></div>
     </div>
   </div>
 </template>

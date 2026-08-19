@@ -350,7 +350,7 @@ const itemClass = computed(() => {
           <div :class="colClass">
             <HsFcCheckBox
               :data="props.data.includes(row.id) === true"
-              :label="tx(row.text).value"
+              :label="row.text"
               :class="itemClass"
               :class-img="props.classImg"
               :class-img-tag="props.classImgTag"

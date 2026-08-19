@@ -26,8 +26,8 @@ const disableDates = ref(['2026-08-03', '2026-08-10']);
             v-model:data="valueA"
             :diff="valueB"
             :max-date="valueB"
-            mode="all"
-            show-format="YYYY-MM-DD(ddd) a H:mm "
+            mode="date"
+            show-format="YYYY-MM-DD"
             class=""
             label="ge"
             :disable-dates="disableDates"
@@ -35,14 +35,7 @@ const disableDates = ref(['2026-08-03', '2026-08-10']);
           <div class="">Value : {{ valueA }}</div>
         </div>
         <div class="grid grid-cols-1 gap-1 my-1">
-          <Datepicker
-            v-model:data="valueB"
-            :diff="valueA"
-            mode="all"
-            show-format="YYYY-MM-DD(ddd) HH:mm"
-            class=""
-            label="ge"
-          />
+          <Datepicker v-model:data="valueB" :diff="valueA" mode="date" show-format="YYYY-MM-DD" class="" label="ge" />
           <div class="">Value : {{ valueB }}</div>
         </div>
       </div>

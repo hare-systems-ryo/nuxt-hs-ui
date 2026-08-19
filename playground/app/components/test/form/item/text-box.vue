@@ -41,6 +41,15 @@ const textB = ref('');
           </Btn>
           <div class="">disabled = {{ disabled }}</div>
         </div>
+        <TextBox
+          v-model:data="textB"
+          :diff="textA"
+          size="s"
+          label=""
+          input-size="2"
+          placeholder="disabled"
+          :disabled="disabled"
+        />
       </div>
       <!-- ------------------------------------------------
 

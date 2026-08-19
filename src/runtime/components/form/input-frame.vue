@@ -97,8 +97,8 @@ const baseClass = computed(() => {
     twMerge(
       //
       'flex max-w-full relative',
-      'border-[1px] border-[#183C5E]',
-      'bg-white',
+      'border-[1px] border-dark dark:border-white',
+      'bg-back0',
       'min-w-[100px]',
       props.size === 's' ? 'min-h-[44px]' : '',
       props.size === 'm' ? 'min-h-[48px]' : '',
@@ -107,9 +107,9 @@ const baseClass = computed(() => {
       props.error ? props.errorColor : '',
       props.warn ? props.errorColor : '',
       props.focus ? props.focusColor : '',
-      props.disabled ? 'shadow-none bg-slate-300' : '',
-      props.disabled ? props.disabledColor : '',
-      props.readonly ? 'shadow-none bg-transparent ' : '',
+      props.disabled ? 'shadow-none ' : '',
+      props.disabled ? ['text-text/60', ...props.disabledColor] : '',
+      !props.disabled && props.readonly ? 'shadow-none bg-transparent ' : '',
       ClassTypeToString(props.class)
     ),
     props.disabled ? 'disabled ' : '',
@@ -123,7 +123,7 @@ const headerClass = computed(() => {
       //
       'px-1',
       'overflow-hidden',
-      'text-[#996655]',
+      'text-[#996655] dark:text-[#e09f89]',
       props.size === 's' ? 'h-[18px] text-[12px]' : '',
       props.size === 'm' ? 'h-[20px] text-[14px]' : '',
       props.size === 'l' ? 'h-[22px] text-[15px]' : '',
@@ -149,11 +149,7 @@ const inputClass = computed(() => {
       'px-1',
       'truncate relative',
       'flex items-center',
-      'text-black',
-      props.disabled ? 'text-gray-600 ' : '',
-      // props.readonly ? 'text-black' : '',
       'w-full',
-      // 'max-w-full max-h-full w-full',
       props.size === 's' ? 'text-[16px]' : '',
       props.size === 'm' ? 'text-[16px]' : '',
       props.size === 'l' ? 'text-[20px]' : '',
@@ -250,9 +246,6 @@ const setRef = (e: HTMLElement) => {
         background-color: #9faab3;
         // background-color: #687a8a;
       }
-    }
-    &.disabled > * {
-      color: #224466;
     }
   }
 

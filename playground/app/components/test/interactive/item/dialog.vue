@@ -19,7 +19,7 @@ const test1 = async () => {
   option.btnCancel.isShow = false;
   option.btnLeft.isShow = true;
   option.btnLeft.title = { ja: "キャンセル" };
-  option.btnLeft.theme = Dialog.Themes.main2;
+  option.btnLeft.theme = Dialog.Themes.error;
   option.btnLeft.variant = "outlined";
   option.btnRight.isShow = true;
   option.btnRight.title = { ja: "出力" };

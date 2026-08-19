@@ -12,7 +12,7 @@ import { computed } from '#imports';
 // [ utils ]
 import { type ClassType, ClassTypeToString } from '../../utils/class-style';
 
-import { Theme, type ThemeColor, GetColorCode } from '../../utils/theme';
+import { Theme, type ThemeColor, GetColorVar } from '../../utils/theme';
 // ----------------------------------------------------------------------------
 type Theme = keyof {
   main0: '#183C5E';
@@ -42,7 +42,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const style = computed(() => {
   return [
-    `--main-color:${GetColorCode(props.theme)};`,
+    `--main-color:${GetColorVar(props.theme)};`,
     `--size:${props.size}px;`,
     `--span1:${props.span1}px;`,
     `--span2:${props.span2}px;`,
