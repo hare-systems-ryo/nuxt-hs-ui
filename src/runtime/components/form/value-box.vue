@@ -395,13 +395,23 @@ const checkValueByInput = () => {
 /**
  * prop.data からのデータ入力
  */
+// digits/digitsAuto による補正が data に反映されない構成（単方向バインド等）での無限ループを防ぐための番兵
+const NOT_CORRECTING = Symbol('not-correcting');
+let lastCorrectionSource: number | null | typeof NOT_CORRECTING = NOT_CORRECTING;
 const setValueByPropsData = () => {
   const val = FloatNullable(props.data, props.digits);
   if (props.data !== val) {
     // 小数点許容確認とデータ修正
+    if (lastCorrectionSource === props.data) {
+      // 前回と同じ値で補正を試みたが data に反映されていない
+      // => 呼び出し側が update:data を受けていない（v-model:data 未使用等）ため、これ以上のリトライを打ち切る
+      return;
+    }
+    lastCorrectionSource = props.data;
     updateData(val, false);
     return;
   }
+  lastCorrectionSource = NOT_CORRECTING;
   const validCheckResult = validCheck(val);
   if (validCheckResult.result === true) {
     if (validCheckResult.value === null) {
