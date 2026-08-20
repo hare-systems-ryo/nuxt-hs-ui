@@ -1,6 +1,20 @@
 # Changelog
 
 
+## v4.2.1
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v4.2.0...v4.2.1)
+
+### 🩹 Fixes
+
+- Scope Reka UI popper z-index override to active modals ([8ef20f7](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/8ef20f7))
+- Prevent rare ValueBox freeze when digit props are omitted ([804c629](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/804c629))
+- Constrain select popup height to available viewport space ([7c547ab](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/7c547ab))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](https://github.com/hare-systems-ryo))
+
 ## v4.2.0
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v4.1.0...v4.2.0)
