@@ -23,6 +23,11 @@ const digits = ref<number | null>(3);
       <div class="flex flex-col">
         <!-- <ValueBox v-model:data="test" size="s" label="" unit="円" digits-auto digits-point-small :digits="digits" /> -->
         <ValueBox v-model:data="valueA" :diff="valueB" label="" unit="円" :min="0" :max="100000" placeholder="0" />
+        <!-- <ValueBox :data="valueA" size="s" label="" unit="円" /> -->
+        <ValueBox v-model:data="valueA" size="s" label="" unit="円" :digits="digits" />
+        <ValueBox v-model:data="digits" size="s" label="小数点桁数" unit="桁" />
+
+        <!-- <ValueBox v-model:data="valueA" :diff="valueB" label="" unit="円" :min="0" :max="100000" placeholder="0" /> -->
         <!-- <ValueBox v-model:data="valueB" :diff="valueA" label="" unit="円" :min="0" :max="100000" placeholder="" /> -->
 
         <ValueBox v-model:data="valueB" size="s" label="小数点" :digits="digits" unit="円" />
