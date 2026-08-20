@@ -44,6 +44,16 @@ useHead({
       key: 'ui-z-modal',
       textContent: computed(() => `:root{--ui-z-modal:${zIndexUiModal.value}}`),
     },
+    {
+      key: 'ui-z-modal-popper',
+      // モーダルが1つも開いていない間はこのルール自体を出力しない。
+      // モーダル外でreka系UI（Select等）を単独利用した際に
+      // z-indexが意図せず矯正されるのを防ぐため。
+      textContent: computed(() => {
+        if (hsModal.state.activeList.length === 0) return '';
+        return '[data-reka-popper-content-wrapper]{z-index:var(--ui-z-modal) !important;}';
+      }),
+    },
   ],
 });
 
@@ -93,9 +103,3 @@ const closeAll = () => {
     </Teleport>
   </ClientOnly>
 </template>
-
-<style>
-[data-reka-popper-content-wrapper] {
-  z-index: var(--ui-z-modal) !important;
-}
-</style>
