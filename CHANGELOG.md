@@ -1,6 +1,33 @@
 # Changelog
 
 
+## v5.0.0
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v4.2.1...v5.0.0)
+
+This is the start of the **v5** line, released alongside the existing **v4** line (which continues to receive its own fixes on the `v4` branch/npm dist-tag history). v5 changes how theme colors are wired up and is a breaking change for anyone consuming `--color-*` CSS variables — see the README's "CSS" and "Dark mode" setup sections before upgrading.
+
+### 🚀 Enhancements
+
+- Add color mode (light/dark) support: theme colors now resolve at runtime via `--color-<key>` CSS custom properties instead of being injected by the module, so a single `.dark` class / `prefers-color-scheme` switch can swap the whole palette
+- Add `GetColorVar()` / `GetColorVarAlpha()` utils for referencing theme colors as CSS variables (with optional alpha) instead of a fixed hex from `GetColorCode()`
+- Add `back0` theme color token, rounding out the `back0`–`back4` background scale
+
+### ⚠️ Breaking Changes
+
+- The module no longer injects `--color-<key>` CSS custom properties. Apps must now declare them explicitly in their own CSS under `@theme static` (and again under `.dark` / `prefers-color-scheme: dark` for dark mode) — see [README.md](https://github.com/hare-systems-ryo/nuxt-hs-ui/blob/v5/README.md#2-css-eg-assetscssmaincss)
+
+### 🩹 Fixes
+
+- Correct color issues in dark mode for ColorMode ([fcee7ac](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/fcee7ac))
+- Prevent rare ValueBox freeze when digit props are omitted ([be549c6](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/be549c6))
+- Scope Reka UI popper z-index override to active modals ([0caaa6a](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/0caaa6a))
+- Constrain select popup height to available viewport space ([c1d8306](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/c1d8306))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](https://github.com/hare-systems-ryo))
+
 ## v4.2.1
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v4.2.0...v4.2.1)

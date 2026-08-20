@@ -2,7 +2,7 @@
 
 A Nuxt 4 UI component library for business management applications, built on top of [@nuxt/ui](https://ui.nuxt.com/) and Tailwind CSS v4.
 
-**Version:** 3.x &nbsp; |&nbsp; **License:** MIT &nbsp; |&nbsp; **Author:** [Ryo@Hare-Systems](https://github.com/hare-systems-ryo)
+**Version:** 5.x &nbsp; |&nbsp; **License:** MIT &nbsp; |&nbsp; **Author:** [Ryo@Hare-Systems](https://github.com/hare-systems-ryo)
 
 ---
 
@@ -75,7 +75,7 @@ export default defineNuxtConfig({
           back1: '#DCE1E8',
           back2: '#BAC3D1',
           back3: '#97A5BA',
-          back4: '7487A3',
+          back4: '#7487A3',
         },
       },
     ],
@@ -83,19 +83,77 @@ export default defineNuxtConfig({
 });
 ```
 
-### 2. CSS (e.g. `assets/css/main.css` )
+### 2. CSS (e.g. `assets/css/main.css`)
 
-Import Tailwind and define the same colors as CSS custom properties under `@theme static` . The `@source` directive ensures Tailwind scans the library's `dist` folder for utility classes used inside components.
+Import Tailwind and define the same colors as CSS custom properties under `@theme static`. The `@source` directive ensures Tailwind scans the library's `dist` folder for utility classes used inside components.
 
 ```css
 @import "tailwindcss";
 @import "@nuxt/ui";
 @source "../../node_modules/nuxt-hs-ui/dist";
 
-
+@theme static {
+  --color-text    : #000000;
+  --color-main0   : #183C5E;
+  --color-main1   : #2C5A85;
+  --color-main2   : #487CB4;
+  --color-main3   : #A7CDED;
+  --color-main4   : #C4E1FF;
+  --color-accent1 : #FF6600;
+  --color-accent2 : #FFAC7C;
+  --color-info    : #2BABB5;
+  --color-success : #2BB60C;
+  --color-warn    : #EAB000;
+  --color-error   : #D80329;
+  --color-link    : #6200EE;
+  --color-download: #11691F;
+  --color-dark    : #224466;
+  --color-back0   : #FFFFFF;
+  --color-back1   : #DCE1E8;
+  --color-back2   : #BAC3D1;
+  --color-back3   : #97A5BA;
+  --color-back4   : #7487A3;
+}
 ```
 
-> **Note:** The `theme` object in `nuxt.config.ts` is used only for generating TypeScript color token types. The actual CSS values must be declared here in `@theme static` .
+> **Note:** The `theme` object in `nuxt.config.ts` is used only for generating TypeScript color token types. The actual CSS values must be declared here in `@theme static`.
+
+### 3. Dark mode
+
+As of v5, `--color-*` values are no longer injected by the module — components read whatever your app's CSS resolves for `--color-<key>` at the time. This means you switch the whole palette for dark mode by re-declaring the same `--color-*` variables under a `.dark` selector (the class `@nuxtjs/color-mode` toggles, configured via the `colorMode` option in `nuxt.config.ts`) and/or a `prefers-color-scheme: dark` media query:
+
+```css
+.dark {
+  --color-text    : #FFFFFF;
+  --color-main0   : #0E2338;
+  --color-main1   : #183A59;
+  --color-main2   : #2C4E70;
+  --color-main3   : #4A6FA0;
+  --color-main4   : #9FC6ED;
+  --color-accent1 : #FF7A1A;
+  --color-accent2 : #FFC199;
+  --color-info    : #3FC9D3;
+  --color-success : #4CD137;
+  --color-warn    : #F5C518;
+  --color-error   : #FF5470;
+  --color-link    : #D1B8FD;
+  --color-download: #3DDC5B;
+  --color-dark    : #6E93B8;
+  --color-back0   : #1C232B;
+  --color-back1   : #323A42;
+  --color-back2   : #485059;
+  --color-back3   : #5D6770;
+  --color-back4   : #737D87;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* same overrides, for the moment before color-mode's class is applied */
+  }
+}
+```
+
+In your own code, prefer `GetColorVar('main0')` (→ `var(--color-main0)`) over `GetColorCode('main0')` (a fixed hex baked in at build time) whenever a color needs to react to the current mode. For a translucent variant, use `GetColorVarAlpha('main0', 50)` instead of appending an alpha suffix to a hex string.
 
 ---
 
