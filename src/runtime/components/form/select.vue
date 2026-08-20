@@ -575,7 +575,7 @@ watch(computedActivate, (value) => {
           :trailing="false"
           trailing-icon=""
           :ui="{
-            content: 'max-h-100',
+            content: 'max-h-[min(25rem,var(--reka-select-content-available-height,100vh))]',
             base: uiBase,
             item: [
               'p-0 ', //
@@ -665,7 +665,7 @@ watch(computedActivate, (value) => {
           :trailing="false"
           trailing-icon=""
           :ui="{
-            content: 'max-h-100',
+            content: 'max-h-[min(25rem,var(--reka-combobox-content-available-height,100vh))]',
             base: uiBase,
             item: [
               'p-0 ', //
