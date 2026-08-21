@@ -215,16 +215,15 @@ body {
     overflow-y      : scroll;
     position        : relative;
     background-color: var(--color-back3);
-
 }
 
 body.dark {
-    background-color: var(--color-black);
+    background-color: var(--dark-back3);
     color           : var(--dark-text);
 }
 
 body.light {
-    background-color: var(--color-back3);
+    background-color: var(--light-back3);
     color           : var(--light-text);
 }
 
@@ -237,6 +236,7 @@ body.light {
        (例: /appルートでbodyだけ強制lightにしているケース)、明示的なbody.lightを
        常に優先させる。 */
     html:not(.light) body:not(.light) {
-        background-color: var(--color-black);
+        background-color: var(--color-back3);
+        color           : var(--color-text);
     }
 }
