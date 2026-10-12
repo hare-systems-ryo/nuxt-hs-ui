@@ -11,8 +11,6 @@ import { clearAllBodyScrollLocks } from 'body-scroll-lock';
 // [ NUXT ]
 import { computed, watch } from 'vue';
 import { useRoute } from '#app';
-// [ composables ]
-import { useHsToast } from '../composables/use-hs-toast';
 
 // ----------------------------------------------------------------------------
 interface State {
@@ -82,10 +80,6 @@ export const useHsModal = defineStore('HsModal', {
         id: id,
         zIndex: zIndex,
         closeable,
-      });
-      const toast = useHsToast();
-      toast.state.pendingList.forEach((row) => {
-        row.isShow = false;
       });
       return zIndex;
     },

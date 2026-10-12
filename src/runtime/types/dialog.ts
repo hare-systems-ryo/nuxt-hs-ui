@@ -7,7 +7,7 @@ import {} from '~/src/runtime/types/dialog';
 
 // [ utils ]
 import type { MultiLang } from '../utils/multi-lang';
-import type { Theme } from '../utils/theme';
+import type { ThemeColor } from '../utils/theme';
 // ----------------------------------------------------------------------------
 
 export const DialogDefaultZIndex = 3000;
@@ -22,7 +22,7 @@ export type DialogResult = (typeof DialogResult)[keyof typeof DialogResult];
 export interface DialogBtn {
   isShow: boolean;
   title: MultiLang;
-  theme: Theme;
+  theme: ThemeColor;
   variant: 'flat' | 'text' | 'outlined';
 }
 
@@ -31,7 +31,7 @@ export interface DialogBtn {
  */
 export interface DialogOption {
   zindex: number;
-  theme: Theme;
+  theme: ThemeColor;
   defaultBtn: 'left' | 'right' | 'cancel' | null;
   bgClose?: boolean;
   btnLeft: DialogBtn;

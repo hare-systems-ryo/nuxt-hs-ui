@@ -5,8 +5,8 @@
 // TestInteractiveItemAlert
 // TestInteractiveItemAlertTestInteractiveItemAlert
 ---------------------------------------------------------------------------- */
-import { Theme } from "../../../../../../src/runtime/utils/theme";
-const ThemeList = Object.keys(Theme) as Theme[];
+import { Theme, type ThemeColor } from "../../../../../../src/runtime/utils/theme";
+const ThemeList = Object.keys(Theme) as ThemeColor[];
 </script>
 <template>
   <Card class="mt-4">
