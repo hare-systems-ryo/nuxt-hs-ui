@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v5.0.1
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v5.0.0...v5.0.1)
+
+### 🩹 Fixes
+
+- Resolve type errors in dialog types and modal composable ([75ff450](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/75ff450))
+
+### 🎨 Styles
+
+- Adjust Playground CSS for testing ([03ada8a](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/03ada8a))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo <ryo@hare-systems.net>
+
 ## v5.0.0
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v4.2.1...v5.0.0)
