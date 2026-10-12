@@ -1,5 +1,6 @@
 // import { defaultTwConfig } from '../src/tailwind-config';
 export default defineNuxtConfig({
+  compatibilityDate: '2026-10-12',
   colorMode: {
     preference: 'light', // デフォルトをlightに固定
     fallback: 'light', // SSR時のフォールバック

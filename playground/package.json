@@ -12,9 +12,9 @@
   },
   "devDependencies": {
     "@nuxt/ui": "^4.11.3",
-    "@vueuse/nuxt": "^14.4.0",
-    "@vueuse/core": "^14.4.0",
-    "pinia": "^3.0.4",
+    "@vueuse/nuxt": "^15.0.0",
+    "@vueuse/core": "^15.0.0",
+    "pinia": "^4.0.3",
     "pinia-plugin-persistedstate": "^4.7.1"
   }
 }

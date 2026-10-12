@@ -53,20 +53,20 @@
     "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"
   },
   "peerDependencies": {
-    "@vueuse/nuxt": "^14.4.0",
+    "@vueuse/nuxt": "^15.0.0",
     "sass-embedded": "^1.105.1"
   },
   "dependencies": {
     "@nuxt/kit": "^4.6.1",
-    "@pinia/nuxt": "^0.11.3",
-    "@vueuse/core": "^14.4.0",
-    "@vueuse/integrations": "^14.4.0",
-    "@vueuse/nuxt": "^14.4.0",
+    "@pinia/nuxt": "^1.0.2",
+    "@vueuse/core": "^15.0.0",
+    "@vueuse/integrations": "^15.0.0",
+    "@vueuse/nuxt": "^15.0.0",
     "bignumber.js": "^11.1.5",
     "body-scroll-lock": "^4.0.0-beta.0",
     "dayjs": "^1.11.23",
     "flatpickr": "^4.6.13",
-    "pinia": "^3.0.4",
+    "pinia": "^4.0.3",
     "pinia-plugin-persistedstate": "^4.7.1",
     "tabulator-tables": "^6.6.1",
     "tailwind-merge": "^3.7.0",
@@ -85,7 +85,7 @@
     "@nuxt/ui": "^4.11.3",
     "@types/body-scroll-lock": "^3.1.2",
     "@types/node": "latest",
-    "@types/tabulator-tables": "^6.3.4",
+    "@types/tabulator-tables": "^6.3.6",
     "@types/vue-select": "^3.16.8",
     "changelogen": "^0.6.2",
     "eslint": "^10.12.0",
@@ -94,7 +94,7 @@
     "sass": "^1.105.1",
     "typescript": "~5.9.3",
     "unbuild": "^3.6.1",
-    "vitest": "^4.1.11",
+    "vitest": "^5.0.3",
     "vue-tsc": "^3.3.13"
   }
 }
