@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v5.0.3
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v5.0.2...v5.0.3)
+
+### 🩹 Fixes
+
+- Keep ModalBg visible when a shown Modal survives route change ([d51f2f8](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/d51f2f8))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](https://github.com/hare-systems-ryo))
+
 ## v5.0.2
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v5.0.1...v5.0.2)
