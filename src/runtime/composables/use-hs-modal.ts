@@ -9,8 +9,8 @@ import {} from '~/src/runtime/composables/use-hs-modal';
 import { defineStore } from 'pinia';
 import { clearAllBodyScrollLocks } from 'body-scroll-lock';
 // [ NUXT ]
-import { computed, watch } from 'vue';
-import { useRoute } from '#app';
+import { computed } from 'vue';
+import { useRouter } from '#app';
 
 // ----------------------------------------------------------------------------
 interface State {
@@ -51,13 +51,16 @@ export const useHsModal = defineStore('HsModal', {
       if (import.meta.server) return;
       if (state.init) return;
       state.init = true;
-      const route = useRoute();
-      watch(
-        () => route.path,
-        () => {
-          state.activeList = [];
-        }
-      );
+      // router.afterEach はコンポーネントのスコープに属さないため、
+      // 最初に呼び出した Modal がアンマウントされても監視が止まらない。
+      // ここでのクリアはアンマウントし損ねた古いエントリの掃除が目的で、
+      // show=true のままの Modal は modal.vue 側で自動的に再登録される。
+      const router = useRouter();
+      router.afterEach((to, from, failure) => {
+        if (failure) return;
+        if (to.path === from.path) return;
+        state.activeList = [];
+      });
     },
     myzIndex(id: string) {
       const state = this.state;
@@ -70,6 +73,9 @@ export const useHsModal = defineStore('HsModal', {
       });
     },
     add(id: string, closeable: boolean = false, _zIndex: undefined | number = undefined) {
+      // 同じ id の二重登録はしない
+      const exists = this.state.activeList.find((row) => row.id === id);
+      if (exists) return exists.zIndex;
       const getIndex = () => {
         if (_zIndex !== undefined) return _zIndex;
         if (this.state.activeList.length === 0) return this.state.baseIndex;

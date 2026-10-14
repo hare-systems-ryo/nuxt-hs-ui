@@ -187,6 +187,13 @@ All components are auto-imported when the module is registered.
 | `Toast` | Toast notification |
 | `WindowLoader` | Full-window loading screen |
 
+#### Modal registration behavior
+
+- A `Modal` with `show=true` always keeps itself registered with `useHsModal`, so `ModalBg` and the z-index (base 500, +2 per stacked modal) stay correct.
+- On route change (path change) the registered list is cleared as a safety net for stale entries. Any `Modal` that is still `show=true` re-registers immediately, so it keeps its background after navigation.
+- `removeAll()` (also called by clicking `ModalBg`) only clears the registered list; it does **not** change `show`. A `Modal` that is still `show=true` re-registers right away and the background reappears. To actually close a modal, set its `show` to `false` (e.g. handle `@close` / `v-model:show` with `closeable`).
+- After a clear, stacked modals are re-registered in component order, so their relative stacking may be re-assigned.
+
 ### Layout
 
 | Component | Description |

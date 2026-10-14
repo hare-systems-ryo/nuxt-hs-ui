@@ -55,27 +55,22 @@ const zOrder = computed(() => {
   if (props.zIndex !== undefined) return props.zIndex;
   return hsModal.myzIndex(id).value;
 });
-if (props.show) {
-  if (props.zIndex !== undefined) {
-    hsModal.add(id, props.closeable, props.zIndex - 1);
-  } else {
-    hsModal.add(id, props.closeable);
-  }
-}
-
+// show=true なのに activeList に自分が居なければ登録し直す
+//   - ルート遷移時のクリアや removeAll() で消された場合も復帰させるため
 watch(
-  () => props.show,
-  (show) => {
-    if (show) {
+  () => [props.show, hsModal.state.activeList.some((row) => row.id === id)] as const,
+  ([show, registered]) => {
+    if (show && !registered) {
       if (props.zIndex !== undefined) {
         hsModal.add(id, props.closeable, props.zIndex - 1);
       } else {
         hsModal.add(id, props.closeable);
       }
-    } else {
+    } else if (!show && registered) {
       hsModal.remove(id);
     }
-  }
+  },
+  { immediate: true }
 );
 onUnmounted(() => {
   hsModal.remove(id);
