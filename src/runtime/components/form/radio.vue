@@ -369,6 +369,19 @@ const colClass = computed(() => {
 // ----------------------------------------------------------------------------
 
 const inputElementNull = ref<HTMLElement | null>(null);
+
+// [ ref ] フォーカスを受け取る要素（選択中の項目、無ければ先頭の項目）
+const el = computed<HTMLElement | null>(() => {
+  if (selectedId.value === null && inputElementNull.value) return inputElementNull.value;
+  const selected = displayList.value.find((row) => row.id !== null && row.id === selectedId.value);
+  if (selected?.elm) return selected.elm;
+  if (inputElementNull.value) return inputElementNull.value;
+  return displayList.value.find((row) => row.id !== null && row.elm)?.elm ?? null;
+});
+watch(el, (elm) => {
+  if (elm) emit('ref', elm);
+});
+defineExpose({ el });
 // ----------------------------------------------------------------------------
 const onMousedownItem = () => {
   if (props.disabled) return;
@@ -496,7 +509,11 @@ const inputClass = computed(() => {
       <slot name="header-right" />
     </template>
 
-    <div class="nac-input">
+    <div
+      class="nac-input"
+      @keydown="(e: KeyboardEvent) => emit('keydown', e)"
+      @keyup="(e: KeyboardEvent) => emit('keyup', e)"
+    >
       <div
         class="radio-row"
         :class="[`flex flex-wrap`, classRow]"

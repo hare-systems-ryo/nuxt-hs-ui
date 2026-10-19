@@ -60,6 +60,8 @@ type Props = {
   nullable?: boolean;
   searchable?: boolean;
   overflow?: boolean;
+  /** true: 一覧が閉じているときの Enter で開かず keydown の emit のみ行う（次の入力欄へのフォーカス移動用） */
+  enterNext?: boolean;
   // ----------------------------------------------------------------------------
   class?: ClassType;
   classHeader?: ClassType;
@@ -111,6 +113,7 @@ const props = withDefaults(defineProps<Props>(), {
   tabindex: undefined,
   imgMode: 'contain',
   overflow: false,
+  enterNext: false,
   // ----------------------------------------------------------------------------
   class: '',
   classHeader: '',
@@ -146,6 +149,10 @@ type Emits = {
   focus: [];
   blur: [];
   // ----------------------------
+  ref: [element: HTMLElement];
+  keydown: [event: KeyboardEvent];
+  keyup: [event: KeyboardEvent];
+  // ----------------------------
 };
 const emit = defineEmits<Emits>();
 // ----------------------------------------------------------------------------
@@ -179,6 +186,10 @@ const inputFrameElm = ref();
 const searchWord = ref('');
 // ----------------------------------------------------------------------------
 const selectOpen = ref(false);
+const setOpen = (value: boolean) => {
+  if (value && (props.disabled || props.readonly)) return;
+  selectOpen.value = value;
+};
 const openToggle = () => {
   if (selectOpen.value || modal.sp.isShow) {
     selectOpen.value = false;
@@ -361,15 +372,51 @@ defineShortcuts({
       updateData(null); // 未選択化（undefined でも可）
     },
   },
-  enter: {
-    usingInput: false,
-    handler: () => {
-      if (selectOpen.value) return; // メニュー展開中は無視（検索入力と競合するため）
-      if (!focusState.isActivate) return; // 対象以外のコントロールのデリートイベントは無視
-      selectOpen.value = !selectOpen.value;
-    },
-  },
 });
+
+// ----------------------------------------------------------------------------
+// [ ref ] フォーカスを受け取る要素（USelect / USelectMenu のトリガー、モバイル検索時は表示 div）
+const uSelectRef = useTemplateRef<any>('uSelectRef');
+const uSelectMenuRef = useTemplateRef<any>('uSelectMenuRef');
+const spTriggerElm = useTemplateRef<HTMLElement>('spTriggerElm');
+const el = computed<HTMLElement | null>(() => {
+  return uSelectRef.value?.triggerRef ?? uSelectMenuRef.value?.triggerRef ?? spTriggerElm.value ?? null;
+});
+watch(el, (elm) => {
+  if (elm) emit('ref', elm);
+});
+defineExpose({ el });
+
+// tabindex
+const tabindex = computed(() => {
+  if (props.disabled) return -1;
+  return props.tabindex ?? 0;
+});
+
+// ----------------------------------------------------------------------------
+// [ keyboard ]
+// 開閉キー（Enter / Space / ↑↓）と一覧内の操作は USelect / USelectMenu（reka-ui）側が処理する
+const OPEN_KEYS = ['Enter', ' ', 'ArrowDown', 'ArrowUp'];
+const onKeydown = (e: KeyboardEvent) => {
+  emit('keydown', e);
+  if (e.isComposing) return;
+  if (selectOpen.value || modal.sp.isShow) return;
+  const blockOpen = props.readonly || (props.enterNext && e.key === 'Enter');
+  if (blockOpen && OPEN_KEYS.includes(e.key)) {
+    // トリガーへ届く前に止めて、一覧を開かせない
+    e.preventDefault();
+    e.stopPropagation();
+  }
+};
+const onKeyup = (e: KeyboardEvent) => {
+  emit('keyup', e);
+};
+const onSpTriggerKeydown = (e: KeyboardEvent) => {
+  if (e.isComposing) return;
+  if (e.key !== 'Enter' && e.key !== ' ') return;
+  e.preventDefault();
+  showSpModal();
+};
 
 // ----------------------------------------------------------------------------
 const content = {
@@ -501,6 +548,8 @@ watch(computedActivate, (value) => {
     @focusout="onBlur"
     @ref="(e) => (inputFrameElm = e)"
     @click="openToggle()"
+    @keydown.capture="onKeydown"
+    @keyup.capture="onKeyup"
   >
     <template #overlay="{ focus, change }">
       <div
@@ -566,7 +615,9 @@ watch(computedActivate, (value) => {
     <template #default>
       <template v-if="!props.searchable">
         <USelect
-          v-model:open="selectOpen"
+          ref="uSelectRef"
+          :open="selectOpen"
+          :tabindex="tabindex"
           :model-value="activeValue"
           :items="displayList"
           value-key="id"
@@ -587,8 +638,9 @@ watch(computedActivate, (value) => {
             reference: inputFrameElm,
             ...content,
           }"
-          :disabled="lock"
+          :disabled="props.disabled"
           :close-on-select="false"
+          @update:open="setOpen"
           @update:model-value="(v:any) => updateData(v)"
         >
           <template #default>
@@ -655,8 +707,10 @@ watch(computedActivate, (value) => {
       </template>
       <template v-else-if="props.searchable && !hsIsMobile.isMobile">
         <USelectMenu
+          ref="uSelectMenuRef"
           v-model:serach-term="searchWord"
-          v-model:open="selectOpen"
+          :open="selectOpen"
+          :tabindex="tabindex"
           :model-value="activeValue"
           :items="displayList"
           value-key="id"
@@ -677,8 +731,9 @@ watch(computedActivate, (value) => {
             reference: inputFrameElm,
             ...content,
           }"
-          :disabled="lock"
+          :disabled="props.disabled"
           :close-on-select="false"
+          @update:open="setOpen"
           @update:model-value="(v:any) => updateData(v)"
         >
           <template #default>
@@ -747,14 +802,17 @@ watch(computedActivate, (value) => {
       </template>
       <template v-else>
         <div
+          ref="spTriggerElm"
           :key="activeRow?._key || 'null-' + '_base'"
-          class="flex items-center w-full px-2.5"
+          class="flex items-center w-full px-2.5 outline-none"
+          :tabindex="tabindex"
           :class="[
             props.disabled ? 'cursor-not-allowed' : '', //
             props.readonly ? 'cursor-text' : '', //
             !lock ? 'cursor-pointer' : '', //
           ]"
           @click.stop="showSpModal()"
+          @keydown="onSpTriggerKeydown"
         >
           <template v-if="activeRow">
             <SelectItemContainer
