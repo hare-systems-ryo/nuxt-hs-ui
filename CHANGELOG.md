@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v5.1.0
+
+[compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v5.0.3...v5.1.0)
+
+### 🚀 Enhancements
+
+- Make Select / Radio focusable and keyboard-operable ([ff2b41b](https://github.com/hare-systems-ryo/nuxt-hs-ui/commit/ff2b41b))
+
+### ❤️ Contributors
+
+- Hare-systems-ryo ([@hare-systems-ryo](https://github.com/hare-systems-ryo))
+
 ## v5.0.3
 
 [compare changes](https://github.com/hare-systems-ryo/nuxt-hs-ui/compare/v5.0.2...v5.0.3)
