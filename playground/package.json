@@ -8,13 +8,13 @@
     "generate": "nuxi generate"
   },
   "dependencies": {
-    "nuxt": "^4.6.1"
+    "nuxt": "^4.7.0"
   },
   "devDependencies": {
-    "@nuxt/ui": "^4.11.3",
-    "@vueuse/nuxt": "^15.0.0",
-    "@vueuse/core": "^15.0.0",
-    "pinia": "^4.0.3",
+    "@nuxt/ui": "^4.13.1",
+    "@vueuse/nuxt": "^15.1.0",
+    "@vueuse/core": "^15.1.0",
+    "pinia": "^4.1.0",
     "pinia-plugin-persistedstate": "^4.7.1"
   }
 }
